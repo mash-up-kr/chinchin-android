@@ -7,7 +7,9 @@ import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
 import com.mashup.chinchin.BuildConfig
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class App: Application() {
     override fun onCreate() {
         super.onCreate()
