@@ -62,4 +62,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
+    // flipper
+    debugImplementation "com.facebook.flipper:flipper:$flipper_version"
+    debugImplementation 'com.facebook.soloader:soloader:0.10.3'
+    releaseImplementation "com.facebook.flipper:flipper-noop:$flipper_version"
+    debugImplementation "com.facebook.flipper:flipper-network-plugin:$flipper_version"
 }
