@@ -6,6 +6,7 @@ import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
+import com.kakao.sdk.common.KakaoSdk
 import com.mashup.chinchin.BuildConfig
 import com.mashup.data.di.NetworkModule
 import dagger.hilt.android.HiltAndroidApp
@@ -16,6 +17,7 @@ class App: Application() {
         super.onCreate()
 
         initFlipper()
+        initKakaoSDK()
     }
 
     private fun initFlipper() {
@@ -29,5 +31,13 @@ class App: Application() {
                 addPlugin(NetworkModule.networkFlipperPlugin)
             }.start()
         }
+    }
+
+    private fun initKakaoSDK() {
+        KakaoSdk.init(this, NATIVE_APP_KEY)
+    }
+
+    companion object {
+        private const val NATIVE_APP_KEY = "bc61de35a211c5b1381325b4a4f0ce70"
     }
 }
