@@ -1,7 +1,7 @@
 package com.mashup.data.di
 
 import com.mashup.data.repository.GithubRepository
-import com.mashup.data.repository.GithubRepositoryImpl
+import com.mashup.data.repository.impl.GithubRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

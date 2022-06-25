@@ -1,6 +1,7 @@
-package com.mashup.data.repository
+package com.mashup.data.repository.impl
 
-import com.mashup.data.dto.remote.UserInfo
+import com.mashup.data.dto.remote.responsebody.UserInfo
+import com.mashup.data.repository.GithubRepository
 import com.mashup.data.service.GithubApi
 import javax.inject.Inject
 

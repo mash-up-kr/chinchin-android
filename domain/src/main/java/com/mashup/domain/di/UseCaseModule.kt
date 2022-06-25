@@ -1,7 +1,7 @@
 package com.mashup.domain.di
 
 import com.mashup.domain.usecase.GetUserUrlUseCase
-import com.mashup.domain.usecase.GetUserUrlUseCaseImpl
+import com.mashup.domain.usecase.impl.GetUserUrlUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

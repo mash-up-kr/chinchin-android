@@ -1,4 +1,4 @@
-package com.mashup.data.dto.remote
+package com.mashup.data.dto.remote.responsebody
 
 import com.google.gson.annotations.SerializedName
 

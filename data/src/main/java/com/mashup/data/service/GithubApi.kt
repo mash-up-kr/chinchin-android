@@ -1,6 +1,6 @@
 package com.mashup.data.service
 
-import com.mashup.data.dto.remote.UserInfo
+import com.mashup.data.dto.remote.responsebody.UserInfo
 import retrofit2.http.GET
 import retrofit2.http.Path
 
