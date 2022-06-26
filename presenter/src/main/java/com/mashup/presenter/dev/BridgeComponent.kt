@@ -1,4 +1,4 @@
-package com.mashup.chinchin.bridge
+package com.mashup.presenter.dev
 
 import android.app.Activity
 import android.content.Intent

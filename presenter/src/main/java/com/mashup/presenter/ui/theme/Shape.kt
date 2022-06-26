@@ -1,4 +1,4 @@
-package com.mashup.chinchin.ui.theme
+package com.mashup.presenter.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

@@ -10,3 +10,4 @@ rootProject.name = "chinchin"
 include ':app'
 include ':data'
 include ':domain'
+include ':presenter'

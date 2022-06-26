@@ -1,4 +1,4 @@
-package com.mashup.chinchin.ui.theme
+package com.mashup.presenter.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.mashup.chinchin
+package com.mashup.presenter.main
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

@@ -1,12 +1,12 @@
-package com.mashup.chinchin.bridge
+package com.mashup.presenter.dev
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import com.mashup.chinchin.MainActivity
-import com.mashup.chinchin.ui.theme.ChinchinTheme
+import com.mashup.presenter.main.MainActivity
+import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
