@@ -1,5 +1,7 @@
 package com.mashup.data.di
 
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.mashup.data.service.GithubApi
 import dagger.Module
 import dagger.Provides
@@ -30,5 +32,13 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient() =
-        OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor()).build()
+        OkHttpClient
+            .Builder()
+            .addInterceptor(HttpLoggingInterceptor())
+            .addNetworkInterceptor(FlipperOkhttpInterceptor(networkFlipperPlugin))
+            .build()
+
+    companion object {
+        val networkFlipperPlugin = NetworkFlipperPlugin()
+    }
 }

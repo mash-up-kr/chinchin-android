@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         minSdk 26
-        targetSdk 32
+        targetSdk 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -50,4 +50,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+
+    // flipper
+    debugImplementation "com.facebook.flipper:flipper:$flipper_version"
+    debugImplementation 'com.facebook.soloader:soloader:0.10.3'
+    releaseImplementation "com.facebook.flipper:flipper-noop:$flipper_version"
+    debugImplementation "com.facebook.flipper:flipper-network-plugin:$flipper_version"
 }

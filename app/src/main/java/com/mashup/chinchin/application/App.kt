@@ -7,6 +7,7 @@ import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
 import com.mashup.chinchin.BuildConfig
+import com.mashup.data.di.NetworkModule
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -24,6 +25,8 @@ class App: Application() {
             AndroidFlipperClient.getInstance(this).apply {
                 // layout
                 addPlugin(InspectorFlipperPlugin(this@App, DescriptorMapping.withDefaults()))
+                // network
+                addPlugin(NetworkModule.networkFlipperPlugin)
             }.start()
         }
     }
