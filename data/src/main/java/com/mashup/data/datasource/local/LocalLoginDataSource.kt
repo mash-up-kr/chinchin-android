@@ -1,11 +1,15 @@
 package com.mashup.data.datasource.local
 
+import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import javax.inject.Inject
 
 class LocalLoginDataSource @Inject constructor(
-    private val preferences: SharedPreferences,
+    application: Application
 ) {
+    private val preferences: SharedPreferences = application.getSharedPreferences(LOGIN_PREF, Context.MODE_PRIVATE)
+
     fun getJwt() = preferences.getString(JWT, "") ?: ""
 
     fun setJwt(jwt: String) {
@@ -14,5 +18,6 @@ class LocalLoginDataSource @Inject constructor(
 
     companion object {
         const val JWT = "JWT"
+        const val LOGIN_PREF = "LOGIN_PREF"
     }
 }
