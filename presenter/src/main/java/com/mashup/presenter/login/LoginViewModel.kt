@@ -1,4 +1,4 @@
-package com.mashup.chinchin.login
+package com.mashup.presenter.login
 
 import android.content.Context
 import android.util.Log
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(): ViewModel() {
+class LoginViewModel @Inject constructor() : ViewModel() {
 
     val errorMessage: MutableLiveData<String> = MutableLiveData()
 

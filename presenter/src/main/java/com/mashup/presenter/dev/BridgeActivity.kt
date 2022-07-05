@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import com.mashup.presenter.login.LoginActivity
 import com.mashup.presenter.main.MainActivity
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,10 +21,13 @@ class BridgeActivity : ComponentActivity() {
         setContent {
             ChinchinTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    BridgeList(items = arrayListOf(
-                        MainActivity::class.java,
-                        BridgeActivity::class.java,
-                    ))
+                    BridgeList(
+                        items = arrayListOf(
+                            MainActivity::class.java,
+                            BridgeActivity::class.java,
+                            LoginActivity::class.java
+                        )
+                    )
                 }
             }
         }

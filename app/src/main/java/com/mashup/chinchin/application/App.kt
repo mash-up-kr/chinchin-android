@@ -9,10 +9,11 @@ import com.facebook.soloader.SoLoader
 import com.kakao.sdk.common.KakaoSdk
 import com.mashup.chinchin.BuildConfig
 import com.mashup.data.di.NetworkModule
+import com.mashup.presenter.R
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class App: Application() {
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
@@ -34,10 +35,6 @@ class App: Application() {
     }
 
     private fun initKakaoSDK() {
-        KakaoSdk.init(this, NATIVE_APP_KEY)
-    }
-
-    companion object {
-        private const val NATIVE_APP_KEY = "bc61de35a211c5b1381325b4a4f0ce70"
+        KakaoSdk.init(this, getString(R.string.KAKAO_APP_NATIVE_KEY))
     }
 }

@@ -23,17 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".login.LoginActivity"
+            android:name="com.mashup.presenter.login.LoginActivity"
             android:exported="true"
-            android:label="로그인">
-        </activity>
-
+            android:label="로그인"
+            android:theme="@style/Theme.Chinchin.NoActionBar" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:launchMode="singleTask"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

@@ -1,4 +1,4 @@
-package com.mashup.chinchin.login
+package com.mashup.presenter.login
 
 import android.content.Context
 import android.os.Bundle
@@ -10,9 +10,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.kakao.sdk.common.KakaoSdk
-import com.mashup.chinchin.R
-import com.mashup.chinchin.ui.theme.ChinchinTheme
+import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +20,7 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        KakaoSdk.init(this, getString(R.string.KAKAO_APP_NATIVE_KEY)) // TODO: 카카오 Init, Splash로 옮기기
+        // TODO: 카카오 Init, Splash로 옮기기
         initViewModel()
 
         setContent {
