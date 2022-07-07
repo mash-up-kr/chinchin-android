@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:enabled="true"
+        android:title="homeFragment"/>
+    <item
+        android:id="@+id/profileFragment"
+        android:enabled="true"
+        android:title="profileFragment"/>
+    <item
+        android:id="@+id/settingFragment"
+        android:enabled="true"
+        android:title="settingFragment"/>
+</menu>
