@@ -6,29 +6,29 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class BottomBarScreen(
+sealed class MainNavScreen(
     val route: String,
     val title: String,
     val icon: ImageVector
 ) {
-    object Home: BottomBarScreen(
+    object Home: MainNavScreen(
         route = "home",
         title = "Home",
         icon = Icons.Default.Home
     )
-    object Profile: BottomBarScreen(
+    object Profile: MainNavScreen(
         route = "Profile",
         title = "Profile",
         icon = Icons.Default.Person
     )
-    object Setting: BottomBarScreen(
+    object Setting: MainNavScreen(
         route = "setting",
         title = "Setting",
         icon = Icons.Default.Settings
     )
 
     companion object {
-        fun fromRoute(route: String?): BottomBarScreen =
+        fun fromRoute(route: String?): MainNavScreen =
             when (route?.substringBefore("/")) {
                 Home.route -> Home
                 Profile.route -> Profile

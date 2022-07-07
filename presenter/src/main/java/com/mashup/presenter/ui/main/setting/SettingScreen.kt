@@ -8,11 +8,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.constraintlayout.compose.ConstraintLayout
 
 @Composable
-fun ProfileScreen(){
-    ConstraintLayout(modifier = Modifier.background(Color.Cyan)){
+fun SettingScreen() {
+    ConstraintLayout(modifier = Modifier.background(Color.Green)) {
 
         val text = createRef()
-        Text("Profile", Modifier.constrainAs(text){
+        Text("Setting", Modifier.constrainAs(text) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
             start.linkTo(parent.start)

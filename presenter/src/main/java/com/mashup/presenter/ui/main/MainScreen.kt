@@ -11,18 +11,18 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun MainScreen() {
     val screens = listOf(
-        BottomBarScreen.Home,
-        BottomBarScreen.Profile,
-        BottomBarScreen.Setting,
+        MainNavScreen.Home,
+        MainNavScreen.Profile,
+        MainNavScreen.Setting,
     )
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = BottomBarScreen.fromRoute(navBackStackEntry?.destination?.route)
+    val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
     Scaffold(
         bottomBar = {
-            BottomBar(screens = screens, currentDestination = currentDestination) { screen ->
+            MainNavBar(screens = screens, currentDestination = currentDestination) { screen ->
                 navController.navigate(screen.route) {
                     popUpTo(navController.graph.findStartDestination().id)
                     launchSingleTop = true
@@ -30,15 +30,15 @@ fun MainScreen() {
             }
         }
     ) {
-        BottomNavGraph(navController = navController)
+        MainNavGraph(navController = navController)
     }
 }
 
 @Composable
-fun BottomBar(
-    screens: List<BottomBarScreen>,
-    currentDestination: BottomBarScreen,
-    onTabSelected: (BottomBarScreen) -> Unit,
+fun MainNavBar(
+    screens: List<MainNavScreen>,
+    currentDestination: MainNavScreen,
+    onTabSelected: (MainNavScreen) -> Unit,
 ) {
     BottomNavigation {
         screens.forEach { screen ->
@@ -55,8 +55,8 @@ fun BottomBar(
 
 @Composable
 fun RowScope.AddItem(
-    screen: BottomBarScreen,
-    currentDestination: BottomBarScreen,
+    screen: MainNavScreen,
+    currentDestination: MainNavScreen,
     onTabSelected: () -> Unit,
 ) {
     BottomNavigationItem(

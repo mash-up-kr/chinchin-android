@@ -9,18 +9,18 @@ import com.mashup.presenter.ui.main.screens.ProfileScreen
 import com.mashup.presenter.ui.main.screens.SettingScreen
 
 @Composable
-fun BottomNavGraph(navController: NavHostController) {
+fun MainNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = BottomBarScreen.Home.route,
+        startDestination = MainNavScreen.Home.route,
     ) {
-        composable(route = BottomBarScreen.Home.route) {
+        composable(route = MainNavScreen.Home.route) {
             HomeScreen()
         }
-        composable(route = BottomBarScreen.Profile.route) {
+        composable(route = MainNavScreen.Profile.route) {
             ProfileScreen()
         }
-        composable(route = BottomBarScreen.Setting.route) {
+        composable(route = MainNavScreen.Setting.route) {
             SettingScreen()
         }
     }

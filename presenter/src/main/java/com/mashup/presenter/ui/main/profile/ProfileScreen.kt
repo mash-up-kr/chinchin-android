@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.constraintlayout.compose.ConstraintLayout
 
 @Composable
-fun HomeScreen() {
+fun ProfileScreen() {
     ConstraintLayout(modifier = Modifier.background(Color.Cyan)) {
 
         val text = createRef()
