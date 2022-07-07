@@ -4,6 +4,9 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
+// local.properties 사용하기 위해.
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
     compileSdk 31
@@ -19,6 +22,11 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        // app key 변수
+        buildConfigField "String", "KAKAO_APP_NATIVE_KEY", properties['kakao_native_app_key']
+        resValue "string", "KAKAO_APP_NATIVE_KEY", properties['kakao_native_app_key']
+        resValue "string", "KAKAO_APP_REDIRECTION_SCHEME", properties['kakao_redirection_scheme']
     }
 
     buildTypes {
@@ -78,4 +86,7 @@ dependencies {
     implementation project(':presenter')
     implementation project(':data')
     implementation project(':domain')
+
+    //kakao login
+    implementation "com.kakao.sdk:v2-user:2.10.0"
 }
