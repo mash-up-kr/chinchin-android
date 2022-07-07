@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.constraintlayout.compose.ConstraintLayout
 
-
 @Composable
 fun HomeScreen() {
     ConstraintLayout(modifier = Modifier.background(Color.Cyan)) {
@@ -21,5 +20,3 @@ fun HomeScreen() {
         })
     }
 }
-
-

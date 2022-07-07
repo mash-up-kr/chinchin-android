@@ -47,7 +47,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 
-    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation 'androidx.activity:activity-compose:1.5.0'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
@@ -59,18 +59,12 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation project(':domain')
 
-    //navigation
-    implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
 
     //constraint layout
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc01"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
     //navigation
-    def nav_version = "2.3.0-beta01"
-    // Feature module Support
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-    // Testing Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+    implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
     // Jetpack Compose Integration
-    implementation "androidx.navigation:navigation-compose:1.0.0-alpha01"
+    implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
 }
