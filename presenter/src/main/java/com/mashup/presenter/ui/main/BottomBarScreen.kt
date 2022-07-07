@@ -26,4 +26,15 @@ sealed class BottomBarScreen(
         title = "Setting",
         icon = Icons.Default.Settings
     )
+
+    companion object {
+        fun fromRoute(route: String?): BottomBarScreen =
+            when (route?.substringBefore("/")) {
+                Home.route -> Home
+                Profile.route -> Profile
+                Setting.route -> Setting
+                null -> Home
+                else -> throw IllegalArgumentException("Route $route is not recognized.")
+            }
+    }
 }
