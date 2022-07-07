@@ -22,7 +22,9 @@ class LoginActivity : ComponentActivity() {
         initViewModel()
         setContent {
             ChinchinTheme {
-                LoginButton("친친 로그인하기", viewModel)
+                LoginButton("친친 로그인하기") {
+                    kakaoLogin()
+                }
             }
         }
     }
@@ -33,14 +35,7 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    private fun LoginButton(name: String, viewModel: LoginViewModel) {
-        Button(onClick = { kakaoLogin(viewModel) }) {
-            Text(text = name)
-        }
-    }
-
-    private fun kakaoLogin(viewModel: LoginViewModel) {
+    private fun kakaoLogin() {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
             UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                 viewModel.handleKakaoCallback(token, error)
@@ -50,5 +45,12 @@ class LoginActivity : ComponentActivity() {
                 viewModel.handleKakaoCallback(token, error)
             }
         }
+    }
+}
+
+@Composable
+private fun LoginButton(name: String, kakaoLogin: () -> Unit) {
+    Button(onClick = { kakaoLogin() }) {
+        Text(text = name)
     }
 }
