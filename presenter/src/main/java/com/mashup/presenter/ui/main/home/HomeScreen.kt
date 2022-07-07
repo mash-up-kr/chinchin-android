@@ -1,4 +1,4 @@
-package com.mashup.presenter.ui.main.screens
+package com.mashup.presenter.ui.main.home
 
 import androidx.compose.foundation.background
 import androidx.compose.material.Text

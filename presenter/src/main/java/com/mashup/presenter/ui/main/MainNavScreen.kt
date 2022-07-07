@@ -17,7 +17,7 @@ sealed class MainNavScreen(
         icon = Icons.Default.Home
     )
     object Profile: MainNavScreen(
-        route = "Profile",
+        route = "profile",
         title = "Profile",
         icon = Icons.Default.Person
     )

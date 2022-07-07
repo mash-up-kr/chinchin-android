@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.mashup.presenter.ui.main.screens.HomeScreen
-import com.mashup.presenter.ui.main.screens.ProfileScreen
-import com.mashup.presenter.ui.main.screens.SettingScreen
+import com.mashup.presenter.ui.main.home.HomeScreen
+import com.mashup.presenter.ui.main.profile.ProfileScreen
+import com.mashup.presenter.ui.main.setting.SettingScreen
 
 @Composable
 fun MainNavGraph(navController: NavHostController) {
