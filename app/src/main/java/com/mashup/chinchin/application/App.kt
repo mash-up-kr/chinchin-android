@@ -6,16 +6,19 @@ import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
+import com.kakao.sdk.common.KakaoSdk
 import com.mashup.chinchin.BuildConfig
 import com.mashup.data.di.NetworkModule
+import com.mashup.presenter.R
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class App: Application() {
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
         initFlipper()
+        initKakaoSDK()
     }
 
     private fun initFlipper() {
@@ -29,5 +32,9 @@ class App: Application() {
                 addPlugin(NetworkModule.networkFlipperPlugin)
             }.start()
         }
+    }
+
+    private fun initKakaoSDK() {
+        KakaoSdk.init(this, getString(R.string.KAKAO_APP_NATIVE_KEY))
     }
 }
