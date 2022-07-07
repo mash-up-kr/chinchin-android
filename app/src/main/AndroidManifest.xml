@@ -22,7 +22,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.mashup.presenter.main.MainActivity" />
-        <activity android:name="com.mashup.presenter.main.MainActivity2"/>
     </application>
 
 </manifest>

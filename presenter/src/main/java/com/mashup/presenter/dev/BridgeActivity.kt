@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.mashup.presenter.main.MainActivity
-import com.mashup.presenter.main.MainActivity2
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +22,6 @@ class BridgeActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     BridgeList(items = arrayListOf(
                         MainActivity::class.java,
-                        MainActivity2::class.java,
                         BridgeActivity::class.java,
                     ))
                 }
