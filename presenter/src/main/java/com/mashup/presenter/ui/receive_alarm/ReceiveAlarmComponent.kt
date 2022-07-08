@@ -12,7 +12,10 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.mashup.presenter.ui.theme.Black
+import com.mashup.presenter.ui.theme.Yellow
 
 @Composable
 fun Toolbar(title: String, onBackButtonClick: () -> Unit) {
@@ -44,6 +47,27 @@ fun Toolbar(title: String, onBackButtonClick: () -> Unit) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
+        )
+    }
+}
+
+@Composable
+fun RequestCountText(requestCount: Int) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp, top = 24.dp)
+    ) {
+        Text(
+            text = "요청",
+            color = Black,
+            fontSize = 18.sp
+        )
+        Text(
+            text = "${requestCount}개",
+            modifier = Modifier.padding(start = 8.dp),
+            color = Yellow,
+            fontSize = 18.sp,
         )
     }
 }

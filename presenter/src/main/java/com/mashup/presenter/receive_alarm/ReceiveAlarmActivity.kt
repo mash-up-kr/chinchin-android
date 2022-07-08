@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.mashup.presenter.ui.receive_alarm.RequestCountText
 import com.mashup.presenter.ui.receive_alarm.Toolbar
 import com.mashup.presenter.ui.theme.ChinchinTheme
 
@@ -34,5 +35,7 @@ fun ReceiveAlarmScreen(finishActivity: () -> Unit = {}) {
         Toolbar("나에게 온 요청리스트") {
             finishActivity()
         }
+
+        RequestCountText(12)
     }
 }
