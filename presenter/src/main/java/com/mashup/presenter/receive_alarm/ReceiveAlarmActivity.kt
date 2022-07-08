@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.mashup.presenter.receive_alarm.model.RequestAlarm
+import com.mashup.presenter.ui.receive_alarm.RequestAlarmList
 import com.mashup.presenter.ui.receive_alarm.RequestCountText
 import com.mashup.presenter.ui.receive_alarm.Toolbar
 import com.mashup.presenter.ui.theme.ChinchinTheme
@@ -15,11 +17,26 @@ class ReceiveAlarmActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ChinchinTheme {
-                ReceiveAlarmScreen {
+                ReceiveAlarmScreen(requestAlarms = initRequestAlarms()) {
                     finish()
                 }
             }
         }
+    }
+
+    private fun initRequestAlarms(): List<RequestAlarm> {
+        val requestAlarms = mutableListOf<RequestAlarm>()
+        repeat(20) { index ->
+            requestAlarms.add(
+                RequestAlarm(
+                    requestUserName = "경무",
+                    requestUserProfileUrl = "good",
+                    requestDate = index.toLong(),
+                )
+            )
+        }
+
+        return requestAlarms.toList()
     }
 }
 
@@ -30,12 +47,17 @@ fun ReceiveAlarmPreview() {
 }
 
 @Composable
-fun ReceiveAlarmScreen(finishActivity: () -> Unit = {}) {
+fun ReceiveAlarmScreen(
+    requestAlarms: List<RequestAlarm> = listOf(),
+    finishActivity: () -> Unit = {},
+) {
     Column {
         Toolbar("나에게 온 요청리스트") {
             finishActivity()
         }
 
-        RequestCountText(12)
+        RequestCountText(requestAlarms.size)
+
+        RequestAlarmList(requestAlarms)
     }
 }

@@ -1,19 +1,23 @@
 package com.mashup.presenter.ui.receive_alarm
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.mashup.presenter.receive_alarm.model.RequestAlarm
 import com.mashup.presenter.ui.theme.Black
 import com.mashup.presenter.ui.theme.Yellow
 
@@ -69,5 +73,72 @@ fun RequestCountText(requestCount: Int) {
             color = Yellow,
             fontSize = 18.sp,
         )
+    }
+}
+
+@Composable
+fun RequestAlarmList(requestAlarms: List<RequestAlarm>) {
+    LazyColumn {
+        items(requestAlarms) { requestAlarm ->
+            ReceiveAlarmItem(
+                userName = requestAlarm.requestUserName,
+                profileUrl = requestAlarm.requestUserProfileUrl,
+                date = requestAlarm.requestDate,
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ReceiveAlarmItemPreview() {
+    ReceiveAlarmItem(userName = "경무", profileUrl = "good", date = 10)
+}
+
+@Composable
+fun ReceiveAlarmItem(
+    userName: String,
+    profileUrl: String,
+    date: Long,
+    onItemSelected: () -> Unit = {}
+) {
+    ConstraintLayout(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(66.dp)
+            .padding(start = 11.dp, end = 11.dp),
+    ) {
+        Row(
+            modifier = Modifier.constrainAs(createRef()) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+            }
+        ) {
+            Image(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "",
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
+
+            Column(modifier = Modifier.padding(start = 12.dp)) {
+                Text(text = "${userName}님이 친구 질문응답을 요청했습니다.", fontSize = 12.sp)
+                Text(
+                    text = "12월 ${date}일",
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
+        }
+        IconButton(
+            modifier = Modifier.constrainAs(createRef()) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                end.linkTo(parent.end)
+            },
+            onClick = { onItemSelected() },
+        ) {
+            Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "")
+        }
     }
 }
