@@ -5,10 +5,16 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.kakao.sdk.user.UserApiClient
+import com.mashup.presenter.ui.IntroductionImage
+import com.mashup.presenter.ui.IntroductionText
+import com.mashup.presenter.ui.KakaoLoginButton
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +28,7 @@ class LoginActivity : ComponentActivity() {
         initViewModel()
         setContent {
             ChinchinTheme {
-                LoginButton("친친 로그인하기") {
+                LoginScreen {
                     kakaoLogin()
                 }
             }
@@ -48,9 +54,37 @@ class LoginActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
-private fun LoginButton(name: String, kakaoLogin: () -> Unit) {
-    Button(onClick = { kakaoLogin() }) {
-        Text(text = name)
+private fun LoginScreen(kakaoLogin: () -> Unit = {}) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .padding(vertical = 80.dp)
+    ) {
+        IntroductionText()
+        Spacer(modifier = Modifier.height(30.dp))
+        IntroductionImage()
+    }
+
+    Column(
+        verticalArrangement = Arrangement.Bottom,
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(bottom = 32.dp)
+    ) {
+        KakaoLoginButton {
+            kakaoLogin()
+        }
+    }
+}
+
+@Preview
+@Composable
+fun LoginPagePreview() {
+    ChinchinTheme {
+        LoginScreen()
     }
 }
