@@ -16,14 +16,14 @@ sealed class MainNavScreen(
         title = "Home",
         icon = Icons.Default.Home
     )
-    object Profile: MainNavScreen(
-        route = "profile",
-        title = "Profile",
+    object RecommendFriends: MainNavScreen(
+        route = "recommendFriends",
+        title = "RecommendFriends",
         icon = Icons.Default.Person
     )
-    object Setting: MainNavScreen(
-        route = "setting",
-        title = "Setting",
+    object More: MainNavScreen(
+        route = "more",
+        title = "More",
         icon = Icons.Default.Settings
     )
 
@@ -31,8 +31,8 @@ sealed class MainNavScreen(
         fun fromRoute(route: String?): MainNavScreen =
             when (route?.substringBefore("/")) {
                 Home.route -> Home
-                Profile.route -> Profile
-                Setting.route -> Setting
+                RecommendFriends.route -> RecommendFriends
+                More.route -> More
                 null -> Home
                 else -> throw IllegalArgumentException("Route $route is not recognized.")
             }
