@@ -56,4 +56,8 @@ dependencies {
     debugImplementation 'com.facebook.soloader:soloader:0.10.3'
     releaseImplementation "com.facebook.flipper:flipper-noop:$flipper_version"
     debugImplementation "com.facebook.flipper:flipper-network-plugin:$flipper_version"
+
+    //room
+    implementation 'androidx.room:room-runtime:2.2.6'
+    kapt 'androidx.room:room-compiler:2.2.6'
 }
