@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -55,7 +57,10 @@ fun ReceiveAlarmScreen(
     finishActivity: () -> Unit = {},
 ) {
     Column {
-        Toolbar("나에게 온 요청리스트") {
+        Toolbar(
+            title = "나에게 온 요청리스트",
+            modifier = Modifier.fillMaxWidth().height(56.dp)
+        ) {
             finishActivity()
         }
 

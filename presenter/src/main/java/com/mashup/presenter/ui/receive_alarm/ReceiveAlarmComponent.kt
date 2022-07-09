@@ -26,11 +26,7 @@ import com.mashup.presenter.ui.theme.Gray
 import com.mashup.presenter.ui.theme.Yellow
 
 @Composable
-fun Toolbar(title: String, onBackButtonClick: () -> Unit) {
-    val modifier = Modifier
-        .fillMaxWidth()
-        .height(56.dp)
-
+fun Toolbar(title: String, modifier: Modifier = Modifier, onBackButtonClick: () -> Unit) {
     ConstraintLayout(
         modifier = modifier,
     ) {
@@ -116,8 +112,10 @@ fun ReceiveAlarmItem(
             .padding(start = 24.dp, end = 24.dp)
             .background(color = Gray, shape = RoundedCornerShape(8.dp)),
     ) {
+        val (requestAlarmInfoRef, moveRequestQuestionButtonRef) = createRefs()
+        
         Row(
-            modifier = Modifier.constrainAs(createRef()) {
+            modifier = Modifier.constrainAs(requestAlarmInfoRef) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
                 start.linkTo(parent.start)
@@ -141,7 +139,7 @@ fun ReceiveAlarmItem(
             }
         }
         IconButton(
-            modifier = Modifier.constrainAs(createRef()) {
+            modifier = Modifier.constrainAs(moveRequestQuestionButtonRef) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
                 end.linkTo(parent.end)
