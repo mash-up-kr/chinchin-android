@@ -18,13 +18,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mashup.presenter.main.model.Friend
-import com.mashup.presenter.main.model.FriendGroupUiModel
 import com.mashup.presenter.ui.main.MainNavBar
 import com.mashup.presenter.ui.main.MainNavGraph
 import com.mashup.presenter.ui.main.MainNavScreen
 import com.mashup.presenter.ui.main.home.FriendsGroupList
 import com.mashup.presenter.ui.main.home.HomeHeader
+import com.mashup.presenter.ui.main.home.HomeBody
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -95,6 +94,7 @@ fun HomeScreen() {
             FriendsGroupList(groups)
         }
     }
+    HomeBody()
 }
 
 @Composable

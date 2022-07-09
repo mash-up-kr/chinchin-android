@@ -1,5 +1,6 @@
 package com.mashup.presenter.ui.main.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -7,10 +8,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,7 +44,54 @@ import com.mashup.presenter.ui.theme.Grey_800
 import com.mashup.presenter.ui.theme.Primary_1
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import com.mashup.presenter.ui.theme.Grey_500
-import com.mashup.presenter.ui.theme.Secondary_2
+import com.mashup.presenter.ui.theme.Secondary_1
+
+
+@Composable
+fun HomeBody(groups: List<FriendGroupUiModel> = listOf()) {
+    if (groups.isEmpty()) {
+        EmptyFriendGroups()
+    } else {
+        FriendsGroupList(groups = groups)
+    }
+}
+
+@Composable
+fun EmptyFriendGroups() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "텅 비었어요!",
+            fontSize = 24.sp,
+            color = Grey_500,
+            modifier = Modifier.padding(vertical = 30.dp)
+        )
+        Image(painter = painterResource(id = R.drawable.empty_group), contentDescription = "empty groups")
+        OutlinedButton(
+            onClick = { /*TODO*/ },
+            colors = ButtonDefaults.outlinedButtonColors(
+                backgroundColor = Color.Transparent,
+                contentColor = Grey_500
+            ),
+            contentPadding = PaddingValues(0.dp),
+            border = BorderStroke(1.dp, Grey_500),
+            modifier = Modifier
+                .padding(top = 20.dp, start = 24.dp, end = 24.dp)
+                .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
+        ) {
+            Text(
+                text = "그룹 추가하기", modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+                    .padding(vertical = 20.dp),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -141,7 +191,8 @@ fun FriendGroupCard(friendGroup: FriendGroupUiModel) {
         modifier = Modifier
             .padding(horizontal = 24.dp),
         shape = RoundedCornerShape(8.dp),
-        backgroundColor = Secondary_2,
+        backgroundColor = Secondary_1,
+        elevation = 0.dp
     ) {
         Column(
             modifier = Modifier
@@ -196,6 +247,7 @@ fun FriendProfileThumbnailList(friends: List<Friend>) {
     } else {
         0
     }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -240,33 +292,14 @@ fun FriendProfileThumbnail(thumbnailUrl: String) {
         modifier = Modifier
             .size(36.dp)
             .clip(CircleShape)
-            .border(2.dp, Secondary_2, CircleShape)
+            .border(2.dp, Secondary_1, CircleShape)
     )
 }
 
 @Composable
 @Preview
 fun PreviewFriendCardView() {
-    val dummyGroup = FriendGroupUiModel(
-        name = "매쉬업 사람들",
-        friends = listOf(
-            Friend("히지니", "https://picsum.photos/200"),
-            Friend("혜찌니", "https://picsum.photos/200"),
-            Friend("경무", "https://picsum.photos/200"),
-            Friend("히지니", "https://picsum.photos/200"),
-            Friend("혜찌니", "https://picsum.photos/200"),
-            Friend("경무", "https://picsum.photos/200"),
-            Friend("히지니", "https://picsum.photos/200"),
-            Friend("혜찌니", "https://picsum.photos/200"),
-            Friend("경무", "https://picsum.photos/200")
-        )
-    )
-
-    val groups = mutableListOf<FriendGroupUiModel>()
-    repeat(5) {
-        groups.add(dummyGroup)
-    }
     ChinchinTheme {
-        FriendsGroupList(groups)
+        HomeBody()
     }
 }
