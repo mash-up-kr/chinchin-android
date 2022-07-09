@@ -2,8 +2,8 @@ package com.mashup.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.mashup.data.dao.CrimeDao
-import com.mashup.data.database.CrimeDatabase
+import com.mashup.data.dao.ChinChinDao
+import com.mashup.data.database.ChinChinDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,13 +18,13 @@ class DBModule {
     @Provides
     @Singleton
     fun provideCrimeDatabases(@ApplicationContext context: Context)
-            : CrimeDatabase = Room.databaseBuilder(
+            : ChinChinDatabase = Room.databaseBuilder(
         context,
-        CrimeDatabase::class.java,
-        CrimeDatabase.DATABASE_NAME
+        ChinChinDatabase::class.java,
+        ChinChinDatabase.DATABASE_NAME
     ).build()
 
     @Provides
     @Singleton
-    fun provideCrimeDao(crimeDatabase: CrimeDatabase): CrimeDao = crimeDatabase.crimeDao()
+    fun provideCrimeDao(chinChinDatabase: ChinChinDatabase): ChinChinDao = chinChinDatabase.chinChinDao()
 }

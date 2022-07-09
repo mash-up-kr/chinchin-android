@@ -3,7 +3,7 @@ package com.mashup.data.database
 import androidx.room.TypeConverter
 import java.util.*
 
-class CrimeTypeConverters {
+class ChinChinTypeConverters {
 
     @TypeConverter
     fun fromDate(date: Date?): Long? {

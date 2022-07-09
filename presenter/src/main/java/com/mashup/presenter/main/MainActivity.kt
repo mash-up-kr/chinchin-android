@@ -14,6 +14,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,8 +46,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ItemColumn(viewModel: MainViewModel) {
-    val items = viewModel.items
-    Log.i("hyejin", "LiveData: ${items.size}")
+    val items = viewModel.items.observeAsState(emptyList())
+    Log.i("hyejin", "ChinChinsSize: ${items.value.size}")
     LazyColumn(
         modifier = Modifier
             .background(color = Color.Green)
@@ -54,7 +55,7 @@ fun ItemColumn(viewModel: MainViewModel) {
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        items(items) { item ->
+        items(items.value) { item ->
             Column {
                 Text(text = item.title)
                 Text(text = item.date.toString())
