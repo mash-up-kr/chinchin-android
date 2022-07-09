@@ -3,44 +3,56 @@ package com.mashup.presenter.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import com.mashup.presenter.ui.main.MainScreen
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.mashup.presenter.ui.main.MainNavBar
+import com.mashup.presenter.ui.main.MainNavGraph
+import com.mashup.presenter.ui.main.MainNavScreen
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ChinchinTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    MainScreen()
+                    MainScreen(
+                        listOf(
+                            MainNavScreen.Home,
+                            MainNavScreen.Profile,
+                            MainNavScreen.Setting,
+                        )
+                    )
                 }
             }
         }
-
-        viewModel.hello()
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
+fun MainScreen(screens: List<MainNavScreen> = listOf()) {
+    val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ChinchinTheme {
-        Greeting("Android")
+    Scaffold(
+        bottomBar = {
+            MainNavBar(screens = screens, currentDestination = currentDestination) { screen ->
+                navController.navigate(screen.route) {
+                    popUpTo(navController.graph.findStartDestination().id)
+                    launchSingleTop = true
+                }
+            }
+        }
+    ) {
+        MainNavGraph(navController = navController)
     }
 }

@@ -1,38 +1,13 @@
 package com.mashup.presenter.ui.main
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-
-@Composable
-fun MainScreen() {
-    val screens = listOf(
-        MainNavScreen.Home,
-        MainNavScreen.Profile,
-        MainNavScreen.Setting,
-    )
-
-    val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
-
-    Scaffold(
-        bottomBar = {
-            MainNavBar(screens = screens, currentDestination = currentDestination) { screen ->
-                navController.navigate(screen.route) {
-                    popUpTo(navController.graph.findStartDestination().id)
-                    launchSingleTop = true
-                }
-            }
-        }
-    ) {
-        MainNavGraph(navController = navController)
-    }
-}
 
 @Composable
 fun MainNavBar(
