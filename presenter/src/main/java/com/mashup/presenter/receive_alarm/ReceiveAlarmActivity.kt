@@ -4,8 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.mashup.presenter.receive_alarm.model.RequestAlarm
 import com.mashup.presenter.ui.receive_alarm.RequestAlarmList
 import com.mashup.presenter.ui.receive_alarm.RequestCountText
@@ -57,7 +60,6 @@ fun ReceiveAlarmScreen(
         }
 
         RequestCountText(requestAlarms.size)
-
-        RequestAlarmList(requestAlarms)
+        RequestAlarmList(requestAlarms, modifier = Modifier.padding(top = 7.dp))
     }
 }

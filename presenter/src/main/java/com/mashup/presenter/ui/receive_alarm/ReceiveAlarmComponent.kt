@@ -1,9 +1,11 @@
 package com.mashup.presenter.ui.receive_alarm
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -13,12 +15,14 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.mashup.presenter.receive_alarm.model.RequestAlarm
 import com.mashup.presenter.ui.theme.Black
+import com.mashup.presenter.ui.theme.Gray
 import com.mashup.presenter.ui.theme.Yellow
 
 @Composable
@@ -77,8 +81,11 @@ fun RequestCountText(requestCount: Int) {
 }
 
 @Composable
-fun RequestAlarmList(requestAlarms: List<RequestAlarm>) {
-    LazyColumn {
+fun RequestAlarmList(requestAlarms: List<RequestAlarm>, modifier: Modifier = Modifier) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier
+    ) {
         items(requestAlarms) { requestAlarm ->
             ReceiveAlarmItem(
                 userName = requestAlarm.requestUserName,
@@ -106,7 +113,8 @@ fun ReceiveAlarmItem(
         modifier = Modifier
             .fillMaxWidth()
             .height(66.dp)
-            .padding(start = 11.dp, end = 11.dp),
+            .padding(start = 24.dp, end = 24.dp)
+            .background(color = Gray, shape = RoundedCornerShape(8.dp)),
     ) {
         Row(
             modifier = Modifier.constrainAs(createRef()) {
@@ -118,7 +126,9 @@ fun ReceiveAlarmItem(
             Image(
                 imageVector = Icons.Default.ArrowBack,
                 contentDescription = "",
-                modifier = Modifier.align(Alignment.CenterVertically)
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(start = 11.dp)
             )
 
             Column(modifier = Modifier.padding(start = 12.dp)) {
