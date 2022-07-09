@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.kakao.sdk.user.UserApiClient
 import com.mashup.presenter.R
 import com.mashup.presenter.ui.theme.ChinchinTheme
+import com.mashup.presenter.ui.theme.KakaoYellow
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,7 +38,7 @@ class LoginActivity : ComponentActivity() {
         initViewModel()
         setContent {
             ChinchinTheme {
-                LoginPage {
+                LoginScreen {
                     kakaoLogin()
                 }
             }
@@ -88,7 +88,7 @@ private fun KakaoLoginButton(kakaoLogin: () -> Unit) {
         shape = RoundedCornerShape(10.dp),
         onClick = { kakaoLogin() },
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = colorResource(id = R.color.kakao_yellow)
+            backgroundColor = KakaoYellow
         ),
         elevation = ButtonDefaults.elevation(
             defaultElevation = 0.dp,
@@ -111,7 +111,7 @@ private fun KakaoLoginButton(kakaoLogin: () -> Unit) {
 }
 
 @Composable
-private fun LoginPage(kakaoLogin: () -> Unit) {
+private fun LoginScreen(kakaoLogin: () -> Unit = {}) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -140,8 +140,6 @@ private fun LoginPage(kakaoLogin: () -> Unit) {
 @Composable
 fun LoginPagePreview() {
     ChinchinTheme {
-        LoginPage {
-            null
-        }
+        LoginScreen()
     }
 }
