@@ -38,12 +38,14 @@ fun HomePreview() {
 @Composable
 fun HomeHeader(onButtonClick: () -> Unit = {}) {
     Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp)) {
+        /* TODO: Image 로 변경될 예정 */
         Text(
             text = "친친",
             fontSize = 30.sp,
             color = Primary_1,
             modifier = Modifier.padding(top = 6.dp, start = 4.dp)
         )
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -77,6 +79,7 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
                 }
             }
 
+            /* TODO: image 변경될 예정 */
             Image(
                 painter = painterResource(id = R.drawable.image_124),
                 contentDescription = "",
@@ -101,6 +104,7 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
     }
 }
 
+/* TODO: 이 아래는 공통으로 분리한다. */
 @Composable
 fun TitleWithCountText(title: String, countText: String, modifier: Modifier = Modifier) {
     Row(
