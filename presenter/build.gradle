@@ -76,9 +76,9 @@ dependencies {
     // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
 
-    implementation project(':domain')
-
     // Coil
     implementation "io.coil-kt:coil-compose:$coil_version"
+
+    implementation project(':domain')
 
 }
