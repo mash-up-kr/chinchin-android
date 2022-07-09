@@ -15,12 +15,11 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.mashup.presenter.receive_alarm.model.RequestAlarm
+import com.mashup.presenter.receive_alarm.model.RequestAlarmUiModel
 import com.mashup.presenter.ui.theme.Black
 import com.mashup.presenter.ui.theme.Gray
 import com.mashup.presenter.ui.theme.Yellow
@@ -77,12 +76,12 @@ fun RequestCountText(requestCount: Int) {
 }
 
 @Composable
-fun RequestAlarmList(requestAlarms: List<RequestAlarm>, modifier: Modifier = Modifier) {
+fun RequestAlarmList(requestAlarmUiModels: List<RequestAlarmUiModel>, modifier: Modifier = Modifier) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {
-        items(requestAlarms) { requestAlarm ->
+        items(requestAlarmUiModels) { requestAlarm ->
             ReceiveAlarmItem(
                 userName = requestAlarm.requestUserName,
                 profileUrl = requestAlarm.requestUserProfileUrl,

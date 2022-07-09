@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mashup.presenter.receive_alarm.model.RequestAlarm
+import com.mashup.presenter.receive_alarm.model.RequestAlarmUiModel
 import com.mashup.presenter.ui.receive_alarm.RequestAlarmList
 import com.mashup.presenter.ui.receive_alarm.RequestCountText
 import com.mashup.presenter.ui.receive_alarm.Toolbar
@@ -22,18 +22,18 @@ class ReceiveAlarmActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ChinchinTheme {
-                ReceiveAlarmScreen(requestAlarms = initRequestAlarms()) {
+                ReceiveAlarmScreen(requestAlarmUiModels = initRequestAlarms()) {
                     finish()
                 }
             }
         }
     }
 
-    private fun initRequestAlarms(): List<RequestAlarm> {
-        val requestAlarms = mutableListOf<RequestAlarm>()
+    private fun initRequestAlarms(): List<RequestAlarmUiModel> {
+        val requestAlarmUiModels = mutableListOf<RequestAlarmUiModel>()
         repeat(20) { index ->
-            requestAlarms.add(
-                RequestAlarm(
+            requestAlarmUiModels.add(
+                RequestAlarmUiModel(
                     requestUserName = "경무",
                     requestUserProfileUrl = "good",
                     requestDate = index.toLong(),
@@ -41,7 +41,7 @@ class ReceiveAlarmActivity : ComponentActivity() {
             )
         }
 
-        return requestAlarms.toList()
+        return requestAlarmUiModels.toList()
     }
 }
 
@@ -53,7 +53,7 @@ fun ReceiveAlarmPreview() {
 
 @Composable
 fun ReceiveAlarmScreen(
-    requestAlarms: List<RequestAlarm> = listOf(),
+    requestAlarmUiModels: List<RequestAlarmUiModel> = listOf(),
     finishActivity: () -> Unit = {},
 ) {
     Column {
@@ -64,7 +64,7 @@ fun ReceiveAlarmScreen(
             finishActivity()
         }
 
-        RequestCountText(requestAlarms.size)
-        RequestAlarmList(requestAlarms, modifier = Modifier.padding(top = 7.dp))
+        RequestCountText(requestAlarmUiModels.size)
+        RequestAlarmList(requestAlarmUiModels, modifier = Modifier.padding(top = 7.dp))
     }
 }
