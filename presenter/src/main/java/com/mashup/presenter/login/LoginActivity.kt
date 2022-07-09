@@ -5,27 +5,17 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kakao.sdk.user.UserApiClient
-import com.mashup.presenter.R
+import com.mashup.presenter.ui.IntroductionImage
+import com.mashup.presenter.ui.IntroductionText
+import com.mashup.presenter.ui.KakaoLoginButton
 import com.mashup.presenter.ui.theme.ChinchinTheme
-import com.mashup.presenter.ui.theme.KakaoYellow
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -64,51 +54,6 @@ class LoginActivity : ComponentActivity() {
     }
 }
 
-@Composable
-private fun IntroductionText() {
-    val guide = "질문으로 서로를 알아가는 \n친구 취향수집 서비스, 친친!"
-    Text(
-        text = guide,
-        color = Color.Black,
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
-        textAlign = TextAlign.Center,
-        modifier = Modifier.padding()
-    )
-}
-
-@Composable
-private fun IntroductionImage() {
-    Image(painter = painterResource(id = R.drawable.signup), contentDescription = "회원가입 이미지")
-}
-
-@Composable
-private fun KakaoLoginButton(kakaoLogin: () -> Unit) {
-    Button(
-        shape = RoundedCornerShape(10.dp),
-        onClick = { kakaoLogin() },
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = KakaoYellow
-        ),
-        elevation = ButtonDefaults.elevation(
-            defaultElevation = 0.dp,
-            pressedElevation = 0.dp,
-            disabledElevation = 0.dp
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
-    ) {
-        Icon(painter = painterResource(id = R.drawable.ic_kakao), contentDescription = "")
-        Spacer(modifier = Modifier.width(4.dp))
-        Text(
-            text = "카카오톡으로 시작하기",
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(vertical = 10.dp),
-            fontSize = 16.sp
-        )
-    }
-}
 
 @Composable
 private fun LoginScreen(kakaoLogin: () -> Unit = {}) {
