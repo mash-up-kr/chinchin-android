@@ -12,7 +12,7 @@ val KakaoYellow = Color(0xFFFBE64F)
 
 val Primary_1 = Color(0xFFFFEC88)
 val Primary_2 = Color(0xFFFFD056)
-val Secondary_1 = Color(0xFFF3F1FF)
+val Secondary_1 = Color(0xFFF4F3EE)
 val Secondary_2 = Color(0xFFD2D0BF)
 
 val Grey_800 = Color(0xFF212121)

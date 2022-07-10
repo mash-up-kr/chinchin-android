@@ -45,6 +45,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.mashup.presenter.receive_alarm.ReceiveAlarmActivity" />
+        <activity android:name="com.mashup.presenter.group_detail.GroupDetailActivity" />
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import com.mashup.presenter.group_detail.GroupDetailActivity
 import com.mashup.presenter.login.LoginActivity
 import com.mashup.presenter.main.MainActivity
 import com.mashup.presenter.receive_alarm.ReceiveAlarmActivity
@@ -28,6 +29,7 @@ class BridgeActivity : ComponentActivity() {
                             BridgeActivity::class.java,
                             LoginActivity::class.java,
                             ReceiveAlarmActivity::class.java,
+                            GroupDetailActivity::class.java,
                         )
                     )
                 }
