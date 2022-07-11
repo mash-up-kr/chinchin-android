@@ -1,30 +1,26 @@
 package com.mashup.presenter.ui.main
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.ui.graphics.vector.ImageVector
+import com.mashup.presenter.R
 
 enum class MainNavScreen(
     val route: String,
     val title: String,
-    val icon: ImageVector,
+    val iconResId: Int,
 ) {
     Home(
         route = "home",
         title = "Home",
-        icon = Icons.Default.Home
+        iconResId = R.drawable.icon_home
     ),
     RecommendFriends(
         route = "recommendFriends",
         title = "RecommendFriends",
-        icon = Icons.Default.Person
+        iconResId = R.drawable.icon_search
     ),
     More(
         route = "more",
         title = "More",
-        icon = Icons.Default.Settings
+        iconResId = R.drawable.icon_more
     );
 
     companion object {

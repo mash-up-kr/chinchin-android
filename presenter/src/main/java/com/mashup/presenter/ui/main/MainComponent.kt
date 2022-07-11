@@ -8,6 +8,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 
 @Composable
 fun MainNavBar(
@@ -40,7 +42,7 @@ fun RowScope.AddItem(
         },
         icon = {
             Icon(
-                imageVector = screen.icon,
+                imageVector = ImageVector.vectorResource(screen.iconResId),
                 contentDescription = "Navigation Icon"
             )
         },
