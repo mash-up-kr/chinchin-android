@@ -4,22 +4,18 @@ import com.mashup.presenter.R
 
 enum class MainNavScreen(
     val route: String,
-    val title: String,
     val iconResId: Int,
 ) {
     Home(
         route = "home",
-        title = "Home",
         iconResId = R.drawable.icon_home
     ),
     RecommendFriends(
         route = "recommendFriends",
-        title = "RecommendFriends",
         iconResId = R.drawable.icon_search
     ),
     More(
         route = "more",
-        title = "More",
         iconResId = R.drawable.icon_more
     );
 

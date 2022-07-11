@@ -37,9 +37,6 @@ fun RowScope.AddItem(
     onTabSelected: () -> Unit,
 ) {
     BottomNavigationItem(
-        label = {
-            Text(text = screen.title)
-        },
         icon = {
             Icon(
                 imageVector = ImageVector.vectorResource(screen.iconResId),
