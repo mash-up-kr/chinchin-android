@@ -6,26 +6,26 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class MainNavScreen(
+enum class MainNavScreen(
     val route: String,
     val title: String,
-    val icon: ImageVector
+    val icon: ImageVector,
 ) {
-    object Home: MainNavScreen(
+    Home(
         route = "home",
         title = "Home",
         icon = Icons.Default.Home
-    )
-    object RecommendFriends: MainNavScreen(
+    ),
+    RecommendFriends(
         route = "recommendFriends",
         title = "RecommendFriends",
         icon = Icons.Default.Person
-    )
-    object More: MainNavScreen(
+    ),
+    More(
         route = "more",
         title = "More",
         icon = Icons.Default.Settings
-    )
+    );
 
     companion object {
         fun fromRoute(route: String?): MainNavScreen =
