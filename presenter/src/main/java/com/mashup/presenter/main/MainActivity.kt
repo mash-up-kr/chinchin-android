@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mashup.presenter.ui.main.MainNavBar
 import com.mashup.presenter.ui.main.MainNavGraph
 import com.mashup.presenter.ui.main.MainNavScreen
+import com.mashup.presenter.ui.main.home.HomeHeader
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -64,16 +65,7 @@ fun MainScreen(screens: List<MainNavScreen> = listOf()) {
 
 @Composable
 fun HomeScreen() {
-    ConstraintLayout(modifier = Modifier.background(Color.Cyan)) {
-
-        val text = createRef()
-        Text("Home", Modifier.constrainAs(text) {
-            top.linkTo(parent.top)
-            bottom.linkTo(parent.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-        })
-    }
+    HomeHeader()
 }
 
 @Composable
