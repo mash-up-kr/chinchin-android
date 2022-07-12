@@ -25,36 +25,6 @@ import com.mashup.presenter.ui.theme.Grey_100
 import com.mashup.presenter.ui.theme.Primary_2
 
 @Composable
-fun Toolbar(title: String, modifier: Modifier = Modifier, onBackButtonClick: () -> Unit) {
-    ConstraintLayout(
-        modifier = modifier,
-    ) {
-        val (iconRef, textRef) = createRefs()
-
-        IconButton(
-            onClick = { onBackButtonClick() },
-            modifier = Modifier.constrainAs(iconRef) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-            }
-        ) {
-            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back button")
-        }
-
-        Text(
-            text = title,
-            modifier = Modifier.constrainAs(textRef) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
-        )
-    }
-}
-
-@Composable
 fun RequestCountText(requestCount: Int) {
     Row(
         modifier = Modifier

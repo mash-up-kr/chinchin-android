@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.presenter.receive_alarm.model.RequestAlarmUiModel
+import com.mashup.presenter.ui.common.ChinChinCommonToolbar
 import com.mashup.presenter.ui.receive_alarm.RequestAlarmList
 import com.mashup.presenter.ui.receive_alarm.RequestCountText
-import com.mashup.presenter.ui.receive_alarm.Toolbar
 import com.mashup.presenter.ui.theme.ChinchinTheme
 
 class ReceiveAlarmActivity : ComponentActivity() {
@@ -57,7 +57,7 @@ fun ReceiveAlarmScreen(
     finishActivity: () -> Unit = {},
 ) {
     Column {
-        Toolbar(
+        ChinChinCommonToolbar(
             title = "나에게 온 요청리스트",
             modifier = Modifier.fillMaxWidth().height(56.dp)
         ) {

@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.presenter.group_detail.model.GroupDetailUiModel
+import com.mashup.presenter.ui.common.ChinChinCommonToolbar
 import com.mashup.presenter.ui.group_detail.GroupDetailList
 import com.mashup.presenter.ui.group_detail.TotalCountText
-import com.mashup.presenter.ui.receive_alarm.Toolbar
 import com.mashup.presenter.ui.theme.ChinchinTheme
 
 class GroupDetailActivity : ComponentActivity() {
@@ -57,7 +57,7 @@ fun GroupDetailScreen(
 ) {
 
     Column {
-        Toolbar(
+        ChinChinCommonToolbar(
             title = "매쉬업",
             modifier = Modifier
                 .fillMaxWidth()
