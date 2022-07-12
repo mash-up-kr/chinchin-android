@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,9 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
+import com.mashup.presenter.ui.common.ChinChinCommonButton
 import com.mashup.presenter.ui.common.ChinChinCommonText
 import com.mashup.presenter.ui.theme.Black
-import com.mashup.presenter.ui.theme.Grey_400
 import com.mashup.presenter.ui.theme.Grey_800
 import com.mashup.presenter.ui.theme.Primary_1
 
@@ -99,35 +97,6 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
             ChinChinCommonButton(
                 icon = R.drawable.ic_add_group,
                 buttonText = "그룹 추가"
-            )
-        }
-    }
-}
-
-@Composable
-fun ChinChinCommonButton(
-    icon: Int,
-    buttonText: String,
-    modifier: Modifier = Modifier,
-    onButtonClick: () -> Unit = {},
-) {
-    OutlinedButton(
-        onClick = { onButtonClick() },
-        modifier = modifier.defaultMinSize(1.dp, 1.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 11.dp),
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = "",
-                tint = Grey_400
-            )
-            Text(
-                text = buttonText,
-                color = Grey_400,
-                modifier = Modifier.padding(start = 5.dp)
             )
         }
     }
