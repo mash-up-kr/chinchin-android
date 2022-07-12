@@ -23,11 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
+import com.mashup.presenter.ui.common.ChinChinCommonText
 import com.mashup.presenter.ui.theme.Black
 import com.mashup.presenter.ui.theme.Grey_400
 import com.mashup.presenter.ui.theme.Grey_800
 import com.mashup.presenter.ui.theme.Primary_1
-import com.mashup.presenter.ui.theme.Primary_2
 
 @Preview(showBackground = true)
 @Composable
@@ -92,35 +92,15 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            TitleWithCountText(
+            ChinChinCommonText(
                 title = "친친 그룹",
-                countText = "${0}",
+                highlightText = "${0}",
             )
             ChinChinCommonButton(
                 icon = R.drawable.ic_add_group,
                 buttonText = "그룹 추가"
             )
         }
-    }
-}
-
-/* TODO: 이 아래는 공통으로 분리한다. */
-@Composable
-fun TitleWithCountText(title: String, countText: String, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-    ) {
-        Text(
-            text = title,
-            color = Black,
-            fontSize = 18.sp
-        )
-        Text(
-            text = countText,
-            modifier = Modifier.padding(start = 8.dp),
-            color = Primary_2,
-            fontSize = 18.sp,
-        )
     }
 }
 

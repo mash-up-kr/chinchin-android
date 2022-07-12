@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.presenter.group_detail.model.GroupDetailUiModel
+import com.mashup.presenter.ui.common.ChinChinCommonText
 import com.mashup.presenter.ui.common.ChinChinCommonToolbar
 import com.mashup.presenter.ui.group_detail.GroupDetailList
-import com.mashup.presenter.ui.group_detail.TotalCountText
 import com.mashup.presenter.ui.theme.ChinchinTheme
 
 class GroupDetailActivity : ComponentActivity() {
@@ -44,7 +44,7 @@ class GroupDetailActivity : ComponentActivity() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun GroupDetailPreview() {
     GroupDetailScreen()
@@ -66,7 +66,7 @@ fun GroupDetailScreen(
             finishActivity()
         }
 
-        TotalCountText(groupDetailUiModels.size)
+        ChinChinCommonText(title = "전체", highlightText = "${groupDetailUiModels.size}")
         // TODO fill out ChinChinCommonButton
         Spacer(modifier = Modifier.height(17.dp))
         GroupDetailList(groupDetailUiModels)
