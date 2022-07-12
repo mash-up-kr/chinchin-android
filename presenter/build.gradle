@@ -67,7 +67,7 @@ dependencies {
     
     //kakao login
     implementation "com.kakao.sdk:v2-user:2.10.0"
-    
+
     //constraint layout
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
@@ -75,6 +75,10 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
     // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
-    
+
     implementation project(':domain')
+
+    // Coil
+    implementation "io.coil-kt:coil-compose:$coil_version"
+
 }
