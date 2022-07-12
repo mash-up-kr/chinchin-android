@@ -64,9 +64,6 @@ fun GroupDetailScreen(
     Column {
         ChinChinCommonToolbar(
             title = "매쉬업",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
         ) {
             finishActivity()
         }

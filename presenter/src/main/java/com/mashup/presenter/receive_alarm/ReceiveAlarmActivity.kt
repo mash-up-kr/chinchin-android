@@ -59,7 +59,6 @@ fun ReceiveAlarmScreen(
     Column {
         ChinChinCommonToolbar(
             title = "나에게 온 요청리스트",
-            modifier = Modifier.fillMaxWidth().height(56.dp)
         ) {
             finishActivity()
         }

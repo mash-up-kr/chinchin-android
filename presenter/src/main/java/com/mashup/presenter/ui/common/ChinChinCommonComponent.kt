@@ -3,6 +3,8 @@ package com.mashup.presenter.ui.common
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -22,9 +24,9 @@ import com.mashup.presenter.ui.theme.Grey_400
 import com.mashup.presenter.ui.theme.Primary_2
 
 @Composable
-fun ChinChinCommonToolbar(title: String, modifier: Modifier = Modifier, onBackButtonClick: () -> Unit) {
+fun ChinChinCommonToolbar(title: String, onBackButtonClick: () -> Unit) {
     ConstraintLayout(
-        modifier = modifier,
+        modifier = Modifier.fillMaxWidth().height(56.dp),
     ) {
         val (iconRef, textRef) = createRefs()
 
