@@ -54,12 +54,12 @@ fun ChinChinCommonToolbar(title: String, onBackButtonClick: () -> Unit) {
 }
 
 @Composable
-fun ChinChinCommonText(title: String, highlightText: String, modifier: Modifier = Modifier) {
+fun ChinChinCommonText(text: String, highlightText: String, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
     ) {
         Text(
-            text = title,
+            text = text,
             color = Black,
             fontSize = 18.sp
         )

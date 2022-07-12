@@ -91,7 +91,7 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             ChinChinCommonText(
-                title = "친친 그룹",
+                text = "친친 그룹",
                 highlightText = "${0}",
             )
             ChinChinCommonButton(

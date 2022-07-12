@@ -73,7 +73,7 @@ fun GroupDetailScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ChinChinCommonText(title = "전체", highlightText = "${groupDetailUiModels.size}")
+            ChinChinCommonText(text = "전체", highlightText = "${groupDetailUiModels.size}")
             ChinChinCommonButton(icon = R.drawable.icon_user_more1, buttonText = "친구 추가")
         }
         Spacer(modifier = Modifier.height(16.dp))
