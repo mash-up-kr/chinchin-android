@@ -19,10 +19,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
+import com.mashup.presenter.ui.common.ChinChinCommonText
 import com.mashup.presenter.ui.theme.Grey_500
 import com.mashup.presenter.ui.theme.Grey_700
 import com.mashup.presenter.ui.theme.Grey_800
 import com.mashup.presenter.ui.theme.Primary_1
+
+@Composable
+fun RecommendFriendsHeader(recommendFriendCount: Int) {
+    Column(
+        modifier = Modifier.padding(start = 24.dp)
+    ) {
+        /* TODO: Image 로 변경될 예정 */
+        Text(
+            text = "친친",
+            fontSize = 30.sp,
+            color = Primary_1,
+            modifier = Modifier.padding(top = 6.dp, start = 4.dp)
+        )
+
+        ChinChinCommonText(
+            text = "전체",
+            highlightText = "$recommendFriendCount",
+            modifier = Modifier.padding(top = 19.dp)
+        )
+    }
+}
 
 @Composable
 fun RecommendFriendsPermissionBody() {
@@ -48,7 +70,9 @@ fun RecommendFriendsPermissionBody() {
         Image(
             painter = painterResource(id = R.drawable.recommend_friends_permission),
             contentDescription = "",
-            modifier = Modifier.width(195.dp).height(156.dp)
+            modifier = Modifier
+                .width(195.dp)
+                .height(156.dp)
         )
 
         RequestPermissionButton()

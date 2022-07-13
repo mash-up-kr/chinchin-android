@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -12,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -20,6 +24,7 @@ import com.mashup.presenter.ui.main.MainNavBar
 import com.mashup.presenter.ui.main.MainNavGraph
 import com.mashup.presenter.ui.main.MainNavScreen
 import com.mashup.presenter.ui.main.home.HomeHeader
+import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsHeader
 import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,9 +74,14 @@ fun HomeScreen() {
     HomeHeader()
 }
 
+/* TODO: model 이 정해지면 Any -> model 로 바꾼다 */
 @Composable
-fun RecommendFriendsScreen() {
-    RecommendFriendsPermissionBody()
+fun RecommendFriendsScreen(recommendFriendsList: List<Any> = listOf()) {
+    Column {
+        RecommendFriendsHeader(recommendFriendsList.size)
+        Spacer(modifier = Modifier.height(36.dp))
+        RecommendFriendsPermissionBody()
+    }
 }
 
 @Composable
