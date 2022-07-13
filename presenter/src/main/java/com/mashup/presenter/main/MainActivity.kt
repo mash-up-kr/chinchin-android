@@ -20,6 +20,7 @@ import com.mashup.presenter.ui.main.MainNavBar
 import com.mashup.presenter.ui.main.MainNavGraph
 import com.mashup.presenter.ui.main.MainNavScreen
 import com.mashup.presenter.ui.main.home.HomeHeader
+import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -70,16 +71,7 @@ fun HomeScreen() {
 
 @Composable
 fun RecommendFriendsScreen() {
-    ConstraintLayout(modifier = Modifier.background(Color.Cyan)) {
-
-        val text = createRef()
-        Text("RecommendFriends", Modifier.constrainAs(text) {
-            top.linkTo(parent.top)
-            bottom.linkTo(parent.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-        })
-    }
+    RecommendFriendsPermissionBody()
 }
 
 @Composable
