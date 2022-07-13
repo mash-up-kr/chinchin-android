@@ -17,7 +17,7 @@ class DBModule {
 
     @Provides
     @Singleton
-    fun provideCrimeDatabases(@ApplicationContext context: Context)
+    fun provideChinChinDatabases(@ApplicationContext context: Context)
             : ChinChinDatabase = Room.databaseBuilder(
         context,
         ChinChinDatabase::class.java,
@@ -26,5 +26,6 @@ class DBModule {
 
     @Provides
     @Singleton
-    fun provideCrimeDao(chinChinDatabase: ChinChinDatabase): ChinChinDao = chinChinDatabase.chinChinDao()
+    fun provideChinChinDao(chinChinDatabase: ChinChinDatabase): ChinChinDao =
+        chinChinDatabase.chinChinDao()
 }

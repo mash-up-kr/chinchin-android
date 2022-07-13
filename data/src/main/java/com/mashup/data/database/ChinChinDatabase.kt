@@ -12,6 +12,6 @@ abstract class ChinChinDatabase : RoomDatabase() {
     abstract fun chinChinDao(): ChinChinDao
 
     companion object {
-        const val DATABASE_NAME = "crime-database"
+        const val DATABASE_NAME = "chinchin-database"
     }
 }

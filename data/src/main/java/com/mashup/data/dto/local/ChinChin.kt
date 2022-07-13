@@ -6,8 +6,8 @@ import java.util.*
 
 @Entity
 data class ChinChin(
-    @PrimaryKey val id: UUID = UUID.randomUUID(),
-    var title: String = "",
-    var date: Date = Date(),
-    var isSolved: Boolean = false
+    @PrimaryKey val uid: UUID = UUID.randomUUID(),
+    val name: String = "",
+    val date: Date = Date(),
+    val isFriend: Boolean = false,
 )
