@@ -28,7 +28,6 @@ import com.mashup.presenter.ui.main.MainNavScreen
 import com.mashup.presenter.ui.main.home.HomeHeader
 import com.mashup.presenter.ui.main.recommend_friends.ReCommendFriendsListBody
 import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsHeader
-import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -90,7 +89,6 @@ fun HomeScreen() {
     HomeHeader()
 }
 
-/* TODO: model 이 정해지면 Any -> model 로 바꾼다 */
 @Composable
 fun RecommendFriendsScreen(recommendFriendsList: List<RecommendFriendUiModel> = listOf()) {
     Column(
