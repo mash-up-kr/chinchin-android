@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedButton
@@ -83,6 +84,7 @@ fun ChinChinCommonButton(
         onClick = { onButtonClick() },
         modifier = modifier.defaultMinSize(1.dp, 1.dp),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 11.dp),
+        shape = RoundedCornerShape(8.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
