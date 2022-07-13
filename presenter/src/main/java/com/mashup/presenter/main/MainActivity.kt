@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -20,10 +21,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.mashup.presenter.main.model.RecommendFriendUiModel
 import com.mashup.presenter.ui.main.MainNavBar
 import com.mashup.presenter.ui.main.MainNavGraph
 import com.mashup.presenter.ui.main.MainNavScreen
 import com.mashup.presenter.ui.main.home.HomeHeader
+import com.mashup.presenter.ui.main.recommend_friends.ReCommendFriendsListBody
 import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsHeader
 import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.presenter.ui.theme.ChinchinTheme
@@ -41,16 +44,26 @@ class MainActivity : ComponentActivity() {
                             MainNavScreen.Home,
                             MainNavScreen.RecommendFriends,
                             MainNavScreen.More,
-                        )
+                        ),
+                        recommendFriends = initRecommendFriends()
                     )
                 }
             }
         }
     }
+
+    private fun initRecommendFriends(): List<RecommendFriendUiModel> {
+        return List(25) {
+            RecommendFriendUiModel("good", "안경무 $it")
+        }
+    }
 }
 
 @Composable
-fun MainScreen(screens: List<MainNavScreen> = listOf()) {
+fun MainScreen(
+    screens: List<MainNavScreen> = listOf(),
+    recommendFriends: List<RecommendFriendUiModel> = listOf()
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
@@ -65,7 +78,10 @@ fun MainScreen(screens: List<MainNavScreen> = listOf()) {
             }
         }
     ) {
-        MainNavGraph(navController = navController)
+        MainNavGraph(
+            navController = navController,
+            recommendFriends = recommendFriends,
+        )
     }
 }
 
@@ -76,11 +92,14 @@ fun HomeScreen() {
 
 /* TODO: model 이 정해지면 Any -> model 로 바꾼다 */
 @Composable
-fun RecommendFriendsScreen(recommendFriendsList: List<Any> = listOf()) {
-    Column {
+fun RecommendFriendsScreen(recommendFriendsList: List<RecommendFriendUiModel> = listOf()) {
+    Column(
+        modifier = Modifier.padding(horizontal = 24.dp)
+    ) {
         RecommendFriendsHeader(recommendFriendsList.size)
         Spacer(modifier = Modifier.height(36.dp))
-        RecommendFriendsPermissionBody()
+//        RecommendFriendsPermissionBody()
+        ReCommendFriendsListBody(recommendFriendsList)
     }
 }
 

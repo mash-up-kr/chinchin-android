@@ -95,6 +95,7 @@ fun ChinChinCommonButton(
             Text(
                 text = buttonText,
                 color = Grey_400,
+                fontSize = 12.sp,
                 modifier = Modifier.padding(start = 5.dp)
             )
         }
