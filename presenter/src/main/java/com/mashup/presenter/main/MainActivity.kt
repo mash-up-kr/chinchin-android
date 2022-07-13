@@ -28,6 +28,7 @@ import com.mashup.presenter.ui.main.MainNavScreen
 import com.mashup.presenter.ui.main.home.HomeHeader
 import com.mashup.presenter.ui.main.recommend_friends.ReCommendFriendsListBody
 import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsHeader
+import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -95,9 +96,14 @@ fun RecommendFriendsScreen(recommendFriendsList: List<RecommendFriendUiModel> = 
         modifier = Modifier.padding(horizontal = 24.dp)
     ) {
         RecommendFriendsHeader(recommendFriendsList.size)
-        Spacer(modifier = Modifier.height(36.dp))
-//        RecommendFriendsPermissionBody()
-        ReCommendFriendsListBody(recommendFriendsList)
+        Spacer(modifier = Modifier.height(7.dp))
+
+        /* TODO: 퍼미션 체크를 기준으로 변경하자 */
+        if (recommendFriendsList.isEmpty()) {
+            RecommendFriendsPermissionBody()
+        } else {
+            ReCommendFriendsListBody(recommendFriendsList)
+        }
     }
 }
 

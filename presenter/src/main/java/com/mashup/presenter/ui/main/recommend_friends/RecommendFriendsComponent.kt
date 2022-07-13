@@ -57,7 +57,7 @@ fun RecommendFriendsHeader(recommendFriendCount: Int) {
 @Composable
 fun RecommendFriendsPermissionBody() {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(top = 29.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
