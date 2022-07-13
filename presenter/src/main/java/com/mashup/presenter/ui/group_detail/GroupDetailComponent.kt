@@ -1,6 +1,12 @@
 package com.mashup.presenter.ui.group_detail
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -19,31 +25,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.mashup.presenter.group_detail.model.GroupDetailUiModel
 import com.mashup.presenter.ui.theme.Black
-import com.mashup.presenter.ui.theme.Primary_2
 import com.mashup.presenter.ui.theme.Secondary_1
-
-
-// TODO need to change to common composable
-@Composable
-fun TotalCountText(totalCount: Int) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 24.dp, top = 0.dp)
-    ) {
-        Text(
-            text = "전체",
-            color = Black,
-            fontSize = 18.sp
-        )
-        Text(
-            text = "$totalCount",
-            modifier = Modifier.padding(start = 8.dp),
-            color = Primary_2,
-            fontSize = 18.sp,
-        )
-    }
-}
 
 @Composable
 fun GroupDetailList(groupDetailUiModels: List<GroupDetailUiModel>, modifier: Modifier = Modifier) {

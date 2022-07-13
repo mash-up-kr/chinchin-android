@@ -3,18 +3,24 @@ package com.mashup.presenter.group_detail
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mashup.presenter.R
 import com.mashup.presenter.group_detail.model.GroupDetailUiModel
+import com.mashup.presenter.ui.common.ChinChinCommonButton
+import com.mashup.presenter.ui.common.ChinChinCommonText
+import com.mashup.presenter.ui.common.ChinChinCommonToolbar
 import com.mashup.presenter.ui.group_detail.GroupDetailList
-import com.mashup.presenter.ui.group_detail.TotalCountText
-import com.mashup.presenter.ui.receive_alarm.Toolbar
 import com.mashup.presenter.ui.theme.ChinchinTheme
 
 class GroupDetailActivity : ComponentActivity() {
@@ -44,7 +50,7 @@ class GroupDetailActivity : ComponentActivity() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun GroupDetailPreview() {
     GroupDetailScreen()
@@ -55,21 +61,22 @@ fun GroupDetailScreen(
     groupDetailUiModels: List<GroupDetailUiModel> = listOf(),
     finishActivity: () -> Unit = {}
 ) {
-
     Column {
-        Toolbar(
+        ChinChinCommonToolbar(
             title = "매쉬업",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
         ) {
             finishActivity()
         }
 
-        TotalCountText(groupDetailUiModels.size)
-        // TODO fill out ChinChinCommonButton
-        Spacer(modifier = Modifier.height(17.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ChinChinCommonText(text = "전체", highlightText = "${groupDetailUiModels.size}")
+            ChinChinCommonButton(icon = R.drawable.icon_user_more1, buttonText = "친구 추가")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
         GroupDetailList(groupDetailUiModels)
     }
-
 }
