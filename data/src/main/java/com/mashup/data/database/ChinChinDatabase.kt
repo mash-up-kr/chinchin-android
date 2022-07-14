@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.mashup.data.dao.ChinChinDao
 import com.mashup.data.dto.local.ChinChin
 
-@Database(entities = [ChinChin::class], version = 2)
+@Database(entities = [ChinChin::class], version = 1)
 @TypeConverters(ChinChinTypeConverters::class)
 abstract class ChinChinDatabase : RoomDatabase() {
     abstract fun chinChinDao(): ChinChinDao
