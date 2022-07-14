@@ -30,13 +30,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ChinchinTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    MainScreen(
-                        listOf(
-                            MainNavScreen.Home,
-                            MainNavScreen.RecommendFriends,
-                            MainNavScreen.More,
-                        )
-                    )
+                    MainScreen()
                 }
             }
         }
@@ -44,7 +38,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(screens: List<MainNavScreen> = listOf()) {
+fun MainScreen(screens: List<MainNavScreen> = MainNavScreen.values().toList()) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
