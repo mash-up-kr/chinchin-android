@@ -1,7 +1,9 @@
 package com.mashup.presenter.ui.add_friend
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,10 +13,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -73,52 +77,86 @@ fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit)
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 3.dp),
+                .padding(top = 3.dp)
+                .height(48.dp),
             placeholder = { Text(text = "친구 이름", color = Grey_400) },
+            textStyle = LocalTextStyle.current.copy(
+                fontSize = 14.sp
+            )
         )
     }
 }
 
 @Composable
-fun AddFriendBirthDayComponent() {
+fun AddFriendBirthDayComponent(onButtonClick: () -> Unit = {}) {
     Column {
         Text(text = "생일 *", fontSize = 16.sp, color = Black)
-        TextField(
-            value = "",
-            onValueChange = {},
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Grey_100,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-            ),
-            shape = RoundedCornerShape(8.dp),
+        Button(
+            onClick = { onButtonClick() },
+            colors = ButtonDefaults.buttonColors(backgroundColor = Grey_100),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 3.dp),
-            trailingIcon = { Icon(painterResource(id = R.drawable.icon_calendar), "") }
-        )
+                .padding(top = 3.dp)
+                .height(48.dp)
+                .defaultMinSize(1.dp, 1.dp),
+            shape = RoundedCornerShape(8.dp),
+            elevation = ButtonDefaults.elevation(
+                defaultElevation = 0.dp,
+                pressedElevation = 0.dp,
+            ),
+            contentPadding = PaddingValues(horizontal = 12.dp),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    painterResource(id = R.drawable.icon_calendar),
+                    "",
+                    tint = Grey_500
+                )
+            }
+        }
     }
 }
 
 @Composable
-fun AddFriendGroupComponent() {
+fun AddFriendGroupComponent(onButtonClick: () -> Unit = {}) {
     Column {
         Text(text = "친친 그룹 *", fontSize = 16.sp, color = Black)
-        TextField(
-            value = "",
-            onValueChange = {},
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Grey_100,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-            ),
-            shape = RoundedCornerShape(8.dp),
+        Button(
+            onClick = { onButtonClick() },
+            colors = ButtonDefaults.buttonColors(backgroundColor = Grey_100),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 3.dp),
-            placeholder = { Text(text = "그룹 지정하기", color = Grey_400) },
-            trailingIcon = { Icon(painterResource(id = R.drawable.icon_arrow), "") }
-        )
+                .padding(top = 3.dp)
+                .height(48.dp)
+                .defaultMinSize(1.dp, 1.dp),
+            shape = RoundedCornerShape(8.dp),
+            elevation = ButtonDefaults.elevation(
+                defaultElevation = 0.dp,
+                pressedElevation = 0.dp,
+            ),
+            contentPadding = PaddingValues(horizontal = 12.dp),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "그룹 지정하기",
+                    color = Grey_400,
+                    fontSize = 14.sp
+                )
+                Icon(
+                    painterResource(id = R.drawable.icon_arrow),
+                    "",
+                    tint = Grey_500
+                )
+            }
+        }
     }
 }
 
