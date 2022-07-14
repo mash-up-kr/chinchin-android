@@ -25,5 +25,5 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindChinChinRepository(crimeRepositoryImpl: ChinChinRepositoryImpl): ChinChinRepository
+    fun bindChinChinRepository(chinchinRepositoryImpl: ChinChinRepositoryImpl): ChinChinRepository
 }
