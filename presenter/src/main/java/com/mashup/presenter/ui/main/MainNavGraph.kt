@@ -7,9 +7,13 @@ import androidx.navigation.compose.composable
 import com.mashup.presenter.main.HomeScreen
 import com.mashup.presenter.main.RecommendFriendsScreen
 import com.mashup.presenter.main.MoreScreen
+import com.mashup.presenter.main.model.RecommendFriendUiModel
 
 @Composable
-fun MainNavGraph(navController: NavHostController) {
+fun MainNavGraph(
+    navController: NavHostController,
+    recommendFriends: List<RecommendFriendUiModel>,
+) {
     NavHost(
         navController = navController,
         startDestination = MainNavScreen.Home.route,
@@ -18,7 +22,7 @@ fun MainNavGraph(navController: NavHostController) {
             HomeScreen()
         }
         composable(route = MainNavScreen.RecommendFriends.route) {
-            RecommendFriendsScreen()
+            RecommendFriendsScreen(recommendFriends)
         }
         composable(route = MainNavScreen.More.route) {
             MoreScreen()

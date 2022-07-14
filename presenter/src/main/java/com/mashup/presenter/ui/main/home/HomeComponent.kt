@@ -24,8 +24,6 @@ import coil.compose.AsyncImage
 import com.mashup.presenter.R
 import com.mashup.presenter.main.model.FriendUiModel
 import com.mashup.presenter.main.model.FriendGroupUiModel
-import com.mashup.presenter.ui.common.ChinChinCommonButton
-import com.mashup.presenter.ui.common.ChinChinCommonText
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -39,6 +37,8 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import com.mashup.presenter.ui.common.ChinChinButton
+import com.mashup.presenter.ui.common.ChinChinText
 import com.mashup.presenter.ui.theme.Black
 import com.mashup.presenter.ui.theme.Grey_800
 import com.mashup.presenter.ui.theme.Primary_1
@@ -162,11 +162,11 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            ChinChinCommonText(
+            ChinChinText(
                 text = "친친 그룹",
                 highlightText = "${0}",
             )
-            ChinChinCommonButton(
+            ChinChinButton(
                 icon = R.drawable.ic_add_group,
                 buttonText = "그룹 추가"
             )

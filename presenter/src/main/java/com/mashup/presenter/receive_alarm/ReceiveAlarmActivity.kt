@@ -4,15 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.presenter.receive_alarm.model.RequestAlarmUiModel
-import com.mashup.presenter.ui.common.ChinChinCommonToolbar
+import com.mashup.presenter.ui.common.ChinChinToolbar
 import com.mashup.presenter.ui.receive_alarm.RequestAlarmList
 import com.mashup.presenter.ui.receive_alarm.RequestCountText
 import com.mashup.presenter.ui.theme.ChinchinTheme
@@ -57,7 +55,7 @@ fun ReceiveAlarmScreen(
     finishActivity: () -> Unit = {},
 ) {
     Column {
-        ChinChinCommonToolbar(
+        ChinChinToolbar(
             title = "나에게 온 요청리스트",
         ) {
             finishActivity()

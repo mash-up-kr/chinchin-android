@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedButton
@@ -24,7 +25,7 @@ import com.mashup.presenter.ui.theme.Grey_400
 import com.mashup.presenter.ui.theme.Primary_2
 
 @Composable
-fun ChinChinCommonToolbar(title: String, onBackButtonClick: () -> Unit) {
+fun ChinChinToolbar(title: String, onBackButtonClick: () -> Unit) {
     ConstraintLayout(
         modifier = Modifier.fillMaxWidth().height(56.dp),
     ) {
@@ -54,7 +55,7 @@ fun ChinChinCommonToolbar(title: String, onBackButtonClick: () -> Unit) {
 }
 
 @Composable
-fun ChinChinCommonText(text: String, highlightText: String, modifier: Modifier = Modifier) {
+fun ChinChinText(text: String, highlightText: String, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
     ) {
@@ -73,7 +74,7 @@ fun ChinChinCommonText(text: String, highlightText: String, modifier: Modifier =
 }
 
 @Composable
-fun ChinChinCommonButton(
+fun ChinChinButton(
     icon: Int,
     buttonText: String,
     modifier: Modifier = Modifier,
@@ -83,6 +84,7 @@ fun ChinChinCommonButton(
         onClick = { onButtonClick() },
         modifier = modifier.defaultMinSize(1.dp, 1.dp),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 11.dp),
+        shape = RoundedCornerShape(8.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -95,6 +97,7 @@ fun ChinChinCommonButton(
             Text(
                 text = buttonText,
                 color = Grey_400,
+                fontSize = 12.sp,
                 modifier = Modifier.padding(start = 5.dp)
             )
         }
