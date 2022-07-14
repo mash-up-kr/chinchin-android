@@ -46,6 +46,7 @@
         </activity>
         <activity android:name="com.mashup.presenter.receive_alarm.ReceiveAlarmActivity" />
         <activity android:name="com.mashup.presenter.group_detail.GroupDetailActivity" />
+        <activity android:name="com.mashup.presenter.add_friend.AddFriendActivity" />
     </application>
 
 </manifest>
