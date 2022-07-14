@@ -14,8 +14,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,9 +46,11 @@ fun AddFriendTitles() {
 }
 
 @Composable
-fun AddFriendContents() {
+fun AddFriendContents(
+    friendName: String, onValueChanged: (String) -> Unit
+) {
     Column {
-        AddFriendNameComponent()
+        AddFriendNameComponent(friendName = friendName, onValueChanged = onValueChanged)
         Spacer(modifier = Modifier.height(16.dp))
         AddFriendBirthDayComponent()
         Spacer(modifier = Modifier.height(16.dp))
@@ -59,12 +59,12 @@ fun AddFriendContents() {
 }
 
 @Composable
-fun AddFriendNameComponent() {
+fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit) {
     Column {
         Text(text = "이름 *", fontSize = 16.sp, color = Black)
         TextField(
-            value = "",
-            onValueChange = {},
+            value = friendName,
+            onValueChange = { onValueChanged(it) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Grey_100,
                 focusedIndicatorColor = Color.Transparent,
