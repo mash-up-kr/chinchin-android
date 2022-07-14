@@ -18,6 +18,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.mashup.presenter.main.model.FriendGroupUiModel
+import com.mashup.presenter.main.model.FriendUiModel
 import com.mashup.presenter.ui.main.MainNavBar
 import com.mashup.presenter.ui.main.MainNavGraph
 import com.mashup.presenter.ui.main.MainNavScreen
@@ -74,15 +76,12 @@ fun HomeScreen() {
         val dummyGroup = FriendGroupUiModel(
             name = "매쉬업 사람들",
             friends = listOf(
-                Friend("히지니", "https://picsum.photos/200"),
-                Friend("혜찌니", "https://picsum.photos/200"),
-                Friend("경무", "https://picsum.photos/200"),
-                Friend("히지니", "https://picsum.photos/200"),
-                Friend("혜찌니", "https://picsum.photos/200"),
-                Friend("경무", "https://picsum.photos/200"),
-                Friend("히지니", "https://picsum.photos/200"),
-                Friend("혜찌니", "https://picsum.photos/200"),
-                Friend("경무", "https://picsum.photos/200")
+                FriendUiModel("히지니", "https://picsum.photos/200"),
+                FriendUiModel("혜찌니", "https://picsum.photos/200"),
+                FriendUiModel("경무", "https://picsum.photos/200"),
+                FriendUiModel("히지니", "https://picsum.photos/200"),
+                FriendUiModel("혜찌니", "https://picsum.photos/200"),
+                FriendUiModel("경무", "https://picsum.photos/200")
             )
         )
         val groups = mutableListOf<FriendGroupUiModel>()

@@ -6,5 +6,5 @@ package com.mashup.presenter.main.model
  */
 data class FriendGroupUiModel(
     val name: String,
-    val friends: List<Friend>
+    val friends: List<FriendUiModel>
 )

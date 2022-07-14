@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.mashup.presenter.R
-import com.mashup.presenter.main.model.Friend
+import com.mashup.presenter.main.model.FriendUiModel
 import com.mashup.presenter.main.model.FriendGroupUiModel
 import com.mashup.presenter.ui.common.ChinChinCommonButton
 import com.mashup.presenter.ui.common.ChinChinCommonText
@@ -48,16 +48,18 @@ import com.mashup.presenter.ui.theme.Secondary_1
 
 
 @Composable
-fun HomeBody(groups: List<FriendGroupUiModel> = listOf()) {
+fun HomeBody(groups: List<FriendGroupUiModel> = listOf(), addGroup: () -> Unit = {}) {
     if (groups.isEmpty()) {
-        EmptyFriendGroups()
+        EmptyFriendGroups {
+            addGroup()
+        }
     } else {
         FriendsGroupList(groups = groups)
     }
 }
 
 @Composable
-fun EmptyFriendGroups() {
+fun EmptyFriendGroups(addGroup: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -69,7 +71,7 @@ fun EmptyFriendGroups() {
         )
         Image(painter = painterResource(id = R.drawable.empty_group), contentDescription = "empty groups")
         OutlinedButton(
-            onClick = { /*TODO*/ },
+            onClick = { addGroup() },
             colors = ButtonDefaults.outlinedButtonColors(
                 backgroundColor = Color.Transparent,
                 contentColor = Grey_500
@@ -241,8 +243,8 @@ fun NumberOfFriends(friendsSize: Int) {
 }
 
 @Composable
-fun FriendProfileThumbnailList(friends: List<Friend>) {
-    val more = if (friends.size > 5) {
+fun FriendProfileThumbnailList(friends: List<FriendUiModel>) {
+    val profileMoreCount = if (friends.size > 5) {
         friends.size - 5
     } else {
         0
@@ -258,8 +260,8 @@ fun FriendProfileThumbnailList(friends: List<Friend>) {
                 if (index < 5) {
                     FriendProfileThumbnail(thumbnailUrl = friend.profileThumbnailUrl)
                 } else {
-                    FriendProfileThumbnailMore(more)
-                    return@loop
+                    FriendProfileThumbnailMore(profileMoreCount)
+                    return@forEachIndexed
                 }
             }
         }
