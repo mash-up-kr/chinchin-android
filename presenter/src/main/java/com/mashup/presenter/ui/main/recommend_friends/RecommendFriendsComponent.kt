@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -27,9 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
 import com.mashup.presenter.main.model.RecommendFriendUiModel
-import com.mashup.presenter.ui.common.ChinChinCommonButton
-import com.mashup.presenter.ui.common.ChinChinCommonText
-import com.mashup.presenter.ui.theme.Black
+import com.mashup.presenter.ui.common.ChinChinButton
+import com.mashup.presenter.ui.common.ChinChinText
 import com.mashup.presenter.ui.theme.Grey_500
 import com.mashup.presenter.ui.theme.Grey_700
 import com.mashup.presenter.ui.theme.Grey_800
@@ -46,7 +44,7 @@ fun RecommendFriendsHeader(recommendFriendCount: Int) {
             modifier = Modifier.padding(top = 6.dp, start = 4.dp)
         )
 
-        ChinChinCommonText(
+        ChinChinText(
             text = "전체",
             highlightText = "$recommendFriendCount",
             modifier = Modifier.padding(top = 19.dp)
@@ -112,27 +110,27 @@ fun RequestPermissionButton(onButtonClick: () -> Unit = {}) {
 }
 
 @Composable
-fun ReCommendFriendsListBody(recommendFriendsList: List<RecommendFriendUiModel>) {
+fun RecommendFriendsListBody(recommendFriendsList: List<RecommendFriendUiModel>) {
     LazyColumn {
         itemsIndexed(recommendFriendsList) { index, recommendFriend ->
             if (index == 0) {
                 Divider(color = Color(0xFFD9D9D9), thickness = 0.5.dp)
             }
-            ReCommendFriendItem(recommendFriend)
+            RecommendFriendItem(recommendFriend)
             Divider(color = Color(0xFFD9D9D9), thickness = 0.5.dp)
         }
     }
 }
 
 @Composable
-fun ReCommendFriendItem(recommendFriend: RecommendFriendUiModel) {
+fun RecommendFriendItem(recommendFriend: RecommendFriendUiModel) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth().height(70.dp),
     ) {
-        ReCommendFriendInfo(recommendFriend)
-        ChinChinCommonButton(
+        RecommendFriendInfo(recommendFriend)
+        ChinChinButton(
             icon = R.drawable.icon_plus,
             buttonText = "친구 추가",
             modifier = Modifier
@@ -143,7 +141,7 @@ fun ReCommendFriendItem(recommendFriend: RecommendFriendUiModel) {
 }
 
 @Composable
-fun ReCommendFriendInfo(recommendFriend: RecommendFriendUiModel) {
+fun RecommendFriendInfo(recommendFriend: RecommendFriendUiModel) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {

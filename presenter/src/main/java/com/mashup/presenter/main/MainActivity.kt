@@ -26,7 +26,7 @@ import com.mashup.presenter.ui.main.MainNavBar
 import com.mashup.presenter.ui.main.MainNavGraph
 import com.mashup.presenter.ui.main.MainNavScreen
 import com.mashup.presenter.ui.main.home.HomeHeader
-import com.mashup.presenter.ui.main.recommend_friends.ReCommendFriendsListBody
+import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsListBody
 import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsHeader
 import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.presenter.ui.theme.ChinchinTheme
@@ -102,7 +102,7 @@ fun RecommendFriendsScreen(recommendFriendsList: List<RecommendFriendUiModel> = 
         if (recommendFriendsList.isEmpty()) {
             RecommendFriendsPermissionBody()
         } else {
-            ReCommendFriendsListBody(recommendFriendsList)
+            RecommendFriendsListBody(recommendFriendsList)
         }
     }
 }

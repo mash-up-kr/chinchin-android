@@ -21,8 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
-import com.mashup.presenter.ui.common.ChinChinCommonButton
-import com.mashup.presenter.ui.common.ChinChinCommonText
+import com.mashup.presenter.ui.common.ChinChinButton
+import com.mashup.presenter.ui.common.ChinChinText
 import com.mashup.presenter.ui.theme.Black
 import com.mashup.presenter.ui.theme.Grey_800
 import com.mashup.presenter.ui.theme.Primary_1
@@ -90,11 +90,11 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            ChinChinCommonText(
+            ChinChinText(
                 text = "친친 그룹",
                 highlightText = "${0}",
             )
-            ChinChinCommonButton(
+            ChinChinButton(
                 icon = R.drawable.ic_add_group,
                 buttonText = "그룹 추가"
             )

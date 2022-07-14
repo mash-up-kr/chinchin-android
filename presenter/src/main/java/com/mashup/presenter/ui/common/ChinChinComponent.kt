@@ -25,7 +25,7 @@ import com.mashup.presenter.ui.theme.Grey_400
 import com.mashup.presenter.ui.theme.Primary_2
 
 @Composable
-fun ChinChinCommonToolbar(title: String, onBackButtonClick: () -> Unit) {
+fun ChinChinToolbar(title: String, onBackButtonClick: () -> Unit) {
     ConstraintLayout(
         modifier = Modifier.fillMaxWidth().height(56.dp),
     ) {
@@ -55,7 +55,7 @@ fun ChinChinCommonToolbar(title: String, onBackButtonClick: () -> Unit) {
 }
 
 @Composable
-fun ChinChinCommonText(text: String, highlightText: String, modifier: Modifier = Modifier) {
+fun ChinChinText(text: String, highlightText: String, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
     ) {
@@ -74,7 +74,7 @@ fun ChinChinCommonText(text: String, highlightText: String, modifier: Modifier =
 }
 
 @Composable
-fun ChinChinCommonButton(
+fun ChinChinButton(
     icon: Int,
     buttonText: String,
     modifier: Modifier = Modifier,
