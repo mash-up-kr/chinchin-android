@@ -46,7 +46,7 @@ fun EmptyFriendGroups(addGroup: () -> Unit) {
         Text(
             text = "텅 비었어요!",
             fontSize = 24.sp,
-            color = Grey_500,
+            color = Gray_500,
             modifier = Modifier.padding(vertical = 30.dp)
         )
         Image(painter = painterResource(id = R.drawable.empty_group), contentDescription = "empty groups")
@@ -54,11 +54,11 @@ fun EmptyFriendGroups(addGroup: () -> Unit) {
             onClick = { addGroup() },
             colors = ButtonDefaults.outlinedButtonColors(
                 backgroundColor = Color.Transparent,
-                contentColor = Grey_500
+                contentColor = Gray_500
             ),
             shape = RoundedCornerShape(8.dp),
             contentPadding = PaddingValues(0.dp),
-            border = BorderStroke(1.dp, Grey_500),
+            border = BorderStroke(1.dp, Gray_500),
             modifier = Modifier
                 .padding(top = 20.dp)
                 .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
@@ -124,7 +124,7 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
                     Text(
                         text = "+ 친구 추가하기",
                         fontSize = 16.sp,
-                        color = Grey_800,
+                        color = Gray_800,
                     )
                 }
             }
@@ -218,7 +218,7 @@ fun FriendGroupCardTitle(groupName: String) {
 fun NumberOfFriends(friendsSize: Int) {
     Text(
         text = "${friendsSize}명",
-        color = Grey_500,
+        color = Gray_500,
         fontSize = 14.sp,
         modifier = Modifier.padding(start = 18.dp, top = 8.dp)
     )
