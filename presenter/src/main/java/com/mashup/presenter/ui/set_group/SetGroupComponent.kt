@@ -3,22 +3,19 @@ package com.mashup.presenter.ui.set_group
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.Divider
-import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role.Companion.RadioButton
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mashup.presenter.ui.theme.ChinchinTheme
-import com.mashup.presenter.ui.theme.Gray_300
-import com.mashup.presenter.ui.theme.Primary_2
+import androidx.compose.ui.window.Dialog
+import com.mashup.presenter.ui.theme.*
 
 @Preview
 @Composable
@@ -32,8 +29,10 @@ fun PreviewSetGroup() {
         }
     }
 }
+
 @Composable
 fun GroupRadioButtons(groups: List<String> = emptyList()) { // TODO: Group data class 만들어서 변경해야함
+    // FIXME: 로직 추가시 상태값은 최상위에서 관리되도록 변경해야함.
     val selectedValue = remember { mutableStateOf("") }
 
     val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
@@ -88,12 +87,14 @@ fun GroupRadioButton(
 }
 
 @Composable
-fun NewGroupButton(addNewGroup: () -> Unit = {}) {
+fun NewGroupButton() {
+    val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
+
     Column {
         Box(
             modifier = Modifier
                 .clickable(
-                    onClick = { addNewGroup() }
+                    onClick = { setShowDialog(true) }
                 )
                 .padding(horizontal = 24.dp, vertical = 15.dp)
         ) {
@@ -113,5 +114,110 @@ fun NewGroupButton(addNewGroup: () -> Unit = {}) {
                 .height(1.dp)
                 .padding(horizontal = 24.dp)
         )
+
+        AddGroupDialog(showDialog, setShowDialog)
+    }
+}
+
+@Composable
+fun AddGroupDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
+    if (showDialog) {
+        Dialog(
+            onDismissRequest = {}
+        ) {
+            Surface(
+                modifier = Modifier.wrapContentSize(),
+                color = White,
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                AddGroupDialogContent(setShowDialog)
+            }
+        }
+    }
+}
+
+@Composable
+fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit = {}) {
+    var groupName by remember { mutableStateOf(TextFieldValue()) }
+
+    Column {
+        Text(
+            text = "새 그룹 추가 ",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(top = 20.dp, start = 16.dp, bottom = 14.dp)
+                .wrapContentSize()
+        )
+
+        TextField(
+            value = groupName,
+            onValueChange = { groupName = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .height(48.dp),
+            singleLine = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = Black,
+                cursorColor = Black,
+                disabledTextColor = Gray_400,
+                backgroundColor = Gray_100,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            ),
+            shape = RoundedCornerShape(8.dp)
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(58.dp)
+                .padding(top = 13.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(
+                onClick = {
+                    setShowDialog(false)
+                },
+                colors = ButtonDefaults.buttonColors(backgroundColor = White),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f),
+                elevation = ButtonDefaults.elevation(
+                    defaultElevation = 0.dp,
+                    pressedElevation = 0.dp,
+                    disabledElevation = 0.dp
+                ),
+            ) {
+                Text(
+                    "취소하기",
+                    fontWeight = FontWeight.Bold,
+                    color = Gray_500
+                )
+            }
+            Button(
+                onClick = {
+                    setShowDialog(false)
+                    addGroup() // TODO: 그룹 추가하기~!!!!
+                },
+                colors = ButtonDefaults.buttonColors(backgroundColor = White),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f),
+                elevation = ButtonDefaults.elevation(
+                    defaultElevation = 0.dp,
+                    pressedElevation = 0.dp,
+                    disabledElevation = 0.dp
+                ),
+            ) {
+                Text(
+                    "추가하기",
+                    fontWeight = FontWeight.Bold,
+                    color = Primary_2
+                )
+            }
+        }
+
     }
 }
