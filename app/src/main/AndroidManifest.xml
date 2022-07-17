@@ -46,6 +46,7 @@
         </activity>
         <activity android:name="com.mashup.presenter.receive_alarm.ReceiveAlarmActivity" />
         <activity android:name="com.mashup.presenter.group_detail.GroupDetailActivity" />
+        <activity android:name="com.mashup.presenter.room_test.RoomTestActivity" />
     </application>
 
 </manifest>
