@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,7 +49,7 @@ fun FriendProfile(friendProfileUiModel: FriendProfileUiModel) {
                 .size(92.dp)
                 .clip(CircleShape)
         )
-        Column {
+        Column{
             Text(
                 modifier = Modifier.padding(start = 16.dp, top = 4.dp),
                 text = friendProfileUiModel.name,
@@ -64,6 +66,7 @@ fun FriendProfile(friendProfileUiModel: FriendProfileUiModel) {
                     buttonText = "프로필 편집",
                     modifier = Modifier
                         .padding(top = 10.dp, start = 32.dp)
+
                 )
             }
         }
