@@ -1,6 +1,5 @@
 package com.mashup.presenter.ui.common
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
@@ -19,6 +18,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -60,7 +60,8 @@ fun ChinChinCommonToolbar(title: String, onBackButtonClick: () -> Unit) {
                 bottom.linkTo(parent.bottom)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-            }
+            },
+            fontWeight = FontWeight.Bold,
         )
     }
 }
@@ -89,12 +90,14 @@ fun ChinChinCommonButton(
     icon: Int,
     buttonText: String,
     modifier: Modifier = Modifier,
+    buttonColor: Color = Grey_400,
     onButtonClick: () -> Unit = {},
 ) {
     OutlinedButton(
         onClick = { onButtonClick() },
         modifier = modifier.defaultMinSize(1.dp, 1.dp),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 11.dp),
+        border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(buttonColor))
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -102,12 +105,13 @@ fun ChinChinCommonButton(
             Icon(
                 painter = painterResource(icon),
                 contentDescription = "",
-                tint = Grey_400
+                tint = buttonColor
             )
             Text(
                 text = buttonText,
-                color = Grey_400,
-                modifier = Modifier.padding(start = 5.dp)
+                color = buttonColor,
+                modifier = Modifier.padding(start = 5.dp),
+                fontWeight = FontWeight.Bold
             )
         }
     }
@@ -167,13 +171,14 @@ private fun ChinChinEnableConfirmButton(
 private fun ChinChinDisableConfirmButton(
     buttonText: String,
     radius: Dp = 10.dp,
+    buttonColor: Color = Grey_500,
     onButtonClick: () -> Unit,
 ) {
     OutlinedButton(
         onClick = { onButtonClick() },
         shape = RoundedCornerShape(radius),
         contentPadding = PaddingValues(vertical = 20.dp),
-        border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(Grey_500)),
+        border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(buttonColor)),
         modifier = Modifier
             .defaultMinSize(minHeight = 1.dp)
             .fillMaxWidth(),
@@ -185,7 +190,7 @@ private fun ChinChinDisableConfirmButton(
         Text(
             text = buttonText,
             fontSize = 16.sp,
-            color = Grey_500,
+            color = buttonColor,
             fontWeight = FontWeight.Bold,
         )
     }

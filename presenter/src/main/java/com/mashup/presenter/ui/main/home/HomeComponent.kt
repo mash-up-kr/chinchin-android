@@ -95,7 +95,7 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
                 highlightText = "${0}",
             )
             ChinChinCommonButton(
-                icon = R.drawable.ic_add_group,
+                icon = R.drawable.icon_group_plus,
                 buttonText = "그룹 추가"
             )
         }
