@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
+import com.mashup.presenter.ui.common.ChinChinTitleAndTextFieldButton
 import com.mashup.presenter.ui.theme.Black
 import com.mashup.presenter.ui.theme.Grey_100
 import com.mashup.presenter.ui.theme.Grey_400
@@ -58,9 +59,9 @@ fun AddFriendContents(
     Column {
         AddFriendNameComponent(friendName = friendName, onValueChanged = onValueChanged)
         Spacer(modifier = Modifier.height(16.dp))
-        AddFriendBirthDayComponent()
+        ChinChinTitleAndTextFieldButton(title = "생일 *", iconRes = R.drawable.icon_calendar)
         Spacer(modifier = Modifier.height(16.dp))
-        AddFriendGroupComponent()
+        ChinChinTitleAndTextFieldButton(title = "친친 그룹 *", iconRes = R.drawable.icon_arrow, placeHolder = "그룹 지정하기")
     }
 }
 
@@ -91,45 +92,6 @@ fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit)
                 fontSize = 14.sp
             )
         )
-    }
-}
-
-@Composable
-fun AddFriendBirthDayComponent(onButtonClick: () -> Unit = {}) {
-    Column {
-        Text(
-            text = "생일 *",
-            fontSize = 16.sp,
-            color = Black,
-            fontWeight = FontWeight.Bold,
-        )
-        Button(
-            onClick = { onButtonClick() },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Grey_100),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 3.dp)
-                .height(48.dp)
-                .defaultMinSize(1.dp, 1.dp),
-            shape = RoundedCornerShape(8.dp),
-            elevation = ButtonDefaults.elevation(
-                defaultElevation = 0.dp,
-                pressedElevation = 0.dp,
-            ),
-            contentPadding = PaddingValues(horizontal = 12.dp),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    painterResource(id = R.drawable.icon_calendar),
-                    "",
-                    tint = Grey_500
-                )
-            }
-        }
     }
 }
 

@@ -1,5 +1,7 @@
 package com.mashup.presenter.ui.common
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
@@ -26,7 +28,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.mashup.presenter.R
 import com.mashup.presenter.ui.theme.Black
+import com.mashup.presenter.ui.theme.Grey_100
 import com.mashup.presenter.ui.theme.Grey_400
 import com.mashup.presenter.ui.theme.Grey_500
 import com.mashup.presenter.ui.theme.Grey_800
@@ -193,5 +197,58 @@ private fun ChinChinDisableConfirmButton(
             color = buttonColor,
             fontWeight = FontWeight.Bold,
         )
+    }
+}
+
+
+@Composable
+fun ChinChinTitleAndTextFieldButton(title: String, iconRes: Int, placeHolder: String = "", onButtonClick: () -> Unit = {}) {
+    Column {
+        Text(
+            text = title,
+            fontSize = 16.sp,
+            color = Black,
+            fontWeight = FontWeight.Bold,
+        )
+        ChinChinTextFieldButton(iconRes = iconRes, placeHolder = placeHolder) {
+            onButtonClick()
+        }
+    }
+}
+
+@Composable
+fun ChinChinTextFieldButton(iconRes: Int, placeHolder: String, onButtonClick: () -> Unit = {}) {
+    Button(
+        onClick = { onButtonClick() },
+        colors = ButtonDefaults.buttonColors(backgroundColor = Grey_100),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 3.dp)
+            .height(48.dp)
+            .defaultMinSize(1.dp, 1.dp),
+        shape = RoundedCornerShape(8.dp),
+        elevation = ButtonDefaults.elevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 0.dp,
+        ),
+        contentPadding = PaddingValues(horizontal = 12.dp),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            // placeHolder
+            Text(
+                text = placeHolder,
+                color = Grey_400,
+                fontSize = 14.sp
+            )
+            Icon(
+                painterResource(id = iconRes),
+                "",
+                tint = Grey_500
+            )
+        }
     }
 }
