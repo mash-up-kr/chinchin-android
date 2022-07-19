@@ -176,28 +176,3 @@ fun AddFriendGroupComponent(onButtonClick: () -> Unit = {}) {
         }
     }
 }
-
-@Composable
-fun AddFriendEnableConfirmButton(onButtonClick: () -> Unit) {
-    Button(
-        onClick = { onButtonClick() },
-        shape = RoundedCornerShape(10.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Primary_1),
-        contentPadding = PaddingValues(vertical = 20.dp),
-        modifier = Modifier
-            .defaultMinSize(minHeight = 1.dp)
-            .fillMaxWidth()
-            .padding(bottom = 32.dp),
-        elevation = ButtonDefaults.elevation(
-            defaultElevation = 0.dp,
-            pressedElevation = 0.dp,
-        ),
-    ) {
-        Text(
-            text = "친구 취향 기록하기",
-            fontSize = 16.sp,
-            color = Grey_800,
-            fontWeight = FontWeight.Bold,
-        )
-    }
-}

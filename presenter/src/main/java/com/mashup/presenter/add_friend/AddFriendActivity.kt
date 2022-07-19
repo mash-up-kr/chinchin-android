@@ -12,16 +12,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.presenter.ui.add_friend.AddFriendContents
-import com.mashup.presenter.ui.add_friend.AddFriendEnableConfirmButton
 import com.mashup.presenter.ui.add_friend.AddFriendTitles
 import com.mashup.presenter.ui.common.ChinChinCommonToolbar
+import com.mashup.presenter.ui.common.ChinChinConfirmButton
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -62,7 +61,7 @@ fun AddFriendScreen(onActivityFinish: () -> Unit = {}) {
                 .fillMaxHeight()
                 .padding(horizontal = 24.dp),
         ) {
-            Column{
+            Column {
                 AddFriendTitles()
                 Spacer(modifier = Modifier.height(32.dp))
                 AddFriendContents(
@@ -71,7 +70,10 @@ fun AddFriendScreen(onActivityFinish: () -> Unit = {}) {
                 )
             }
 
-            AddFriendEnableConfirmButton {}
+            Column {
+                ChinChinConfirmButton(buttonText = "친구 취향 기록하기") {}
+                Spacer(modifier = Modifier.height(32.dp))
+            }
         }
     }
 }
