@@ -1,33 +1,27 @@
 package com.mashup.presenter.ui.common
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.mashup.presenter.ui.theme.Black
-import com.mashup.presenter.ui.theme.Grey_400
-import com.mashup.presenter.ui.theme.Primary_2
+import com.mashup.presenter.ui.theme.*
 
 @Composable
 fun ChinChinToolbar(title: String, onBackButtonClick: () -> Unit) {
     ConstraintLayout(
-        modifier = Modifier.fillMaxWidth().height(56.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp),
     ) {
         val (iconRef, textRef) = createRefs()
 
@@ -62,7 +56,8 @@ fun ChinChinText(text: String, highlightText: String, modifier: Modifier = Modif
         Text(
             text = text,
             color = Black,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
         )
         Text(
             text = highlightText,
@@ -101,6 +96,33 @@ fun ChinChinButton(
                 modifier = Modifier.padding(start = 5.dp)
             )
         }
+    }
+}
+
+@Composable
+fun ChinChinYellowButton(
+    text: String,
+    fontSize: TextUnit,
+    modifier: Modifier = Modifier,
+    onButtonClick: () -> Unit = {}
+) {
+    Button(
+        onClick = { onButtonClick() },
+        shape = RoundedCornerShape(64.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Primary_1),
+        contentPadding = PaddingValues(horizontal = 30.dp, vertical = 20.dp),
+        modifier = modifier,
+        elevation = ButtonDefaults.elevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 0.dp,
+        ),
+    ) {
+        Text(
+            text = text,
+            fontWeight = FontWeight.Bold,
+            fontSize = fontSize,
+            color = Grey_800,
+        )
     }
 }
 

@@ -1,20 +1,15 @@
 package com.mashup.presenter.ui.friend_detail
 
-import com.mashup.presenter.R
-
 enum class FriendDetailNavScreen(
     val route: String,
-    val iconResId: Int,
     val title: String,
 ) {
     AnswerFromFriend(
         route = "answerFromFriend",
-        iconResId = R.drawable.ic_answer_from_friend,
         title = "친구 대답"
     ),
     ExpectedAnswer(
         route = "expectedAnswer",
-        iconResId = R.drawable.ic_expected_answer,
         title = "내가 쓴 답"
     );
 

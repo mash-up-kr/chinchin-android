@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,7 +46,7 @@ fun FriendProfile(friendProfileUiModel: FriendProfileUiModel) {
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(92.dp)
-                .clip(CircleShape)
+                .clip(CircleShape),
         )
         Column{
             Text(
@@ -57,15 +56,20 @@ fun FriendProfile(friendProfileUiModel: FriendProfileUiModel) {
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1
+                maxLines = 1,
             )
-            Row(Modifier.padding(start = 18.dp, top = 2.dp)) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 18.dp, top = 2.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
                 FriendProfileSubInfo(friendProfileUiModel.birthday, friendProfileUiModel.groupName)
                 ChinChinButton(
                     icon = R.drawable.ic_edit,
                     buttonText = "프로필 편집",
                     modifier = Modifier
-                        .padding(top = 10.dp, start = 32.dp)
+                        .align(Alignment.CenterVertically)
 
                 )
             }
