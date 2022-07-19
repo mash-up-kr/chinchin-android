@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
@@ -39,6 +40,7 @@ fun AddFriendTitles() {
             text = "친구의 인적사항 및 그룹을 지정해주세요",
             fontSize = 18.sp,
             color = Grey_800,
+            fontWeight = FontWeight.Bold,
         )
         Text(
             text = "아래 항목들은 언제든지 수정가능합니다.",
@@ -51,7 +53,7 @@ fun AddFriendTitles() {
 
 @Composable
 fun AddFriendContents(
-    friendName: String, onValueChanged: (String) -> Unit
+    friendName: String, onValueChanged: (String) -> Unit,
 ) {
     Column {
         AddFriendNameComponent(friendName = friendName, onValueChanged = onValueChanged)
@@ -65,7 +67,12 @@ fun AddFriendContents(
 @Composable
 fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit) {
     Column {
-        Text(text = "이름 *", fontSize = 16.sp, color = Black)
+        Text(
+            text = "이름 *",
+            fontSize = 16.sp,
+            color = Black,
+            fontWeight = FontWeight.Bold,
+        )
         TextField(
             value = friendName,
             onValueChange = { onValueChanged(it) },
@@ -90,7 +97,12 @@ fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit)
 @Composable
 fun AddFriendBirthDayComponent(onButtonClick: () -> Unit = {}) {
     Column {
-        Text(text = "생일 *", fontSize = 16.sp, color = Black)
+        Text(
+            text = "생일 *",
+            fontSize = 16.sp,
+            color = Black,
+            fontWeight = FontWeight.Bold,
+        )
         Button(
             onClick = { onButtonClick() },
             colors = ButtonDefaults.buttonColors(backgroundColor = Grey_100),
@@ -124,7 +136,12 @@ fun AddFriendBirthDayComponent(onButtonClick: () -> Unit = {}) {
 @Composable
 fun AddFriendGroupComponent(onButtonClick: () -> Unit = {}) {
     Column {
-        Text(text = "친친 그룹 *", fontSize = 16.sp, color = Black)
+        Text(
+            text = "친친 그룹 *",
+            fontSize = 16.sp,
+            color = Black,
+            fontWeight = FontWeight.Bold,
+        )
         Button(
             onClick = { onButtonClick() },
             colors = ButtonDefaults.buttonColors(backgroundColor = Grey_100),
@@ -180,6 +197,7 @@ fun AddFriendEnableConfirmButton(onButtonClick: () -> Unit) {
             text = "친구 취향 기록하기",
             fontSize = 16.sp,
             color = Grey_800,
+            fontWeight = FontWeight.Bold,
         )
     }
 }
