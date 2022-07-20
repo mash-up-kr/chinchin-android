@@ -19,10 +19,10 @@ import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
 import com.mashup.presenter.ui.common.ChinChinTitleAndTextFieldButton
 import com.mashup.presenter.ui.theme.Black
-import com.mashup.presenter.ui.theme.Grey_100
-import com.mashup.presenter.ui.theme.Grey_400
-import com.mashup.presenter.ui.theme.Grey_500
-import com.mashup.presenter.ui.theme.Grey_800
+import com.mashup.presenter.ui.theme.Gray_100
+import com.mashup.presenter.ui.theme.Gray_400
+import com.mashup.presenter.ui.theme.Gray_500
+import com.mashup.presenter.ui.theme.Gray_800
 
 @Composable
 fun AddFriendTitles() {
@@ -30,13 +30,13 @@ fun AddFriendTitles() {
         Text(
             text = "친구의 인적사항 및 그룹을 지정해주세요",
             fontSize = 18.sp,
-            color = Grey_800,
+            color = Gray_800,
             fontWeight = FontWeight.Bold,
         )
         Text(
             text = "아래 항목들은 언제든지 수정가능합니다.",
             fontSize = 12.sp,
-            color = Grey_500,
+            color = Gray_500,
             modifier = Modifier.padding(top = 8.dp),
         )
     }
@@ -68,7 +68,7 @@ fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit)
             value = friendName,
             onValueChange = { onValueChanged(it) },
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Grey_100,
+                backgroundColor = Gray_100,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
@@ -77,7 +77,7 @@ fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit)
                 .fillMaxWidth()
                 .padding(top = 3.dp)
                 .height(48.dp),
-            placeholder = { Text(text = "친구 이름", color = Grey_400) },
+            placeholder = { Text(text = "친구 이름", color = Gray_400) },
             textStyle = LocalTextStyle.current.copy(
                 fontSize = 14.sp
             )

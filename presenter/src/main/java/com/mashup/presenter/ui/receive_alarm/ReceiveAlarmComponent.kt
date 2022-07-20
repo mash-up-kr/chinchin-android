@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.mashup.presenter.receive_alarm.model.RequestAlarmUiModel
 import com.mashup.presenter.ui.theme.Black
-import com.mashup.presenter.ui.theme.Grey_100
+import com.mashup.presenter.ui.theme.Gray_100
 import com.mashup.presenter.ui.theme.Primary_2
 
 @Composable
@@ -79,7 +79,7 @@ fun ReceiveAlarmItem(
             .fillMaxWidth()
             .height(66.dp)
             .padding(start = 24.dp, end = 24.dp)
-            .background(color = Grey_100, shape = RoundedCornerShape(8.dp)),
+            .background(color = Gray_100, shape = RoundedCornerShape(8.dp)),
     ) {
         val (requestAlarmInfoRef, moveRequestQuestionButtonRef) = createRefs()
         

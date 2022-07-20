@@ -28,17 +28,16 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.mashup.presenter.R
 import com.mashup.presenter.ui.theme.Black
-import com.mashup.presenter.ui.theme.Grey_100
-import com.mashup.presenter.ui.theme.Grey_400
-import com.mashup.presenter.ui.theme.Grey_500
-import com.mashup.presenter.ui.theme.Grey_800
+import com.mashup.presenter.ui.theme.Gray_100
+import com.mashup.presenter.ui.theme.Gray_400
+import com.mashup.presenter.ui.theme.Gray_500
+import com.mashup.presenter.ui.theme.Gray_800
 import com.mashup.presenter.ui.theme.Primary_1
 import com.mashup.presenter.ui.theme.Primary_2
 
 @Composable
-fun ChinChinCommonToolbar(title: String, onBackButtonClick: () -> Unit) {
+fun ChinChinToolbar(title: String, onBackButtonClick: () -> Unit) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -71,7 +70,7 @@ fun ChinChinCommonToolbar(title: String, onBackButtonClick: () -> Unit) {
 }
 
 @Composable
-fun ChinChinCommonText(text: String, highlightText: String, modifier: Modifier = Modifier) {
+fun ChinChinText(text: String, highlightText: String, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
     ) {
@@ -90,18 +89,19 @@ fun ChinChinCommonText(text: String, highlightText: String, modifier: Modifier =
 }
 
 @Composable
-fun ChinChinCommonButton(
+fun ChinChinButton(
     icon: Int,
     buttonText: String,
     modifier: Modifier = Modifier,
-    buttonColor: Color = Grey_400,
+    buttonColor: Color = Gray_400,
     onButtonClick: () -> Unit = {},
 ) {
     OutlinedButton(
         onClick = { onButtonClick() },
         modifier = modifier.defaultMinSize(1.dp, 1.dp),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 11.dp),
-        border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(buttonColor))
+        border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(buttonColor)),
+        shape = RoundedCornerShape(8.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -115,7 +115,8 @@ fun ChinChinCommonButton(
                 text = buttonText,
                 color = buttonColor,
                 modifier = Modifier.padding(start = 5.dp),
-                fontWeight = FontWeight.Bold
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
             )
         }
     }
@@ -165,7 +166,7 @@ private fun ChinChinEnableConfirmButton(
         Text(
             text = buttonText,
             fontSize = 16.sp,
-            color = Grey_800,
+            color = Gray_800,
             fontWeight = FontWeight.Bold,
         )
     }
@@ -175,7 +176,7 @@ private fun ChinChinEnableConfirmButton(
 private fun ChinChinDisableConfirmButton(
     buttonText: String,
     radius: Dp = 10.dp,
-    buttonColor: Color = Grey_500,
+    buttonColor: Color = Gray_500,
     onButtonClick: () -> Unit,
 ) {
     OutlinedButton(
@@ -220,7 +221,7 @@ fun ChinChinTitleAndTextFieldButton(title: String, iconRes: Int, placeHolder: St
 fun ChinChinTextFieldButton(iconRes: Int, placeHolder: String, onButtonClick: () -> Unit = {}) {
     Button(
         onClick = { onButtonClick() },
-        colors = ButtonDefaults.buttonColors(backgroundColor = Grey_100),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Gray_100),
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 3.dp)
@@ -241,13 +242,13 @@ fun ChinChinTextFieldButton(iconRes: Int, placeHolder: String, onButtonClick: ()
             // placeHolder
             Text(
                 text = placeHolder,
-                color = Grey_400,
+                color = Gray_400,
                 fontSize = 14.sp
             )
             Icon(
                 painterResource(id = iconRes),
                 "",
-                tint = Grey_500
+                tint = Gray_500
             )
         }
     }

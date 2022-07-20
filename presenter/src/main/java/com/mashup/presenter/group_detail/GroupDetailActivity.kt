@@ -17,9 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.presenter.R
 import com.mashup.presenter.group_detail.model.GroupDetailUiModel
-import com.mashup.presenter.ui.common.ChinChinCommonButton
-import com.mashup.presenter.ui.common.ChinChinCommonText
-import com.mashup.presenter.ui.common.ChinChinCommonToolbar
+import com.mashup.presenter.ui.common.ChinChinButton
+import com.mashup.presenter.ui.common.ChinChinText
+import com.mashup.presenter.ui.common.ChinChinToolbar
 import com.mashup.presenter.ui.group_detail.GroupDetailList
 import com.mashup.presenter.ui.theme.ChinchinTheme
 
@@ -62,7 +62,7 @@ fun GroupDetailScreen(
     finishActivity: () -> Unit = {}
 ) {
     Column {
-        ChinChinCommonToolbar(
+        ChinChinToolbar(
             title = "매쉬업",
         ) {
             finishActivity()
@@ -73,8 +73,8 @@ fun GroupDetailScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ChinChinCommonText(text = "전체", highlightText = "${groupDetailUiModels.size}")
-            ChinChinCommonButton(icon = R.drawable.icon_user_more1, buttonText = "친구 추가")
+            ChinChinText(text = "전체", highlightText = "${groupDetailUiModels.size}")
+            ChinChinButton(icon = R.drawable.icon_user_more1, buttonText = "친구 추가")
         }
         Spacer(modifier = Modifier.height(16.dp))
         GroupDetailList(groupDetailUiModels)

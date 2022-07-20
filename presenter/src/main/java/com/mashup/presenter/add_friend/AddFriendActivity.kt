@@ -19,8 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.presenter.ui.add_friend.AddFriendContents
 import com.mashup.presenter.ui.add_friend.AddFriendTitles
-import com.mashup.presenter.ui.common.ChinChinCommonToolbar
 import com.mashup.presenter.ui.common.ChinChinConfirmButton
+import com.mashup.presenter.ui.common.ChinChinToolbar
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,7 +51,7 @@ fun AddFriendScreen(onActivityFinish: () -> Unit = {}) {
     Column(
         modifier = Modifier.fillMaxHeight(),
     ) {
-        ChinChinCommonToolbar(title = "친구 추가하기") {
+        ChinChinToolbar(title = "친구 추가하기") {
             onActivityFinish()
         }
         Spacer(modifier = Modifier.height(16.dp))

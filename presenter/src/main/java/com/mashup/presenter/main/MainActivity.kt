@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -12,14 +16,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.mashup.presenter.main.model.RecommendFriendUiModel
+import com.mashup.presenter.main.model.FriendGroupUiModel
+import com.mashup.presenter.main.model.FriendUiModel
 import com.mashup.presenter.ui.main.MainNavBar
 import com.mashup.presenter.ui.main.MainNavGraph
 import com.mashup.presenter.ui.main.MainNavScreen
+import com.mashup.presenter.ui.main.home.FriendsGroupList
 import com.mashup.presenter.ui.main.home.HomeHeader
+import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsListBody
+import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsHeader
+import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
+import com.mashup.presenter.ui.main.home.HomeBody
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,20 +45,25 @@ class MainActivity : ComponentActivity() {
             ChinchinTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     MainScreen(
-                        listOf(
-                            MainNavScreen.Home,
-                            MainNavScreen.RecommendFriends,
-                            MainNavScreen.More,
-                        )
+                        recommendFriends = initRecommendFriends()
                     )
                 }
             }
         }
     }
+
+    private fun initRecommendFriends(): List<RecommendFriendUiModel> {
+        return List(25) {
+            RecommendFriendUiModel("good", "안경무 $it")
+        }
+    }
 }
 
 @Composable
-fun MainScreen(screens: List<MainNavScreen> = listOf()) {
+fun MainScreen(
+    screens: List<MainNavScreen> =  MainNavScreen.values().toList(),
+    recommendFriends: List<RecommendFriendUiModel> = listOf()
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
@@ -59,26 +78,52 @@ fun MainScreen(screens: List<MainNavScreen> = listOf()) {
             }
         }
     ) {
-        MainNavGraph(navController = navController)
+        MainNavGraph(
+            navController = navController,
+            recommendFriends = recommendFriends,
+        )
     }
 }
 
 @Composable
 fun HomeScreen() {
-    HomeHeader()
+    val groups = mutableListOf<FriendGroupUiModel>()
+
+    repeat(20) {
+        val dummyGroup = FriendGroupUiModel(
+            name = "매쉬업 사람들",
+            friends = listOf(
+                FriendUiModel("히지니", "https://picsum.photos/200"),
+                FriendUiModel("혜찌니", "https://picsum.photos/200"),
+                FriendUiModel("경무", "https://picsum.photos/200"),
+                FriendUiModel("히지니", "https://picsum.photos/200"),
+                FriendUiModel("혜찌니", "https://picsum.photos/200"),
+                FriendUiModel("경무", "https://picsum.photos/200")
+            )
+        )
+        groups.add(dummyGroup)
+    }
+
+    Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp)) {
+        HomeHeader()
+        HomeBody(groups)
+    }
 }
 
 @Composable
-fun RecommendFriendsScreen() {
-    ConstraintLayout(modifier = Modifier.background(Color.Cyan)) {
+fun RecommendFriendsScreen(recommendFriendsList: List<RecommendFriendUiModel> = listOf()) {
+    Column(
+        modifier = Modifier.padding(horizontal = 24.dp)
+    ) {
+        RecommendFriendsHeader(recommendFriendsList.size)
+        Spacer(modifier = Modifier.height(7.dp))
 
-        val text = createRef()
-        Text("RecommendFriends", Modifier.constrainAs(text) {
-            top.linkTo(parent.top)
-            bottom.linkTo(parent.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-        })
+        /* TODO: 퍼미션 체크를 기준으로 변경하자 */
+        if (recommendFriendsList.isEmpty()) {
+            RecommendFriendsPermissionBody()
+        } else {
+            RecommendFriendsListBody(recommendFriendsList)
+        }
     }
 }
 
@@ -93,5 +138,21 @@ fun MoreScreen() {
             start.linkTo(parent.start)
             end.linkTo(parent.end)
         })
+    }
+}
+
+@Composable
+@Preview
+fun PreviewMain() {
+    ChinchinTheme {
+        Surface(color = MaterialTheme.colors.background) {
+            MainScreen(
+                listOf(
+                    MainNavScreen.Home,
+                    MainNavScreen.RecommendFriends,
+                    MainNavScreen.More,
+                )
+            )
+        }
     }
 }
