@@ -22,29 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.mashup.presenter.R
-import com.mashup.presenter.main.model.FriendUiModel
 import com.mashup.presenter.main.model.FriendGroupUiModel
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import com.mashup.presenter.main.model.FriendUiModel
 import com.mashup.presenter.ui.common.ChinChinButton
 import com.mashup.presenter.ui.common.ChinChinText
-import com.mashup.presenter.ui.theme.Black
-import com.mashup.presenter.ui.theme.Grey_800
-import com.mashup.presenter.ui.theme.Primary_1
-import com.mashup.presenter.ui.theme.ChinchinTheme
-import com.mashup.presenter.ui.theme.Grey_500
-import com.mashup.presenter.ui.theme.Secondary_1
+import com.mashup.presenter.ui.theme.*
 
 
 @Composable
@@ -60,9 +42,7 @@ fun HomeBody(groups: List<FriendGroupUiModel> = listOf(), addGroup: () -> Unit =
 
 @Composable
 fun EmptyFriendGroups(addGroup: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = "텅 비었어요!",
             fontSize = 24.sp,
@@ -76,10 +56,11 @@ fun EmptyFriendGroups(addGroup: () -> Unit) {
                 backgroundColor = Color.Transparent,
                 contentColor = Grey_500
             ),
+            shape = RoundedCornerShape(8.dp),
             contentPadding = PaddingValues(0.dp),
             border = BorderStroke(1.dp, Grey_500),
             modifier = Modifier
-                .padding(top = 20.dp, start = 24.dp, end = 24.dp)
+                .padding(top = 20.dp)
                 .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
         ) {
             Text(
@@ -98,12 +79,15 @@ fun EmptyFriendGroups(addGroup: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
-    HomeHeader()
+    Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp)) {
+        HomeHeader()
+        HomeBody()
+    }
 }
 
 @Composable
 fun HomeHeader(onButtonClick: () -> Unit = {}) {
-    Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp)) {
+    Column {
         /* TODO: Image 로 변경될 예정 */
         Text(
             text = "친친",
@@ -190,8 +174,6 @@ fun FriendGroupCard(friendGroup: FriendGroupUiModel) {
     val group = friendGroup
 
     Card(
-        modifier = Modifier
-            .padding(horizontal = 24.dp),
         shape = RoundedCornerShape(8.dp),
         backgroundColor = Secondary_1,
         elevation = 0.dp
@@ -296,12 +278,4 @@ fun FriendProfileThumbnail(thumbnailUrl: String) {
             .clip(CircleShape)
             .border(2.dp, Secondary_1, CircleShape)
     )
-}
-
-@Composable
-@Preview
-fun PreviewFriendCardView() {
-    ChinchinTheme {
-        HomeBody()
-    }
 }

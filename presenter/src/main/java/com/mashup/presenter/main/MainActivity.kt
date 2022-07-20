@@ -87,8 +87,9 @@ fun MainScreen(
 
 @Composable
 fun HomeScreen() {
-    HomeHeader()
-    ConstraintLayout(modifier = Modifier.background(Color.Cyan)) {
+    val groups = mutableListOf<FriendGroupUiModel>()
+
+    repeat(20) {
         val dummyGroup = FriendGroupUiModel(
             name = "매쉬업 사람들",
             friends = listOf(
@@ -100,16 +101,13 @@ fun HomeScreen() {
                 FriendUiModel("경무", "https://picsum.photos/200")
             )
         )
-        val groups = mutableListOf<FriendGroupUiModel>()
-        repeat(20) {
-            groups.add(dummyGroup)
-        }
-
-        Column {
-            FriendsGroupList(groups)
-        }
+        groups.add(dummyGroup)
     }
-    HomeBody()
+
+    Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp)) {
+        HomeHeader()
+        HomeBody(groups)
+    }
 }
 
 @Composable
