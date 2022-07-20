@@ -1,4 +1,4 @@
-package com.mashup.presenter.ui
+package com.mashup.presenter.ui.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer

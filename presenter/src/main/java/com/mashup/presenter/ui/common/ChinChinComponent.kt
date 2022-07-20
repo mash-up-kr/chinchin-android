@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.mashup.presenter.ui.theme.Black
-import com.mashup.presenter.ui.theme.Grey_400
+import com.mashup.presenter.ui.theme.Gray_400
 import com.mashup.presenter.ui.theme.Primary_2
 
 @Composable
@@ -92,11 +92,11 @@ fun ChinChinButton(
             Icon(
                 painter = painterResource(icon),
                 contentDescription = "",
-                tint = Grey_400
+                tint = Gray_400
             )
             Text(
                 text = buttonText,
-                color = Grey_400,
+                color = Gray_400,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(start = 5.dp)
             )

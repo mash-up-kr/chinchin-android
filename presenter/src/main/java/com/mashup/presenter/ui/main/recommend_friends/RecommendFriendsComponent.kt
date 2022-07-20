@@ -28,9 +28,9 @@ import com.mashup.presenter.R
 import com.mashup.presenter.main.model.RecommendFriendUiModel
 import com.mashup.presenter.ui.common.ChinChinButton
 import com.mashup.presenter.ui.common.ChinChinText
-import com.mashup.presenter.ui.theme.Grey_500
-import com.mashup.presenter.ui.theme.Grey_700
-import com.mashup.presenter.ui.theme.Grey_800
+import com.mashup.presenter.ui.theme.Gray_500
+import com.mashup.presenter.ui.theme.Gray_700
+import com.mashup.presenter.ui.theme.Gray_800
 import com.mashup.presenter.ui.theme.Primary_1
 
 @Composable
@@ -60,7 +60,7 @@ fun RecommendFriendsPermissionBody() {
     ) {
         Text(
             text = "내 카톡 친구를 찾아보세요",
-            color = Grey_700,
+            color = Gray_700,
             fontSize = 20.sp
         )
 
@@ -68,7 +68,7 @@ fun RecommendFriendsPermissionBody() {
             text = "친구찾기 기능을 통해 친친에 가입한 친구들을\n" +
                 "찾을 수 있습니다. 친구들에게 취향질문지를 보내고\n" +
                 "친구에 대해 알아가보세요!",
-            color = Grey_500,
+            color = Gray_500,
             fontSize = 14.sp,
             modifier = Modifier.padding(top = 16.dp)
         )
@@ -104,7 +104,7 @@ fun RequestPermissionButton(onButtonClick: () -> Unit = {}) {
         Text(
             text = "권한 동의하고 친구 찾기",
             fontSize = 16.sp,
-            color = Grey_800,
+            color = Gray_800,
         )
     }
 }

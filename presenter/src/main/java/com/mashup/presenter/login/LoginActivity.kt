@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kakao.sdk.user.UserApiClient
-import com.mashup.presenter.ui.IntroductionImage
-import com.mashup.presenter.ui.IntroductionText
-import com.mashup.presenter.ui.KakaoLoginButton
+import com.mashup.presenter.ui.login.IntroductionImage
+import com.mashup.presenter.ui.login.IntroductionText
+import com.mashup.presenter.ui.login.KakaoLoginButton
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
