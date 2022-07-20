@@ -52,7 +52,7 @@ fun AddFriendScreen(onActivityFinish: () -> Unit = {}) {
         modifier = Modifier.fillMaxHeight(),
     ) {
         ChinChinCommonToolbar(title = "친구 추가하기") {
-            onActivityFinish.invoke()
+            onActivityFinish()
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(
