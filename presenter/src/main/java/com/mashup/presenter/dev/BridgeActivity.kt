@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.mashup.presenter.add_friend.AddFriendActivity
+import com.mashup.presenter.friend_detail.FriendDetailActivity
 import com.mashup.presenter.group_detail.GroupDetailActivity
 import com.mashup.presenter.login.LoginActivity
 import com.mashup.presenter.main.MainActivity
@@ -34,6 +35,7 @@ class BridgeActivity : ComponentActivity() {
                             ReceiveAlarmActivity::class.java,
                             GroupDetailActivity::class.java,
                             RoomTestActivity::class.java,
+                            FriendDetailActivity::class.java,
                             SetGroupActivity::class.java,
                             AddFriendActivity::class.java,
                         )
