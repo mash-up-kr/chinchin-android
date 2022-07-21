@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mashup.presenter.friend_detail.model.EmptyQuestionUiModel
 import com.mashup.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.presenter.friend_detail.model.QuestionUiModel
 import com.mashup.presenter.ui.common.ChinChinToolbar
@@ -43,8 +40,8 @@ class FriendDetailActivity : ComponentActivity() {
     companion object {
         fun initScreen(): List<FriendDetailNavScreen> {
             return listOf(
-                FriendDetailNavScreen.AnswerFromFriend,
-                FriendDetailNavScreen.ExpectedAnswer,
+                FriendDetailNavScreen.ANSWER_FROM_FRIEND,
+                FriendDetailNavScreen.ANSWER_EXPECTED,
             )
         }
 
@@ -154,25 +151,9 @@ fun AnswerFromFriendScreen(
     modifier: Modifier = Modifier,
 ) {
     if (answersFromFriend.isEmpty()) {
-        EmptyQuestionContent(
-            EmptyQuestionUiModel(
-                mainText = "친구 대답을 확인할 수 없어요!",
-                subText = "친구의 취향을 기록해 보세요",
-                buttonText = "친구 취향 기록하기",
-            )
-        )
+        EmptyQuestionContent(true)
     } else {
-        Column {
-            QuestionSizeText(answersFromFriend.size)
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(14.dp),
-                modifier = modifier
-            ) {
-                itemsIndexed(answersFromFriend) { index, answer ->
-                    QuestionItem(index + 1, answer)
-                }
-            }
-        }
+        QuestionAnswerListContent(answersFromFriend, modifier)
     }
 }
 
@@ -185,31 +166,12 @@ fun AnswersExpectedScreen(
 
     if (answersExpected.isEmpty()) {
         if (isSavedTempQuestions) {
-            Column {
-                QuestionSizeText(answersExpected.size)
-                TempSavedQuestionCard()
-            }
+            TempSavedQuestionContent(answersExpected.size)
         } else {
-            EmptyQuestionContent(
-                EmptyQuestionUiModel(
-                    mainText = "아직 보낸 취향 질문이 없어요!",
-                    subText = "친구에게 질문을 보내고 취향을 알아가보세요",
-                    buttonText = "친구 질문 보내기",
-                )
-            )
+            EmptyQuestionContent(false)
         }
     } else {
-        Column {
-            QuestionSizeText(answersExpected.size)
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(14.dp),
-                modifier = modifier,
-            ) {
-                itemsIndexed(answersExpected) { index, answer ->
-                    QuestionItem(index = index + 1, questionUiModel = answer)
-                }
-            }
-        }
+        QuestionAnswerListContent(answersExpected, modifier)
     }
 }
 

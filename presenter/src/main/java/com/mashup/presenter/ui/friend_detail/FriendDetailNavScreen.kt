@@ -4,11 +4,11 @@ enum class FriendDetailNavScreen(
     val route: String,
     val title: String,
 ) {
-    AnswerFromFriend(
+    ANSWER_FROM_FRIEND(
         route = "answerFromFriend",
         title = "친구 대답"
     ),
-    ExpectedAnswer(
+    ANSWER_EXPECTED(
         route = "expectedAnswer",
         title = "내가 쓴 답"
     );
@@ -16,9 +16,9 @@ enum class FriendDetailNavScreen(
     companion object {
         fun fromRoute(route: String?): FriendDetailNavScreen =
             when (route?.substringBefore("/")) {
-                AnswerFromFriend.route -> AnswerFromFriend
-                ExpectedAnswer.route -> ExpectedAnswer
-                null -> AnswerFromFriend
+                ANSWER_FROM_FRIEND.route -> ANSWER_FROM_FRIEND
+                ANSWER_EXPECTED.route -> ANSWER_EXPECTED
+                null -> ANSWER_FROM_FRIEND
                 else -> throw IllegalArgumentException("Route $route is not recognized.")
             }
     }

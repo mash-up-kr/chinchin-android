@@ -56,8 +56,7 @@ fun ChinChinText(text: String, highlightText: String, modifier: Modifier = Modif
         Text(
             text = text,
             color = Black,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
+            fontSize = 18.sp
         )
         Text(
             text = highlightText,
@@ -100,7 +99,7 @@ fun ChinChinButton(
 }
 
 @Composable
-fun ChinChinYellowButton(
+fun ChinChinActingButton(
     text: String,
     fontSize: TextUnit,
     modifier: Modifier = Modifier,

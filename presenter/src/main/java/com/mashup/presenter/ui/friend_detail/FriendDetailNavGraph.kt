@@ -17,12 +17,12 @@ fun FriendDetailNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = FriendDetailNavScreen.AnswerFromFriend.route
+        startDestination = FriendDetailNavScreen.ANSWER_FROM_FRIEND.route
     ) {
-        composable(route = FriendDetailNavScreen.AnswerFromFriend.route) {
+        composable(route = FriendDetailNavScreen.ANSWER_FROM_FRIEND.route) {
             AnswerFromFriendScreen(answersFromFriend)
         }
-        composable(route = FriendDetailNavScreen.ExpectedAnswer.route) {
+        composable(route = FriendDetailNavScreen.ANSWER_EXPECTED.route) {
             AnswersExpectedScreen(expectedAnswers, isSavedTempQuestions)
         }
     }
