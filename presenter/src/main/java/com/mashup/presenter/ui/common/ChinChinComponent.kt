@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.mashup.presenter.friend_detail.model.QuestionUiModel
+import com.mashup.presenter.ui.friend_detail.NumberIcon
 import com.mashup.presenter.ui.theme.*
 
 @Composable
@@ -264,3 +266,50 @@ fun ChinChinActingButton(
     }
 }
 
+@Composable
+fun ChinChinQuestionCard(index: Int, questionUiModel: QuestionUiModel) {
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        elevation = 0.dp,
+        backgroundColor = Primary_1,
+    ) {
+        Column {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 14.dp)
+                    .padding(top = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                NumberIcon(index)
+                Text(
+                    text = questionUiModel.question,
+                    color = Gray_800,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp)
+                )
+
+            }
+
+            Card(
+                shape = RoundedCornerShape(8.dp),
+                elevation = 0.dp,
+                backgroundColor = White,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 8.dp, bottom = 16.dp)
+            ) {
+                Text(
+                    text = questionUiModel.answer,
+                    color = Gray_800,
+                    fontSize = 14.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                )
+            }
+        }
+    }
+}
