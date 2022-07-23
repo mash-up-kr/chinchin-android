@@ -2,17 +2,57 @@ package com.mashup.presenter.ui.reply_preference
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.mashup.presenter.common.ChinChinQuestionCardState
 import com.mashup.presenter.common.model.QuestionUiModel
 import com.mashup.presenter.ui.common.ChinChinQuestionCard
 import com.mashup.presenter.ui.common.ChinChinText
+import com.mashup.presenter.ui.theme.Gray_500
+import com.mashup.presenter.ui.theme.Gray_800
+
+@Composable
+fun ReplyPreferenceTitle(userName: String) {
+    Column {
+        Row {
+            Text(
+                text = userName,
+                color = Gray_800,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+            )
+            Text(
+                text = "님이 보낸 질문에",
+                color = Gray_500,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        }
+        Row(modifier = Modifier.padding(top = 2.dp)) {
+            Text(
+                text = "나의 취향을 답변",
+                color = Gray_800,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+            )
+            Text(
+                text = "해보세요!",
+                color = Gray_500,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+            )
+        }
+    }
+}
 
 @Composable
 fun ReplyPreferenceQuestionList(modifier: Modifier = Modifier, questions: List<QuestionUiModel>) {

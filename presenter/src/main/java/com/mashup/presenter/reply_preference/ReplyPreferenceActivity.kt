@@ -10,15 +10,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.common.model.QuestionUiModel
 import com.mashup.presenter.ui.common.ChinChinToolbar
 import com.mashup.presenter.ui.reply_preference.ReplyPreferenceQuestionList
+import com.mashup.presenter.ui.reply_preference.ReplyPreferenceTitle
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import com.mashup.presenter.ui.theme.Gray_600
-import com.mashup.presenter.ui.theme.Gray_800
 
 
 class ReplyPreferenceActivity : ComponentActivity() {
@@ -44,21 +43,16 @@ class ReplyPreferenceActivity : ComponentActivity() {
 @Composable
 fun ReplyPreferenceScreen(
     questions: List<QuestionUiModel> = listOf(),
-    onActivityFinish: () -> Unit = {},
+    userName: String = "영은",
+    onBackButtonClick: () -> Unit = {},
 ) {
     Column {
         ChinChinToolbar(title = "취향 질문 답변하기", isActiveConfirmButton = true) {
-            onActivityFinish()
+            onBackButtonClick()
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-            /* TODO: 유저에 따라 이름 적용 */
-            Text(
-                text = "영은 님이 보낸 질문에\n나의 취향을 답변해보세요!",
-                color = Gray_800,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-            )
+            ReplyPreferenceTitle(userName)
             Text(
                 text = "친구가 쓴 예상답변을 눌러서 수정해보세요",
                 color = Gray_600,
