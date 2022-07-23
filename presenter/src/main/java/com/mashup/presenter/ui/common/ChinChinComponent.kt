@@ -29,7 +29,7 @@ fun ChinChinToolbar(
     isActiveBackButton: Boolean = true,
     isAbleConfirmButton: Boolean = false,
     onConfirmButtonClick: () -> Unit = {},
-    onBackButtonClick: () -> Unit,
+    onBackButtonClick: () -> Unit = {},
 ) {
     ConstraintLayout(
         modifier = Modifier
