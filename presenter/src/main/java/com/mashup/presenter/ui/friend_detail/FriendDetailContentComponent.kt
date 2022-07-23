@@ -65,8 +65,12 @@ fun QuestionAnswerListContent(
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            itemsIndexed(answersFromFriend) { index, answer ->
-                ChinChinQuestionCard(index + 1, answer)
+            itemsIndexed(answersFromFriend) { index, answerFromFriend ->
+                ChinChinQuestionCard(
+                    index = index + 1,
+                    question = answerFromFriend.question,
+                    answer = answerFromFriend.answer,
+                )
             }
         }
     }

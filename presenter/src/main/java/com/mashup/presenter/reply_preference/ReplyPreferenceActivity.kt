@@ -24,12 +24,15 @@ import com.mashup.presenter.ui.theme.Gray_800
 class ReplyPreferenceActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val list = MutableList(14) {
+            QuestionUiModel("good $it", "답변답변답변")
+        }
+        list.add(0, QuestionUiModel("빈 답변"))
+
         setContent {
             ChinchinTheme {
                 ReplyPreferenceScreen(
-                    questions = List(14) {
-                        QuestionUiModel("good $it", "답변답변답변")
-                    }
+                    questions = list
                 ) {
                     finish()
                 }

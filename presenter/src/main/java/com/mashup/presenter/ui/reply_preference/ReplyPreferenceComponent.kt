@@ -21,8 +21,12 @@ fun ReplyPreferenceQuestionList(modifier: Modifier = Modifier, questions: List<Q
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.padding(top = 8.dp),
         ) {
-            itemsIndexed(questions) { index, item ->
-                ChinChinQuestionCard(index = index, questionUiModel = item)
+            itemsIndexed(questions) { index, question ->
+                ChinChinQuestionCard(
+                    index = index,
+                    question = question.question,
+                    answer = question.answer
+                )
             }
         }
     }

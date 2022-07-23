@@ -267,7 +267,11 @@ fun ChinChinActingButton(
 }
 
 @Composable
-fun ChinChinQuestionCard(index: Int, questionUiModel: QuestionUiModel) {
+fun ChinChinQuestionCard(
+    index: Int,
+    question: String,
+    answer: String?,
+) {
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = 0.dp,
@@ -282,7 +286,7 @@ fun ChinChinQuestionCard(index: Int, questionUiModel: QuestionUiModel) {
             ) {
                 NumberIcon(index)
                 Text(
-                    text = questionUiModel.question,
+                    text = question,
                     color = Gray_800,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
@@ -301,14 +305,25 @@ fun ChinChinQuestionCard(index: Int, questionUiModel: QuestionUiModel) {
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp, bottom = 16.dp)
             ) {
-                Text(
-                    text = questionUiModel.answer,
-                    color = Gray_800,
-                    fontSize = 14.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                )
+                if (answer == null) {
+                    Text(
+                        text = "답변을 적어보세요",
+                        color = Gray_500,
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                } else {
+                    Text(
+                        text = answer,
+                        color = Gray_800,
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                }
             }
         }
     }
