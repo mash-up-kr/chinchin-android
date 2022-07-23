@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mashup.presenter.common.ChinChinQuestionCardState
 import com.mashup.presenter.common.model.QuestionUiModel
 import com.mashup.presenter.ui.common.ChinChinQuestionCard
 import com.mashup.presenter.ui.common.ChinChinText
@@ -25,7 +26,13 @@ fun ReplyPreferenceQuestionList(modifier: Modifier = Modifier, questions: List<Q
                 ChinChinQuestionCard(
                     index = index,
                     question = question.question,
-                    answer = question.answer
+                    answer = question.answer,
+                    /* TODO: 카드 타입 테스트입니다 정상 로직으로 교체 예정.. */
+                    cardState = when (index % 3) {
+                        0 -> ChinChinQuestionCardState.FRIEND_REPLY
+                        1 -> ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY
+                        else -> ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY
+                    }
                 )
             }
         }

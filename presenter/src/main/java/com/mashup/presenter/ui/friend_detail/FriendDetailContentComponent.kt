@@ -190,26 +190,3 @@ fun TempSavedQuestionCard() {
         }
     }
 }
-
-@Preview
-@Composable
-fun NumberIconPreview() {
-    NumberIcon(1)
-}
-
-@Composable
-fun NumberIcon(number: Int) {
-    Box(contentAlignment = Alignment.Center) {
-        Canvas(modifier = Modifier.size(20.dp), onDraw = {
-            //TODO need to create Color Constant
-            drawCircle(color = Color(0xFFF6C30D))
-        })
-        Text(
-            text = number.toString(),
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            color = Gray_700
-        )
-
-    }
-}

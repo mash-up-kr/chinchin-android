@@ -1,5 +1,6 @@
 package com.mashup.presenter.ui.common
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,8 +18,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.mashup.presenter.common.model.QuestionUiModel
-import com.mashup.presenter.ui.friend_detail.NumberIcon
+import com.mashup.presenter.common.ChinChinQuestionCardState
 import com.mashup.presenter.ui.theme.*
 
 @Composable
@@ -271,11 +271,12 @@ fun ChinChinQuestionCard(
     index: Int,
     question: String,
     answer: String?,
+    cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.FRIEND_REPLY,
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = 0.dp,
-        backgroundColor = Primary_1,
+        backgroundColor = getChinChinQuestionCardBackgroundColor(cardState),
     ) {
         Column {
             Row(
@@ -284,10 +285,10 @@ fun ChinChinQuestionCard(
                     .padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                NumberIcon(index)
+                ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
                 Text(
                     text = question,
-                    color = Gray_800,
+                    color = getChinChinQuestionCardTextColor(cardState),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     modifier = Modifier
@@ -328,3 +329,66 @@ fun ChinChinQuestionCard(
         }
     }
 }
+
+@Composable
+private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: ChinChinQuestionCardState) {
+    Box(contentAlignment = Alignment.Center) {
+        Canvas(modifier = Modifier.size(20.dp), onDraw = {
+            drawCircle(color = getChinChinQuestionCardNumberIconBackgroundColor(cardState))
+        })
+        Text(
+            text = number.toString(),
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            color = getChinChinQuestionCardTextColor(cardState)
+        )
+    }
+}
+
+private fun getChinChinQuestionCardBackgroundColor(cardState: ChinChinQuestionCardState): Color =
+    when (cardState) {
+        ChinChinQuestionCardState.FRIEND_REPLY,
+        ChinChinQuestionCardState.INPUT_COMPLETE,
+        -> {
+            Primary_1
+        }
+        ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
+        ChinChinQuestionCardState.INPUT_INCOMPLETE,
+        -> {
+            Secondary_1
+        }
+        ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY -> {
+            Gray_400
+        }
+    }
+
+private fun getChinChinQuestionCardNumberIconBackgroundColor(cardState: ChinChinQuestionCardState): Color =
+    when (cardState) {
+        ChinChinQuestionCardState.FRIEND_REPLY,
+        ChinChinQuestionCardState.INPUT_COMPLETE,
+        -> {
+            Primary_2
+        }
+        ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
+        ChinChinQuestionCardState.INPUT_INCOMPLETE,
+        -> {
+            Primary_1
+        }
+        ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY -> {
+            Gray_600
+        }
+    }
+
+private fun getChinChinQuestionCardTextColor(cardState: ChinChinQuestionCardState): Color =
+    when (cardState) {
+        ChinChinQuestionCardState.FRIEND_REPLY,
+        ChinChinQuestionCardState.INPUT_COMPLETE,
+        ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
+        ChinChinQuestionCardState.INPUT_INCOMPLETE,
+        -> {
+            Gray_700
+        }
+        ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY -> {
+            Gray_100
+        }
+    }
