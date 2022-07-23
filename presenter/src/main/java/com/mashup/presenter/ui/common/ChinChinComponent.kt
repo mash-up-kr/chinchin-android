@@ -90,13 +90,15 @@ fun ChinChinText(text: String, highlightText: String, modifier: Modifier = Modif
         Text(
             text = text,
             color = Black,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
         )
         Text(
             text = highlightText,
             modifier = Modifier.padding(start = 8.dp),
             color = Primary_2,
             fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
         )
     }
 }
