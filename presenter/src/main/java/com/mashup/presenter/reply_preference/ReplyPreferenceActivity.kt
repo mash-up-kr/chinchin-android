@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mashup.presenter.reply_preference.model.ReplyPreferenceQuestionUiModel
+import com.mashup.presenter.common.model.QuestionUiModel
 import com.mashup.presenter.ui.common.ChinChinToolbar
 import com.mashup.presenter.ui.reply_preference.ReplyPreferenceQuestionList
 import com.mashup.presenter.ui.theme.ChinchinTheme
@@ -26,7 +26,11 @@ class ReplyPreferenceActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ChinchinTheme {
-                ReplyPreferenceScreen {
+                ReplyPreferenceScreen(
+                    questions = List(14) {
+                        QuestionUiModel("good $it", "답변답변답변")
+                    }
+                ) {
                     finish()
                 }
             }
@@ -36,7 +40,7 @@ class ReplyPreferenceActivity : ComponentActivity() {
 
 @Composable
 fun ReplyPreferenceScreen(
-    questions: List<ReplyPreferenceQuestionUiModel> = listOf(),
+    questions: List<QuestionUiModel> = listOf(),
     onActivityFinish: () -> Unit = {},
 ) {
     Column {
@@ -59,7 +63,10 @@ fun ReplyPreferenceScreen(
                 modifier = Modifier.padding(top = 8.dp),
             )
 
-            ReplyPreferenceQuestionList(questions = questions, modifier = Modifier.padding(top = 16.dp))
+            ReplyPreferenceQuestionList(
+                questions = questions,
+                modifier = Modifier.padding(top = 16.dp),
+            )
         }
     }
 }
