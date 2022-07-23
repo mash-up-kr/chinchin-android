@@ -1,5 +1,6 @@
 package com.mashup.presenter.ui.common
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,26 +18,55 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.mashup.presenter.R
+import com.mashup.presenter.common.ChinChinQuestionCardState
 import com.mashup.presenter.ui.theme.*
 
 @Composable
-fun ChinChinToolbar(title: String, onBackButtonClick: () -> Unit) {
+fun ChinChinToolbar(
+    title: String,
+    isActiveConfirmButton: Boolean = false,
+    isActiveBackButton: Boolean = true,
+    isAbleConfirmButton: Boolean = false,
+    onConfirmButtonClick: () -> Unit = {},
+    onBackButtonClick: () -> Unit = {},
+) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
     ) {
-        val (iconRef, textRef) = createRefs()
+        val (backButtonRef, confirmButtonRef, textRef) = createRefs()
 
-        IconButton(
-            onClick = { onBackButtonClick() },
-            modifier = Modifier.constrainAs(iconRef) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
+        if (isActiveBackButton) {
+            IconButton(
+                onClick = { onBackButtonClick() },
+                modifier = Modifier.constrainAs(backButtonRef) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                }
+            ) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back button")
             }
-        ) {
-            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back button")
+        }
+
+        if (isActiveConfirmButton) {
+            IconButton(
+                onClick = { onConfirmButtonClick() },
+                modifier = Modifier.constrainAs(confirmButtonRef) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                },
+                enabled = isAbleConfirmButton
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_check),
+                    contentDescription = "confirm button",
+                    tint = if (isAbleConfirmButton) Black else Gray_400
+                )
+            }
         }
 
         Text(
@@ -60,13 +90,15 @@ fun ChinChinText(text: String, highlightText: String, modifier: Modifier = Modif
         Text(
             text = text,
             color = Black,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
         )
         Text(
             text = highlightText,
             modifier = Modifier.padding(start = 8.dp),
             color = Primary_2,
             fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
         )
     }
 }
@@ -264,3 +296,129 @@ fun ChinChinActingButton(
     }
 }
 
+@Composable
+fun ChinChinQuestionCard(
+    index: Int,
+    question: String,
+    answer: String?,
+    cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.FRIEND_REPLY,
+) {
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        elevation = 0.dp,
+        backgroundColor = getChinChinQuestionCardBackgroundColor(cardState),
+    ) {
+        Column {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 14.dp)
+                    .padding(top = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
+                Text(
+                    text = question,
+                    color = getChinChinQuestionCardTextColor(cardState),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp)
+                )
+
+            }
+
+            Card(
+                shape = RoundedCornerShape(8.dp),
+                elevation = 0.dp,
+                backgroundColor = White,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 8.dp, bottom = 16.dp)
+            ) {
+                if (answer == null) {
+                    Text(
+                        text = "답변을 적어보세요",
+                        color = Gray_500,
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                } else {
+                    Text(
+                        text = answer,
+                        color = Gray_800,
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: ChinChinQuestionCardState) {
+    Box(contentAlignment = Alignment.Center) {
+        Canvas(modifier = Modifier.size(20.dp), onDraw = {
+            drawCircle(color = getChinChinQuestionCardNumberIconBackgroundColor(cardState))
+        })
+        Text(
+            text = number.toString(),
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            color = getChinChinQuestionCardTextColor(cardState)
+        )
+    }
+}
+
+private fun getChinChinQuestionCardBackgroundColor(cardState: ChinChinQuestionCardState): Color =
+    when (cardState) {
+        ChinChinQuestionCardState.FRIEND_REPLY,
+        ChinChinQuestionCardState.INPUT_COMPLETE,
+        -> {
+            Primary_1
+        }
+        ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
+        ChinChinQuestionCardState.INPUT_INCOMPLETE,
+        -> {
+            Secondary_1
+        }
+        ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY -> {
+            Gray_400
+        }
+    }
+
+private fun getChinChinQuestionCardNumberIconBackgroundColor(cardState: ChinChinQuestionCardState): Color =
+    when (cardState) {
+        ChinChinQuestionCardState.FRIEND_REPLY,
+        ChinChinQuestionCardState.INPUT_COMPLETE,
+        -> {
+            Primary_2
+        }
+        ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
+        ChinChinQuestionCardState.INPUT_INCOMPLETE,
+        -> {
+            Primary_1
+        }
+        ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY -> {
+            Gray_600
+        }
+    }
+
+private fun getChinChinQuestionCardTextColor(cardState: ChinChinQuestionCardState): Color =
+    when (cardState) {
+        ChinChinQuestionCardState.FRIEND_REPLY,
+        ChinChinQuestionCardState.INPUT_COMPLETE,
+        ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
+        ChinChinQuestionCardState.INPUT_INCOMPLETE,
+        -> {
+            Gray_700
+        }
+        ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY -> {
+            Gray_100
+        }
+    }

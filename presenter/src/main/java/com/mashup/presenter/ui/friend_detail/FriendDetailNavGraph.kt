@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.mashup.presenter.friend_detail.AnswerFromFriendScreen
 import com.mashup.presenter.friend_detail.AnswersExpectedScreen
-import com.mashup.presenter.friend_detail.model.QuestionUiModel
+import com.mashup.presenter.common.model.QuestionUiModel
 
 @Composable
 fun FriendDetailNavGraph(

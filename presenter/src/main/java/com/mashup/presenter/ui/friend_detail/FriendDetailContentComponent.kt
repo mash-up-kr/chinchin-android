@@ -21,9 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
 import com.mashup.presenter.friend_detail.FriendDetailActivity
-import com.mashup.presenter.friend_detail.model.QuestionUiModel
+import com.mashup.presenter.common.model.QuestionUiModel
 import com.mashup.presenter.ui.common.ChinChinActingButton
 import com.mashup.presenter.ui.common.ChinChinButton
+import com.mashup.presenter.ui.common.ChinChinQuestionCard
 import com.mashup.presenter.ui.common.ChinChinText
 import com.mashup.presenter.ui.theme.*
 
@@ -38,8 +39,7 @@ fun QuestionSizeText(size: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(63.dp)
-            .padding(start = 24.dp, end = 24.dp),
+            .height(63.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -56,17 +56,21 @@ fun QuestionAnswerListPreview() {
 
 @Composable
 fun QuestionAnswerListContent(
-    answersFromFriend: List<QuestionUiModel>,
-    modifier: Modifier = Modifier
+    answersFromFriend: List<QuestionUiModel>
 ) {
-    Column {
+    Column(
+        modifier = Modifier.padding(horizontal = 24.dp),
+    ) {
         QuestionSizeText(answersFromFriend.size)
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(14.dp),
-            modifier = modifier
         ) {
-            itemsIndexed(answersFromFriend) { index, answer ->
-                QuestionItem(index + 1, answer)
+            itemsIndexed(answersFromFriend) { index, answerFromFriend ->
+                ChinChinQuestionCard(
+                    index = index + 1,
+                    question = answerFromFriend.question,
+                    answer = answerFromFriend.answer,
+                )
             }
         }
     }
@@ -184,90 +188,5 @@ fun TempSavedQuestionCard() {
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun QuestionItemPreview() {
-    QuestionItem(
-        1,
-        QuestionUiModel(
-            question = "좋아하는 음식은 무엇인가요?",
-            answer = "난 곱창이 세상에서 젤 좋아"
-        )
-    )
-}
-
-@Composable
-fun QuestionItem(index: Int, questionUiModel: QuestionUiModel) {
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 24.dp),
-        shape = RoundedCornerShape(8.dp),
-        elevation = 0.dp,
-        backgroundColor = Primary_1,
-    ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 14.dp)
-                    .padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                NumberIcon(index)
-                Text(
-                    text = questionUiModel.question,
-                    color = Gray_800,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp)
-                )
-
-            }
-
-            Card(
-                shape = RoundedCornerShape(8.dp),
-                elevation = 0.dp,
-                backgroundColor = White,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 8.dp, bottom = 16.dp)
-            ) {
-                Text(
-                    text = questionUiModel.answer,
-                    color = Gray_800,
-                    fontSize = 14.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                )
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun NumberIconPreview() {
-    NumberIcon(1)
-}
-
-@Composable
-fun NumberIcon(number: Int) {
-    Box(contentAlignment = Alignment.Center) {
-        Canvas(modifier = Modifier.size(20.dp), onDraw = {
-            //TODO need to create Color Constant
-            drawCircle(color = Color(0xFFF6C30D))
-        })
-        Text(
-            text = number.toString(),
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            color = Gray_700
-        )
-
     }
 }
