@@ -18,27 +18,55 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.mashup.presenter.R
 import com.mashup.presenter.common.ChinChinQuestionCardState
 import com.mashup.presenter.ui.theme.*
 
 @Composable
-fun ChinChinToolbar(title: String, onBackButtonClick: () -> Unit) {
+fun ChinChinToolbar(
+    title: String,
+    isActiveConfirmButton: Boolean = false,
+    isActiveBackButton: Boolean = true,
+    isAbleConfirmButton: Boolean = false,
+    onConfirmButtonClick: () -> Unit = {},
+    onBackButtonClick: () -> Unit,
+) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
     ) {
-        val (iconRef, textRef) = createRefs()
+        val (backButtonRef, confirmButtonRef, textRef) = createRefs()
 
-        IconButton(
-            onClick = { onBackButtonClick() },
-            modifier = Modifier.constrainAs(iconRef) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
+        if (isActiveBackButton) {
+            IconButton(
+                onClick = { onBackButtonClick() },
+                modifier = Modifier.constrainAs(backButtonRef) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                }
+            ) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back button")
             }
-        ) {
-            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back button")
+        }
+
+        if (isActiveConfirmButton) {
+            IconButton(
+                onClick = { onConfirmButtonClick() },
+                modifier = Modifier.constrainAs(confirmButtonRef) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                },
+                enabled = isAbleConfirmButton
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_check),
+                    contentDescription = "confirm button",
+                    tint = if (isAbleConfirmButton) Black else Gray_400
+                )
+            }
         }
 
         Text(

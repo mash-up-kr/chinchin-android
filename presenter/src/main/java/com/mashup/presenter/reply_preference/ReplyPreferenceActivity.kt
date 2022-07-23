@@ -47,7 +47,7 @@ fun ReplyPreferenceScreen(
     onActivityFinish: () -> Unit = {},
 ) {
     Column {
-        ChinChinToolbar(title = "취향 질문 답변하기") {
+        ChinChinToolbar(title = "취향 질문 답변하기", isActiveConfirmButton = true) {
             onActivityFinish()
         }
         Spacer(modifier = Modifier.height(16.dp))
