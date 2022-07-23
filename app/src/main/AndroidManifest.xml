@@ -50,6 +50,7 @@
         <activity android:name="com.mashup.presenter.friend_detail.FriendDetailActivity" />
         <activity android:name="com.mashup.presenter.set_group.SetGroupActivity"/>
         <activity android:name="com.mashup.presenter.add_friend.AddFriendActivity" />
+        <activity android:name="com.mashup.presenter.reply_preference.ReplyPreferenceActivity" />
     </application>
 
 </manifest>
