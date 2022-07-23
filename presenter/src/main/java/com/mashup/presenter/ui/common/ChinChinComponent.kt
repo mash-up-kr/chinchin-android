@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.mashup.presenter.friend_detail.model.QuestionUiModel
+import com.mashup.presenter.common.model.QuestionUiModel
 import com.mashup.presenter.ui.friend_detail.NumberIcon
 import com.mashup.presenter.ui.theme.*
 

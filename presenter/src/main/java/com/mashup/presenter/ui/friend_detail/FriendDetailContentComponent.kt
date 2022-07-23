@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
 import com.mashup.presenter.friend_detail.FriendDetailActivity
-import com.mashup.presenter.friend_detail.model.QuestionUiModel
+import com.mashup.presenter.common.model.QuestionUiModel
 import com.mashup.presenter.ui.common.ChinChinActingButton
 import com.mashup.presenter.ui.common.ChinChinButton
 import com.mashup.presenter.ui.common.ChinChinQuestionCard

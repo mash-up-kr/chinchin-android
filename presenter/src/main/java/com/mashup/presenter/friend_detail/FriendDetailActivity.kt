@@ -14,7 +14,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mashup.presenter.friend_detail.model.FriendProfileUiModel
-import com.mashup.presenter.friend_detail.model.QuestionUiModel
+import com.mashup.presenter.common.model.QuestionUiModel
 import com.mashup.presenter.ui.common.ChinChinToolbar
 import com.mashup.presenter.ui.friend_detail.*
 import com.mashup.presenter.ui.theme.ChinchinTheme
