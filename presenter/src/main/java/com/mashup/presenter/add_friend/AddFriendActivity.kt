@@ -3,12 +3,7 @@ package com.mashup.presenter.add_friend
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,14 +20,14 @@ import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddFriendActivity: ComponentActivity() {
+class AddFriendActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ChinchinTheme {
-                AddFriendScreen() {
-                    finish()
-                }
+                AddFriendScreen(
+                    onActivityFinish = { finish() },
+                )
             }
         }
     }
@@ -45,8 +40,14 @@ fun AddFriendPreview() {
 }
 
 @Composable
-fun AddFriendScreen(onActivityFinish: () -> Unit = {}) {
-    var friendName: String by rememberSaveable { mutableStateOf("굿") }
+fun AddFriendScreen(
+    onActivityFinish: () -> Unit = {},
+) {
+    var name by rememberSaveable { mutableStateOf("") }
+    var birth by rememberSaveable { mutableStateOf("") }
+    var group by rememberSaveable { mutableStateOf("") }
+
+    val isEnable = name.isNotEmpty() && birth.isNotEmpty() && group.isNotEmpty()
 
     Column(
         modifier = Modifier.fillMaxHeight(),
@@ -65,13 +66,17 @@ fun AddFriendScreen(onActivityFinish: () -> Unit = {}) {
                 AddFriendTitles()
                 Spacer(modifier = Modifier.height(32.dp))
                 AddFriendContents(
-                    friendName = friendName,
-                    onValueChanged = { friendName = it }
+                    name = name,
+                    onNameValueChanged = { name = it },
+                    birth = birth,
+                    onBirthValueChanged = { birth = it },
+                    group = group,
+                    onGroupValueChanged = { group = it },
                 )
             }
 
             Column {
-                ChinChinConfirmButton(buttonText = "친구 취향 기록하기") {}
+                ChinChinConfirmButton(isEnable = isEnable, buttonText = "친구 취향 기록하기") {}
                 Spacer(modifier = Modifier.height(32.dp))
             }
         }
