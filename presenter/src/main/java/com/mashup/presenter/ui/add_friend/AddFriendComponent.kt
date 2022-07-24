@@ -1,10 +1,12 @@
 package com.mashup.presenter.ui.add_friend
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import android.app.Activity
+import android.app.DatePickerDialog
+import android.content.Intent
+import android.widget.DatePicker
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
@@ -13,16 +15,16 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.presenter.R
+import com.mashup.presenter.set_group.SetGroupActivity
+import com.mashup.presenter.set_group.SetGroupActivity.Companion.EXTRA_GROUP_NAME
 import com.mashup.presenter.ui.common.ChinChinTitleAndTextFieldButton
-import com.mashup.presenter.ui.theme.Black
-import com.mashup.presenter.ui.theme.Gray_100
-import com.mashup.presenter.ui.theme.Gray_400
-import com.mashup.presenter.ui.theme.Gray_500
-import com.mashup.presenter.ui.theme.Gray_800
+import com.mashup.presenter.ui.theme.*
+import java.util.*
 
 @Composable
 fun AddFriendTitles() {
@@ -44,14 +46,52 @@ fun AddFriendTitles() {
 
 @Composable
 fun AddFriendContents(
-    friendName: String, onValueChanged: (String) -> Unit,
+    name: String,
+    birth: String,
+    group: String,
+    onNameValueChanged: (String) -> Unit,
+    onBirthValueChanged: (String) -> Unit,
+    onGroupValueChanged: (String) -> Unit,
 ) {
+    val context = LocalContext.current
+    val dialog = DatePickerDialog(
+        date = birth,
+        onValueChanged = onBirthValueChanged
+    )
+    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult())
+    {
+        if (it.resultCode != Activity.RESULT_OK) {
+            return@rememberLauncherForActivityResult
+        }
+        //GET TEXT ARRAY FROM VOICE INTENT
+        val result = it.data?.getStringExtra(EXTRA_GROUP_NAME)
+
+        if (result !== null) {
+            onGroupValueChanged(result)
+        }
+    }
+
     Column {
-        AddFriendNameComponent(friendName = friendName, onValueChanged = onValueChanged)
+        AddFriendNameComponent(friendName = name, onValueChanged = onNameValueChanged)
         Spacer(modifier = Modifier.height(16.dp))
-        ChinChinTitleAndTextFieldButton(title = "생일 *", iconRes = R.drawable.icon_calendar)
+        ChinChinTitleAndTextFieldButton(
+            title = "생일 *",
+            iconRes = R.drawable.icon_calendar,
+            onButtonClick = { dialog.show() },
+            text = birth
+        )
         Spacer(modifier = Modifier.height(16.dp))
-        ChinChinTitleAndTextFieldButton(title = "친친 그룹 *", iconRes = R.drawable.icon_arrow, placeHolder = "그룹 지정하기")
+        ChinChinTitleAndTextFieldButton(
+            title = "친친 그룹 *",
+            iconRes = R.drawable.icon_arrow,
+            placeHolder = "그룹 지정하기",
+            text = group,
+            onButtonClick = {
+                launcher.launch(
+                    Intent(context, SetGroupActivity::class.java)
+                )
+            }
+        )
     }
 }
 
@@ -84,3 +124,23 @@ fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit)
         )
     }
 }
+
+@Composable
+fun DatePickerDialog(date: String, onValueChanged: (String) -> Unit): DatePickerDialog {
+    val context = LocalContext.current
+
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    calendar.time = Date()
+
+    return DatePickerDialog(
+        context,
+        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
+            onValueChanged("${mMonth + 1}월 ${mDayOfMonth}일")
+        }, year, month, day
+    )
+}
+
