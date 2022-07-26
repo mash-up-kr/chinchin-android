@@ -260,7 +260,6 @@ fun ChinChinTextFieldButton(iconRes: Int, placeHolder: String, text: String, onB
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // if text is empty set placeHolder
             Text(
                 text = text.ifEmpty { placeHolder },
                 color = if (text.isEmpty()) Gray_400 else Gray_800,

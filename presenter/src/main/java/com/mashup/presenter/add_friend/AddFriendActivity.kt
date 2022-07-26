@@ -43,11 +43,11 @@ fun AddFriendPreview() {
 fun AddFriendScreen(
     onActivityFinish: () -> Unit = {},
 ) {
-    var name by rememberSaveable { mutableStateOf("") }
-    var birth by rememberSaveable { mutableStateOf("") }
-    var group by rememberSaveable { mutableStateOf("") }
+    var friendName by rememberSaveable { mutableStateOf("") }
+    var birthday by rememberSaveable { mutableStateOf("") }
+    var groupName by rememberSaveable { mutableStateOf("") }
 
-    val isEnable = name.isNotEmpty() && birth.isNotEmpty() && group.isNotEmpty()
+    val isEnable = friendName.isNotEmpty() && birthday.isNotEmpty() && groupName.isNotEmpty()
 
     Column(
         modifier = Modifier.fillMaxHeight(),
@@ -66,12 +66,12 @@ fun AddFriendScreen(
                 AddFriendTitles()
                 Spacer(modifier = Modifier.height(32.dp))
                 AddFriendContents(
-                    name = name,
-                    onNameValueChanged = { name = it },
-                    birth = birth,
-                    onBirthValueChanged = { birth = it },
-                    group = group,
-                    onGroupValueChanged = { group = it },
+                    friendName = friendName,
+                    onNameValueChanged = { friendName = it },
+                    birthday = birthday,
+                    onBirthValueChanged = { birthday = it },
+                    groupName = groupName,
+                    onGroupValueChanged = { groupName = it },
                 )
             }
 

@@ -30,7 +30,6 @@ class SetGroupActivity : ComponentActivity() {
                     }
                     setResult(Activity.RESULT_OK, intent)
                     finish()
-                    finish()
                 }
 
             }
@@ -48,11 +47,17 @@ fun SetGroupScreen(
     groups: List<String>,
     finishActivityWithResult: () -> Unit = {}
 ) {
+    val onChangeState: (String) -> Unit = { selectedGroup.value = it }
+
     Column {
         ChinChinToolbar(title = "그룹지정") {
             finishActivityWithResult()
         }
-        GroupRadioButtons(selectedGroup, groups = groups)
+        GroupRadioButtons(
+            selectedGroup = selectedGroup.value,
+            onChangeState = onChangeState,
+            groups = groups
+        )
         NewGroupButton()
     }
 }

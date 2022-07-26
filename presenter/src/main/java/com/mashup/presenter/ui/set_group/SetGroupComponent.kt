@@ -31,10 +31,13 @@ fun PreviewSetGroup() {
 }
 
 @Composable
-fun GroupRadioButtons(selectedGroup: MutableState<String> = mutableStateOf(""), groups: List<String> = emptyList()) { // TODO: Group data class 만들어서 변경해야함
+fun GroupRadioButtons(
+    selectedGroup: String = "",
+    onChangeState: (String) -> Unit = {},
+    groups: List<String> = emptyList()// TODO: Group data class 만들어서 변경해야함
+) {
     // FIXME: 로직 추가시 상태값은 최상위에서 관리되도록 변경해야함.
-    val isSelectedItem: (String) -> Boolean = { selectedGroup.value == it }
-    val onChangeState: (String) -> Unit = { selectedGroup.value = it }
+    val isSelectedItem: (String) -> Boolean = { selectedGroup == it }
 
     Column {
         groups.forEach { group ->

@@ -46,16 +46,16 @@ fun AddFriendTitles() {
 
 @Composable
 fun AddFriendContents(
-    name: String,
-    birth: String,
-    group: String,
+    friendName: String,
+    birthday: String,
+    groupName: String,
     onNameValueChanged: (String) -> Unit,
     onBirthValueChanged: (String) -> Unit,
     onGroupValueChanged: (String) -> Unit,
 ) {
     val context = LocalContext.current
-    val dialog = DatePickerDialog(
-        date = birth,
+    val dialog = BirthdayDatePickerDialog(
+        date = birthday,
         onValueChanged = onBirthValueChanged
     )
     val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult())
@@ -66,26 +66,26 @@ fun AddFriendContents(
         //GET TEXT ARRAY FROM VOICE INTENT
         val result = it.data?.getStringExtra(EXTRA_GROUP_NAME)
 
-        if (result !== null) {
+        if (result != null) {
             onGroupValueChanged(result)
         }
     }
 
     Column {
-        AddFriendNameComponent(friendName = name, onValueChanged = onNameValueChanged)
+        AddFriendNameComponent(friendName = friendName, onValueChanged = onNameValueChanged)
         Spacer(modifier = Modifier.height(16.dp))
         ChinChinTitleAndTextFieldButton(
             title = "생일 *",
             iconRes = R.drawable.icon_calendar,
             onButtonClick = { dialog.show() },
-            text = birth
+            text = birthday
         )
         Spacer(modifier = Modifier.height(16.dp))
         ChinChinTitleAndTextFieldButton(
             title = "친친 그룹 *",
             iconRes = R.drawable.icon_arrow,
             placeHolder = "그룹 지정하기",
-            text = group,
+            text = groupName,
             onButtonClick = {
                 launcher.launch(
                     Intent(context, SetGroupActivity::class.java)
@@ -126,7 +126,7 @@ fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit)
 }
 
 @Composable
-fun DatePickerDialog(date: String, onValueChanged: (String) -> Unit): DatePickerDialog {
+fun BirthdayDatePickerDialog(date: String, onValueChanged: (String) -> Unit): DatePickerDialog {
     val context = LocalContext.current
 
     val calendar = Calendar.getInstance()
