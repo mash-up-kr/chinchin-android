@@ -11,6 +11,7 @@ import com.mashup.presenter.group_detail.GroupDetailActivity
 import com.mashup.presenter.login.LoginActivity
 import com.mashup.presenter.main.MainActivity
 import com.mashup.presenter.receive_alarm.ReceiveAlarmActivity
+import com.mashup.presenter.reply_preference.ReplyPreferenceActivity
 import com.mashup.presenter.room_test.RoomTestActivity
 import com.mashup.presenter.set_group.SetGroupActivity
 import com.mashup.presenter.ui.theme.ChinchinTheme
@@ -38,6 +39,7 @@ class BridgeActivity : ComponentActivity() {
                             FriendDetailActivity::class.java,
                             SetGroupActivity::class.java,
                             AddFriendActivity::class.java,
+                            ReplyPreferenceActivity::class.java,
                         )
                     )
                 }
