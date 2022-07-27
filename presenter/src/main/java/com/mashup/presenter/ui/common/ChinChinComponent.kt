@@ -218,7 +218,13 @@ private fun ChinChinDisableConfirmButton(
 
 
 @Composable
-fun ChinChinTitleAndTextFieldButton(title: String, iconRes: Int, placeHolder: String = "", onButtonClick: () -> Unit = {}) {
+fun ChinChinTitleAndTextFieldButton(
+    title: String,
+    iconRes: Int,
+    placeHolder: String = "",
+    text: String = "",
+    onButtonClick: () -> Unit = {}
+) {
     Column {
         Text(
             text = title,
@@ -226,14 +232,14 @@ fun ChinChinTitleAndTextFieldButton(title: String, iconRes: Int, placeHolder: St
             color = Black,
             fontWeight = FontWeight.Bold,
         )
-        ChinChinTextFieldButton(iconRes = iconRes, placeHolder = placeHolder) {
+        ChinChinTextFieldButton(iconRes = iconRes, placeHolder = placeHolder, text = text) {
             onButtonClick()
         }
     }
 }
 
 @Composable
-fun ChinChinTextFieldButton(iconRes: Int, placeHolder: String, onButtonClick: () -> Unit = {}) {
+fun ChinChinTextFieldButton(iconRes: Int, placeHolder: String, text: String, onButtonClick: () -> Unit = {}) {
     Button(
         onClick = { onButtonClick() },
         colors = ButtonDefaults.buttonColors(backgroundColor = Gray_100),
@@ -254,12 +260,12 @@ fun ChinChinTextFieldButton(iconRes: Int, placeHolder: String, onButtonClick: ()
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // placeHolder
             Text(
-                text = placeHolder,
-                color = Gray_400,
+                text = text.ifEmpty { placeHolder },
+                color = if (text.isEmpty()) Gray_400 else Gray_800,
                 fontSize = 14.sp
             )
+
             Icon(
                 painterResource(id = iconRes),
                 "",
