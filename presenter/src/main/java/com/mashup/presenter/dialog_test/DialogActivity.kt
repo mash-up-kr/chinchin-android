@@ -52,10 +52,10 @@ fun DialogScreen(
     keywords: List<String> = emptyList(),
     onClick: (String) -> Unit,
 ) {
-
     val showDialog = remember { mutableStateOf(false) }
     if (showDialog.value) {
         KeywordDialog(
+            category = "취향 키워드",
             selectedKeyword = selectedKeyword,
             keywords = keywords,
             onClick = onClick
