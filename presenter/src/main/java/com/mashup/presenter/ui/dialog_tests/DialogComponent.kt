@@ -26,8 +26,8 @@ import com.mashup.presenter.ui.theme.White
 
 @Preview(showBackground = true)
 @Composable
-fun TasteKeywordDialogPreview() {
-    KeywordDialog(
+fun QuestionCategoryDialogPreview() {
+    QuestionCategoryDialog(
         category = "취향 키워드",
         keywords = listOf(
             "싫어하는 향", "좋아하는 음식", "좋아하는 향", "좋아하는 옷 브랜드",
@@ -40,7 +40,7 @@ fun TasteKeywordDialogPreview() {
 }
 
 @Composable
-fun KeywordDialog(
+fun QuestionCategoryDialog(
     category: String,
     selectedKeyword: String = "",
     keywords: List<String>,
@@ -53,9 +53,9 @@ fun KeywordDialog(
                 .width(310.dp)
                 .wrapContentHeight(),
             shape = RoundedCornerShape(8.dp),
-            color = White
+            color = White,
         ) {
-            KeywordDialogContent(
+            QuestionCategoryDialogContent(
                 category = category,
                 selectedKeyword = selectedKeyword,
                 keywords = keywords,
@@ -67,7 +67,7 @@ fun KeywordDialog(
 }
 
 @Composable
-fun KeywordDialogContent(
+fun QuestionCategoryDialogContent(
     category: String,
     selectedKeyword: String = "",
     keywords: List<String>,
@@ -77,18 +77,21 @@ fun KeywordDialogContent(
     val curSelectedKeyword: MutableState<String> = remember {
         mutableStateOf(selectedKeyword)
     }
+
     val onChangedState: (String) -> Unit = { curSelectedKeyword.value = it }
     val isEnable: () -> Boolean = { curSelectedKeyword.value != "" }
+    val isCurSelectedItem: (String) -> Boolean = { curSelectedKeyword.value == it }
+
     Column {
-        KeywordDialogTitle(text = category, onDismissRequest = onDismissRequest)
+        QuestionCategoryTitle(text = category, onDismissRequest = onDismissRequest)
         Divider(
             color = Gray_300,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
         )
-        KeywordRadioButtons(
-            curSelectedKeyword = curSelectedKeyword.value,
+        QuestionCategoryRadioButtons(
+            isCurSelectedItem = isCurSelectedItem,
             onChangeState = onChangedState,
             keywords = keywords,
         )
@@ -121,7 +124,7 @@ fun KeywordDialogContent(
 }
 
 @Composable
-fun KeywordDialogTitle(
+fun QuestionCategoryTitle(
     text: String,
     onDismissRequest: () -> Unit = {}
 ) {
@@ -147,37 +150,36 @@ fun KeywordDialogTitle(
 }
 
 @Composable
-fun KeywordRadioButtons(
-    curSelectedKeyword: String = "",
-    onChangeState: (String) -> Unit,
+fun QuestionCategoryRadioButtons(
     keywords: List<String>,
+    isCurSelectedItem: (String) -> Boolean,
+    onChangeState: (String) -> Unit,
 ) {
-    val isCurSelectedItem: (String) -> Boolean = { curSelectedKeyword == it }
     Column {
         keywords.forEach { keyword ->
-            KeywordRadioButton(keyword, isCurSelectedItem, onChangeState)
+            QuestionCategoryRadioButton(keyword, isCurSelectedItem, onChangeState)
         }
     }
 }
 
 @Composable
-fun KeywordRadioButton(
+fun QuestionCategoryRadioButton(
     keyword: String,
-    isSelectedItem: (group: String) -> Boolean,
-    onChangeState: (group: String) -> Unit,
+    isCurSelectedItem: (String) -> Boolean,
+    onChangeState: (String) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .selectable(
-                selected = isSelectedItem(keyword),
+                selected = isCurSelectedItem(keyword),
                 onClick = { onChangeState(keyword) },
                 role = Role.RadioButton
             )
             .padding(horizontal = 32.dp, vertical = 18.dp)
     ) {
         RadioButton(
-            selected = isSelectedItem(keyword),
+            selected = isCurSelectedItem(keyword),
             onClick = null,
             colors = RadioButtonDefaults.colors(
                 selectedColor = Primary_1,

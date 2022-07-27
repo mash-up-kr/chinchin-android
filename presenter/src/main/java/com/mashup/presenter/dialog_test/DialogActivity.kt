@@ -15,7 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.mashup.presenter.ui.dialog_tests.KeywordDialog
+import com.mashup.presenter.ui.dialog_tests.QuestionCategoryDialog
 import com.mashup.presenter.ui.theme.ChinchinTheme
 
 //TODO : need to delete activity
@@ -54,7 +54,7 @@ fun DialogScreen(
 ) {
     val showDialog = remember { mutableStateOf(false) }
     if (showDialog.value) {
-        KeywordDialog(
+        QuestionCategoryDialog(
             category = "취향 키워드",
             selectedKeyword = selectedKeyword,
             keywords = keywords,
