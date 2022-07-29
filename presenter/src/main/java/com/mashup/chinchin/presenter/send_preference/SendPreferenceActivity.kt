@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -71,7 +73,6 @@ class SendPreferenceActivity : ComponentActivity() {
                     sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
                 ) {
                     CreateQuestionSheetScreen(
-                        categories = listOf("취향 키워드", "개인정보", "자유질문"),
                         onConfirmButtonClick = showBottomSheet,
                     ) {
                         finish()
@@ -80,41 +81,43 @@ class SendPreferenceActivity : ComponentActivity() {
             }
         }
     }
+}
 
-    @Composable
-    fun CreateQuestionSheetScreen(
-        categories: List<String> = listOf(),
-        questions: List<QuestionUiModel> = listOf(),
-        userName: String = "윤혜",
-        onConfirmButtonClick: () -> Unit = {},
-        onBackButtonClick: () -> Unit = {},
-    ) {
-        Column {
-            ChinChinToolbar(
-                title = "취향 질문 보내기",
-                isActiveConfirmButton = true,
-                isAbleConfirmButton = true, //TODO 활성화 기준 정해야함
-                onConfirmButtonClick = onConfirmButtonClick,
-            ) {
-                onBackButtonClick()
+@Composable
+fun CreateQuestionSheetScreen(
+    userName: String = "윤혜",
+    onConfirmButtonClick: () -> Unit = {},
+    onBackButtonClick: () -> Unit = {},
+) {
+    val questions = remember { mutableStateListOf<QuestionUiModel>() }
+
+    Column {
+        ChinChinToolbar(
+            title = "취향 질문 보내기",
+            isActiveConfirmButton = true,
+            isAbleConfirmButton = true, //TODO 활성화 기준 정해야함
+            onConfirmButtonClick = onConfirmButtonClick,
+        ) {
+            onBackButtonClick()
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+            SendPreferenceQuestionTitle(userName)
+            Text(
+                text = "아래 카테고리들을 선택해 질문을 구성할 수 있습니다.",
+                color = Gray_600,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+            QuestionCategoryList {
+                questions.add(it)
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-                SendPreferenceQuestionTitle(userName)
-                Text(
-                    text = "아래 키워드를 선택해 질문을 구성할 수 있습니다.",
-                    color = Gray_600,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(top = 8.dp),
-                )
-                Spacer(modifier = Modifier.height(32.dp))
-                QuestionCategoryList(categories)
-                Spacer(modifier = Modifier.height(13.dp))
-                SendPreferenceQuestionList(
-                    questions = questions,
-                )
-            }
+            Spacer(modifier = Modifier.height(13.dp))
+            SendPreferenceQuestionList(
+                questions = questions,
+                modifier = Modifier.padding(top = 16.dp),
+            )
         }
     }
-
 }
