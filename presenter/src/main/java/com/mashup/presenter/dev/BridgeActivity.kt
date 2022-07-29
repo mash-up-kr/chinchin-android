@@ -7,6 +7,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.mashup.presenter.add_friend.AddFriendActivity
 import com.mashup.presenter.dialog_test.DialogActivity
+import com.mashup.presenter.bottom_sheet_test.BottomSheetActivity
 import com.mashup.presenter.friend_detail.FriendDetailActivity
 import com.mashup.presenter.group_detail.GroupDetailActivity
 import com.mashup.presenter.login.LoginActivity
@@ -44,6 +45,7 @@ class BridgeActivity : ComponentActivity() {
                             ReplyPreferenceActivity::class.java,
                             DialogActivity::class.java,
                             SendPreferenceActivity::class.java,
+                            BottomSheetActivity::class.java,
                         )
                     )
                 }
