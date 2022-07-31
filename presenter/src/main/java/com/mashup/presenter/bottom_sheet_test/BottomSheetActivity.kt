@@ -3,22 +3,17 @@ package com.mashup.presenter.bottom_sheet_test
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.mashup.presenter.ui.bottom_sheet.BottomSheetContent
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import kotlinx.coroutines.launch
-import androidx.compose.material.rememberBottomSheetState as rememberBottomSheetState
 
 
 class BottomSheetActivity : ComponentActivity() {
@@ -48,14 +43,7 @@ class BottomSheetActivity : ComponentActivity() {
                 BottomSheetScaffold(
                     scaffoldState = scaffoldState,
                     sheetContent = {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(500.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "bottom sheet", fontSize = 60.sp)
-                        }
+                        BottomSheetContent()
                     },
                     sheetBackgroundColor = Green,
                     sheetPeekHeight = 20.dp // 조금보이는 height 수정
@@ -83,18 +71,6 @@ class BottomSheetActivity : ComponentActivity() {
                 }
 
             }
-        }
-    }
-}
-
-@Composable
-fun BottomSheet() {
-    Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "toggle test")
         }
     }
 }

@@ -366,6 +366,7 @@ fun ChinChinQuestionCard(
     }
 }
 
+
 @Composable
 private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: ChinChinQuestionCardState) {
     Box(contentAlignment = Alignment.Center) {
