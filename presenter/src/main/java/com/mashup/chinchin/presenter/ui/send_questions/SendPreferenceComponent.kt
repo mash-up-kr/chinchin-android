@@ -1,5 +1,6 @@
 package com.mashup.chinchin.presenter.ui.send_questions
 
+import QuestionCategoryDialog
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -22,6 +23,7 @@ import com.mashup.chinchin.presenter.ui.common.ChinChinQuestionCard
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.theme.Gray_500
 import com.mashup.chinchin.presenter.ui.theme.Gray_800
+import com.mashup.chinchin.presenter.common.model.CategoryUiModel
 
 @Composable
 fun SendPreferenceQuestionTitle(userName: String) {
@@ -59,12 +61,44 @@ fun SendPreferenceQuestionTitle(userName: String) {
 }
 
 @Composable
-fun QuestionCategoryList(addQuestion: (QuestionUiModel) -> Boolean) { // TODO: Category UiModel 생성 후 변경
+fun QuestionCategoryList(
+    categories: List<CategoryUiModel> = listOf(),
+    addQuestion: (QuestionUiModel) -> Boolean
+) {
+    val selectedCategory = remember { mutableStateOf(CategoryUiModel("", emptyList())) }
+    val showDialog = remember { mutableStateOf(false) }
+    val selectedKeyword = remember { mutableStateOf("") }
+
+    if (showDialog.value) {
+        QuestionCategoryDialog(
+            category = selectedCategory.value.category,
+            selectedKeyword = selectedKeyword.value,
+            keywords = selectedCategory.value.keywords.map { it.keyword },
+            onClick = { keyword ->
+                selectedKeyword.value = keyword
+
+                val selectedQuestion = selectedCategory.value.keywords.find { it.keyword == keyword }?.question
+                addQuestion(
+                    QuestionUiModel(selectedQuestion ?: throw Exception("선택된 키워드가 질문리스트에 존재하지 않습니다."))
+                )
+            }
+        ) {
+            selectedKeyword.value = ""
+            showDialog.value = false
+        }
+    }
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        QuestionCategoryChip(category = "취향 키워드", addQuestion = addQuestion)
-        QuestionCategoryChip(category = "개인 정보", addQuestion = addQuestion)
+        for (category in categories) {
+            QuestionCategoryChip(
+                category = category.category,
+                addQuestion = addQuestion,
+                onClickCategory = { category ->
+                    selectedCategory.value = categories.find { it.category == category } ?: return@QuestionCategoryChip
+                    showDialog.value = true
+                })
+        }
         QuestionCategoryChip(category = "자유 질문", addQuestion = addQuestion)
     }
 }
@@ -76,10 +110,11 @@ fun QuestionCategoryChip(
     addQuestion: (QuestionUiModel) -> Boolean
 ) {
     val emptyQuestion = QuestionUiModel(question = "질문을 적어보세요.")
+    val freeQuestion = "자유 질문"
 
     OutlinedButton(
         onClick = {
-            if (category == "자유 질문") addQuestion(emptyQuestion) else onClickCategory(
+            if (category == freeQuestion) addQuestion(emptyQuestion) else onClickCategory(
                 category
             )
         },
@@ -106,7 +141,7 @@ fun QuestionCategoryChip(
 @Composable
 fun SendPreferenceQuestionList(
     modifier: Modifier,
-    questions: List<QuestionUiModel> = listOf()
+    questions: List<QuestionUiModel> = listOf(),
 ) {
     Column(modifier = modifier) {
         ChinChinText(text = "총 질문", highlightText = "${questions.size}")
@@ -123,7 +158,7 @@ fun SendPreferenceQuestionList(
                     question = questionText,
                     onQuestionChanged = setQuestionText,
                     answer = answer,
-                    cardState = ChinChinQuestionCardState.INPUT_EMPTY
+                    cardState = ChinChinQuestionCardState.EDIT_MODE
                 )
             }
         }

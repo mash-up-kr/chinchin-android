@@ -276,7 +276,7 @@ fun ChinChinQuestionCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
-                if (cardState == ChinChinQuestionCardState.INPUT_EMPTY) {
+                if (cardState == ChinChinQuestionCardState.EDIT_MODE) {
                     BasicTextField(
                         value = question,
                         onValueChange = { onQuestionChanged(it) },
@@ -359,7 +359,7 @@ private fun getChinChinQuestionCardBackgroundColor(cardState: ChinChinQuestionCa
         }
         ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
         ChinChinQuestionCardState.INPUT_INCOMPLETE,
-        ChinChinQuestionCardState.INPUT_EMPTY,
+        ChinChinQuestionCardState.EDIT_MODE,
         -> {
             Secondary_1
         }
@@ -377,7 +377,7 @@ private fun getChinChinQuestionCardNumberIconBackgroundColor(cardState: ChinChin
         }
         ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
         ChinChinQuestionCardState.INPUT_INCOMPLETE,
-        ChinChinQuestionCardState.INPUT_EMPTY,
+        ChinChinQuestionCardState.EDIT_MODE,
         -> {
             Primary_1
         }
@@ -391,7 +391,7 @@ private fun getChinChinQuestionCardTextColor(cardState: ChinChinQuestionCardStat
         ChinChinQuestionCardState.FRIEND_REPLY,
         ChinChinQuestionCardState.INPUT_COMPLETE,
         ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
-        ChinChinQuestionCardState.INPUT_EMPTY,
+        ChinChinQuestionCardState.EDIT_MODE,
         ChinChinQuestionCardState.INPUT_INCOMPLETE,
         -> {
             Gray_700
