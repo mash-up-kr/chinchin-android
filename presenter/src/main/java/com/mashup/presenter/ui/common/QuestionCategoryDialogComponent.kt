@@ -1,5 +1,3 @@
-package com.mashup.presenter.ui.dialog_tests
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape

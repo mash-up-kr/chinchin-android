@@ -1,5 +1,6 @@
 package com.mashup.presenter.dialog_test
 
+import QuestionCategoryDialog
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.mashup.presenter.ui.dialog_tests.QuestionCategoryDialog
 import com.mashup.presenter.ui.theme.ChinchinTheme
 
 //TODO : need to delete activity
