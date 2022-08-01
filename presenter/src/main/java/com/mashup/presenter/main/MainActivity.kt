@@ -8,34 +8,36 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mashup.presenter.main.model.RecommendFriendUiModel
+import com.mashup.presenter.R
 import com.mashup.presenter.main.model.FriendGroupUiModel
 import com.mashup.presenter.main.model.FriendUiModel
+import com.mashup.presenter.main.model.RecommendFriendUiModel
+import com.mashup.presenter.ui.common.bottom_sheet.BottomSheetContent
+import com.mashup.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.presenter.ui.main.MainNavBar
 import com.mashup.presenter.ui.main.MainNavGraph
 import com.mashup.presenter.ui.main.MainNavScreen
-import com.mashup.presenter.ui.main.home.FriendsGroupList
-import com.mashup.presenter.ui.main.home.HomeHeader
-import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsListBody
-import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsHeader
-import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.presenter.ui.main.home.HomeBody
+import com.mashup.presenter.ui.main.home.HomeHeader
+import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsHeader
+import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsListBody
+import com.mashup.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -59,6 +61,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(
     screens: List<MainNavScreen> =  MainNavScreen.values().toList(),
@@ -68,20 +71,49 @@ fun MainScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
-    Scaffold(
-        bottomBar = {
-            MainNavBar(screens = screens, currentDestination = currentDestination) { screen ->
-                navController.navigate(screen.route) {
-                    popUpTo(navController.graph.findStartDestination().id)
-                    launchSingleTop = true
+    val modalBottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val coroutineScope = rememberCoroutineScope()
+
+    val showBottomSheet: () -> Unit = {
+        coroutineScope.launch {
+            modalBottomSheetState.show()
+        }
+    }
+    ModalBottomSheetLayout(
+        sheetState = modalBottomSheetState,
+        sheetContent = {
+            BottomSheetContent(
+                "친구 추가할까요?", listOf(
+                    BottomSheetItemUiModel("신규 친구 추가하기", R.drawable.icon_user_more1) {},
+                    BottomSheetItemUiModel("기존 친구에 연결하기", R.drawable.icon_connect) {},
+                    BottomSheetItemUiModel("취소", R.drawable.ic_x) {
+                        coroutineScope.launch {
+                            modalBottomSheetState.hide()
+                        }
+                    },
+                )
+            )
+        },
+        sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
+    )
+    {
+        Scaffold(
+            bottomBar = {
+                MainNavBar(screens = screens, currentDestination = currentDestination) { screen ->
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.findStartDestination().id)
+                        launchSingleTop = true
+                    }
                 }
             }
+        ) {
+            MainNavGraph(
+                navController = navController,
+                recommendFriends = recommendFriends,
+                showBottomSheet,
+            )
         }
-    ) {
-        MainNavGraph(
-            navController = navController,
-            recommendFriends = recommendFriends,
-        )
     }
 }
 
@@ -111,7 +143,10 @@ fun HomeScreen() {
 }
 
 @Composable
-fun RecommendFriendsScreen(recommendFriendsList: List<RecommendFriendUiModel> = listOf()) {
+fun RecommendFriendsScreen(
+    recommendFriendsList: List<RecommendFriendUiModel> = listOf(),
+    showBottomSheet: () -> Unit,
+) {
     Column(
         modifier = Modifier.padding(horizontal = 24.dp)
     ) {
@@ -122,7 +157,7 @@ fun RecommendFriendsScreen(recommendFriendsList: List<RecommendFriendUiModel> = 
         if (recommendFriendsList.isEmpty()) {
             RecommendFriendsPermissionBody()
         } else {
-            RecommendFriendsListBody(recommendFriendsList)
+            RecommendFriendsListBody(recommendFriendsList, showBottomSheet)
         }
     }
 }
