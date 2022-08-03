@@ -14,6 +14,7 @@ fun MainNavGraph(
     navController: NavHostController,
     recommendFriends: List<RecommendFriendUiModel>,
     showBottomSheet: () -> Unit,
+    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -23,7 +24,7 @@ fun MainNavGraph(
             HomeScreen()
         }
         composable(route = MainNavScreen.RecommendFriends.route) {
-            RecommendFriendsScreen(recommendFriends, showBottomSheet)
+            RecommendFriendsScreen(recommendFriends, showBottomSheet, onSelectFriend)
         }
         composable(route = MainNavScreen.More.route) {
             MoreScreen()

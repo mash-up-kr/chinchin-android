@@ -107,13 +107,14 @@ fun RequestPermissionButton(onButtonClick: () -> Unit = {}) {
 fun RecommendFriendsListBody(
     recommendFriendsList: List<RecommendFriendUiModel>,
     showBottomSheet: () -> Unit,
+    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit
 ) {
     LazyColumn {
         itemsIndexed(recommendFriendsList) { index, recommendFriend ->
             if (index == 0) {
                 Divider(color = Color(0xFFD9D9D9), thickness = 0.5.dp)
             }
-            RecommendFriendItem(recommendFriend, showBottomSheet)
+            RecommendFriendItem(recommendFriend, showBottomSheet, onSelectFriend)
             Divider(color = Color(0xFFD9D9D9), thickness = 0.5.dp)
         }
     }
@@ -123,6 +124,7 @@ fun RecommendFriendsListBody(
 fun RecommendFriendItem(
     recommendFriend: RecommendFriendUiModel,
     showBottomSheet: () -> Unit,
+    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -140,6 +142,7 @@ fun RecommendFriendItem(
                 .height(36.dp)
         ) {
             showBottomSheet.invoke()
+            onSelectFriend.invoke(recommendFriend)
         }
     }
 }
