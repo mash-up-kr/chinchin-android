@@ -140,6 +140,7 @@ fun ChinChinButton(
 @Composable
 fun ChinChinConfirmButton(
     buttonText: String,
+    modifier: Modifier = Modifier,
     radius: Dp = 10.dp,
     isEnable: Boolean = false,
     onButtonClick: () -> Unit,
@@ -149,12 +150,14 @@ fun ChinChinConfirmButton(
             buttonText = buttonText,
             radius = radius,
             onButtonClick = onButtonClick,
+            modifier = modifier,
         )
     } else {
         ChinChinDisableConfirmButton(
             buttonText = buttonText,
             radius = radius,
             onButtonClick = onButtonClick,
+            modifier = modifier,
         )
     }
 }
@@ -162,6 +165,7 @@ fun ChinChinConfirmButton(
 @Composable
 private fun ChinChinEnableConfirmButton(
     buttonText: String,
+    modifier: Modifier = Modifier,
     radius: Dp = 10.dp,
     onButtonClick: () -> Unit,
 ) {
@@ -170,7 +174,7 @@ private fun ChinChinEnableConfirmButton(
         shape = RoundedCornerShape(radius),
         colors = ButtonDefaults.buttonColors(backgroundColor = Primary_1),
         contentPadding = PaddingValues(vertical = 20.dp),
-        modifier = Modifier
+        modifier = modifier
             .defaultMinSize(minHeight = 1.dp)
             .fillMaxWidth(),
         elevation = ButtonDefaults.elevation(
@@ -190,6 +194,7 @@ private fun ChinChinEnableConfirmButton(
 @Composable
 private fun ChinChinDisableConfirmButton(
     buttonText: String,
+    modifier: Modifier = Modifier,
     radius: Dp = 10.dp,
     buttonColor: Color = Gray_500,
     onButtonClick: () -> Unit,
@@ -199,7 +204,7 @@ private fun ChinChinDisableConfirmButton(
         shape = RoundedCornerShape(radius),
         contentPadding = PaddingValues(vertical = 20.dp),
         border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(buttonColor)),
-        modifier = Modifier
+        modifier = modifier
             .defaultMinSize(minHeight = 1.dp)
             .fillMaxWidth(),
         elevation = ButtonDefaults.elevation(

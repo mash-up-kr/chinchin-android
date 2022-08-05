@@ -15,6 +15,7 @@ import com.mashup.presenter.receive_alarm.ReceiveAlarmActivity
 import com.mashup.presenter.reply_preference.ReplyPreferenceActivity
 import com.mashup.presenter.room_test.RoomTestActivity
 import com.mashup.presenter.send_preference.SendPreferenceActivity
+import com.mashup.presenter.send_preference.SendPreferenceCompleteActivity
 import com.mashup.presenter.set_group.SetGroupActivity
 import com.mashup.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +45,7 @@ class BridgeActivity : ComponentActivity() {
                             ReplyPreferenceActivity::class.java,
                             DialogActivity::class.java,
                             SendPreferenceActivity::class.java,
+                            SendPreferenceCompleteActivity::class.java,
                         )
                     )
                 }

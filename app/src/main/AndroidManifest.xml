@@ -53,6 +53,7 @@
         <activity android:name="com.mashup.presenter.reply_preference.ReplyPreferenceActivity" />
         <activity android:name="com.mashup.presenter.send_preference.SendPreferenceActivity" />
         <activity android:name="com.mashup.presenter.dialog_test.DialogActivity" />
+        <activity android:name="com.mashup.presenter.send_preference.SendPreferenceCompleteActivity" />
     </application>
 
 </manifest>
