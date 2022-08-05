@@ -8,8 +8,8 @@ import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
 import com.kakao.sdk.common.KakaoSdk
 import com.mashup.chinchin.BuildConfig
-import com.mashup.data.di.NetworkModule
-import com.mashup.presenter.R
+import com.mashup.chinchin.data.di.NetworkModule
+import com.mashup.chinchin.presenter.R
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

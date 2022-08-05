@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chinchin">
         <activity
-            android:name="com.mashup.presenter.dev.BridgeActivity"
+            android:name="com.mashup.chinchin.presenter.dev.BridgeActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Chinchin.NoActionBar">
@@ -23,9 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.mashup.presenter.main.MainActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.main.MainActivity" />
         <activity
-            android:name="com.mashup.presenter.login.LoginActivity"
+            android:name="com.mashup.chinchin.presenter.login.LoginActivity"
             android:exported="true"
             android:label="로그인"
             android:theme="@style/Theme.Chinchin.NoActionBar" />
@@ -44,15 +44,15 @@
                     android:scheme="@string/KAKAO_APP_REDIRECTION_SCHEME" />
             </intent-filter>
         </activity>
-        <activity android:name="com.mashup.presenter.receive_alarm.ReceiveAlarmActivity" />
-        <activity android:name="com.mashup.presenter.group_detail.GroupDetailActivity" />
-        <activity android:name="com.mashup.presenter.friend_detail.FriendDetailActivity" />
-        <activity android:name="com.mashup.presenter.set_group.SetGroupActivity"/>
-        <activity android:name="com.mashup.presenter.add_friend.AddFriendActivity" />
-        <activity android:name="com.mashup.presenter.reply_preference.ReplyPreferenceActivity" />
-        <activity android:name="com.mashup.presenter.send_preference.SendPreferenceActivity" />
-        <activity android:name="com.mashup.presenter.dialog_test.DialogActivity" />
-        <activity android:name="com.mashup.presenter.send_preference.SendPreferenceCompleteActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.group_detail.GroupDetailActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.set_group.SetGroupActivity"/>
+        <activity android:name="com.mashup.chinchin.presenter.add_friend.AddFriendActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.reply_preference.ReplyPreferenceActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.dialog_test.DialogActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.send_preference.SendPreferenceCompleteActivity" />
     </application>
 
 </manifest>
