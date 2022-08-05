@@ -81,5 +81,4 @@ dependencies {
     implementation "io.coil-kt:coil-compose:$coil_version"
 
     implementation project(':domain')
-
 }

@@ -1,4 +1,4 @@
-package com.mashup.data.repository
+package com.mashup.domain.repository
 
 interface LoginRepository {
     fun setJwt(jwt: String)

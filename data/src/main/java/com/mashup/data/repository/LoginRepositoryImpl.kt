@@ -1,7 +1,7 @@
-package com.mashup.data.repository.impl
+package com.mashup.data.repository
 
 import com.mashup.data.datasource.local.LocalLoginDataSource
-import com.mashup.data.repository.LoginRepository
+import com.mashup.domain.repository.LoginRepository
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(

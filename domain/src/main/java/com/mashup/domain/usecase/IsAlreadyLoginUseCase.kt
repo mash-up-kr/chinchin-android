@@ -1,5 +1,10 @@
 package com.mashup.domain.usecase
 
-interface IsAlreadyLoginUseCase {
-    suspend operator fun invoke(): Boolean
+import com.mashup.domain.repository.LoginRepository
+import javax.inject.Inject
+
+class IsAlreadyLoginUseCase @Inject constructor(
+    private val loginRepository: LoginRepository,
+) {
+    fun invoke(): Boolean = loginRepository.getJwt().isBlank().not()
 }
