@@ -145,34 +145,10 @@ fun ChinChinConfirmButton(
     isEnable: Boolean = false,
     onButtonClick: () -> Unit,
 ) {
-    if (isEnable) {
-        ChinChinEnableConfirmButton(
-            buttonText = buttonText,
-            radius = radius,
-            onButtonClick = onButtonClick,
-            modifier = modifier,
-        )
-    } else {
-        ChinChinDisableConfirmButton(
-            buttonText = buttonText,
-            radius = radius,
-            onButtonClick = onButtonClick,
-            modifier = modifier,
-        )
-    }
-}
-
-@Composable
-private fun ChinChinEnableConfirmButton(
-    buttonText: String,
-    modifier: Modifier = Modifier,
-    radius: Dp = 10.dp,
-    onButtonClick: () -> Unit,
-) {
     Button(
         onClick = { onButtonClick() },
         shape = RoundedCornerShape(radius),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Primary_1),
+        colors = ButtonDefaults.buttonColors(backgroundColor = if (isEnable) Primary_1 else Gray_300),
         contentPadding = PaddingValues(vertical = 20.dp),
         modifier = modifier
             .defaultMinSize(minHeight = 1.dp)
@@ -181,46 +157,16 @@ private fun ChinChinEnableConfirmButton(
             defaultElevation = 0.dp,
             pressedElevation = 0.dp,
         ),
+        enabled = isEnable,
     ) {
         Text(
             text = buttonText,
             fontSize = 16.sp,
-            color = Gray_800,
+            color = if (isEnable) Gray_800 else Gray_500,
             fontWeight = FontWeight.Bold,
         )
     }
 }
-
-@Composable
-private fun ChinChinDisableConfirmButton(
-    buttonText: String,
-    modifier: Modifier = Modifier,
-    radius: Dp = 10.dp,
-    buttonColor: Color = Gray_500,
-    onButtonClick: () -> Unit,
-) {
-    OutlinedButton(
-        onClick = { onButtonClick() },
-        shape = RoundedCornerShape(radius),
-        contentPadding = PaddingValues(vertical = 20.dp),
-        border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(buttonColor)),
-        modifier = modifier
-            .defaultMinSize(minHeight = 1.dp)
-            .fillMaxWidth(),
-        elevation = ButtonDefaults.elevation(
-            defaultElevation = 0.dp,
-            pressedElevation = 0.dp,
-        ),
-    ) {
-        Text(
-            text = buttonText,
-            fontSize = 16.sp,
-            color = buttonColor,
-            fontWeight = FontWeight.Bold,
-        )
-    }
-}
-
 
 @Composable
 fun ChinChinTitleAndTextFieldButton(
