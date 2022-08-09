@@ -16,23 +16,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.main.model.FriendUiModel
+import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
 import com.mashup.chinchin.presenter.ui.main.MainNavBar
 import com.mashup.chinchin.presenter.ui.main.MainNavGraph
 import com.mashup.chinchin.presenter.ui.main.MainNavScreen
-import com.mashup.chinchin.presenter.ui.main.home.HomeHeader
-import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsListBody
-import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsHeader
-import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.chinchin.presenter.ui.main.home.HomeBody
+import com.mashup.chinchin.presenter.ui.main.home.HomeHeader
+import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsHeader
+import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsListBody
+import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,8 +61,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(
-    screens: List<MainNavScreen> =  MainNavScreen.values().toList(),
-    recommendFriends: List<RecommendFriendUiModel> = listOf()
+    screens: List<MainNavScreen> = MainNavScreen.values().toList(),
+    recommendFriends: List<RecommendFriendUiModel> = listOf(),
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -76,16 +77,17 @@ fun MainScreen(
                 }
             }
         }
-    ) {
+    ) { paddingValues ->
         MainNavGraph(
             navController = navController,
             recommendFriends = recommendFriends,
+            bottomPaddingValue = paddingValues.calculateBottomPadding()
         )
     }
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
     val groups = mutableListOf<FriendGroupUiModel>()
 
     repeat(20) {
@@ -103,16 +105,24 @@ fun HomeScreen() {
         groups.add(dummyGroup)
     }
 
-    Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(start = 24.dp, end = 24.dp, bottom = bottomPaddingValue)
+    ) {
         HomeHeader()
         HomeBody(groups)
     }
 }
 
 @Composable
-fun RecommendFriendsScreen(recommendFriendsList: List<RecommendFriendUiModel> = listOf()) {
+fun RecommendFriendsScreen(
+    recommendFriendsList: List<RecommendFriendUiModel> = listOf(),
+    bottomPaddingValue: Dp = 0.dp
+) {
     Column(
-        modifier = Modifier.padding(horizontal = 24.dp)
+        modifier = Modifier
+            .padding(horizontal = 24.dp)
+            .padding(bottom = bottomPaddingValue)
     ) {
         RecommendFriendsHeader(recommendFriendsList.size)
         Spacer(modifier = Modifier.height(7.dp))
@@ -129,7 +139,6 @@ fun RecommendFriendsScreen(recommendFriendsList: List<RecommendFriendUiModel> = 
 @Composable
 fun MoreScreen() {
     ConstraintLayout(modifier = Modifier.background(Color.Green)) {
-
         val text = createRef()
         Text("More", Modifier.constrainAs(text) {
             top.linkTo(parent.top)
