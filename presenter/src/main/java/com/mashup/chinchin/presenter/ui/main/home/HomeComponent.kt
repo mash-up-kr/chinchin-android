@@ -88,12 +88,10 @@ fun HomePreview() {
 @Composable
 fun HomeHeader(onButtonClick: () -> Unit = {}) {
     Column {
-        /* TODO: Image 로 변경될 예정 */
-        Text(
-            text = "친친",
-            fontSize = 30.sp,
-            color = Primary_1,
-            modifier = Modifier.padding(top = 6.dp, start = 4.dp)
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "",
+            modifier = Modifier.padding(top = 17.dp, start = 3.dp),
         )
 
         Row(
