@@ -114,7 +114,7 @@ fun ChinChinButton(
     OutlinedButton(
         onClick = { onButtonClick() },
         modifier = modifier.defaultMinSize(1.dp, 1.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 11.dp),
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 7.dp),
         border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(buttonColor)),
         shape = RoundedCornerShape(8.dp),
     ) {
