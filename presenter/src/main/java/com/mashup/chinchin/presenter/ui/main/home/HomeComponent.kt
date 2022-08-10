@@ -111,7 +111,7 @@ fun HomeHeader(
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(top = 22.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column {
@@ -119,7 +119,7 @@ fun HomeHeader(
                     text = "친구를 추가하고\n취향을 수집해보세요!",
                     fontSize = 20.sp,
                     color = Black,
-                    modifier = Modifier.padding(top = 18.dp),
+                    modifier = Modifier.padding(top = 10.dp),
                     fontWeight = FontWeight.Bold,
                 )
 
