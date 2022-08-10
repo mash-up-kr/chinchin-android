@@ -103,7 +103,8 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
                     text = "친구를 추가하고\n취향을 수집해보세요!",
                     fontSize = 20.sp,
                     color = Black,
-                    modifier = Modifier.padding(top = 18.dp)
+                    modifier = Modifier.padding(top = 18.dp),
+                    fontWeight = FontWeight.Bold,
                 )
 
                 Button(
@@ -123,6 +124,7 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
                         text = "+ 친구 추가하기",
                         fontSize = 16.sp,
                         color = Gray_800,
+                        fontWeight = FontWeight.Bold,
                     )
                 }
             }
@@ -140,9 +142,9 @@ fun HomeHeader(onButtonClick: () -> Unit = {}) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 26.dp),
+                .padding(top = 26.dp, bottom = 15.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             ChinChinText(
                 text = "친친 그룹",
