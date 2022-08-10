@@ -15,7 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mashup.presenter.R
+import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.presenter.ui.common.bottom_sheet.BottomSheetContent

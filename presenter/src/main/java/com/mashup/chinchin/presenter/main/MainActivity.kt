@@ -32,7 +32,7 @@ import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsH
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsListBody
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
-import com.mashup.presenter.R
+import com.mashup.chinchin.presenter.R
 import com.mashup.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import dagger.hilt.android.AndroidEntryPoint

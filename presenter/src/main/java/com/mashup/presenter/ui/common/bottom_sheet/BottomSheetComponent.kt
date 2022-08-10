@@ -11,12 +11,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mashup.presenter.R
+import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.ui.theme.Black
+import com.mashup.chinchin.presenter.ui.theme.Gray_200
+import com.mashup.chinchin.presenter.ui.theme.Gray_400
+import com.mashup.chinchin.presenter.ui.theme.White
 import com.mashup.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
-import com.mashup.presenter.ui.theme.Black
-import com.mashup.presenter.ui.theme.Gray_200
-import com.mashup.presenter.ui.theme.Gray_400
-import com.mashup.presenter.ui.theme.White
 
 @Preview(showBackground = true)
 @Composable
