@@ -86,13 +86,29 @@ fun HomePreview() {
 }
 
 @Composable
-fun HomeHeader(onButtonClick: () -> Unit = {}) {
+fun HomeHeader(
+    onButtonClick: () -> Unit = {},
+    onBellClick: () -> Unit = {},
+) {
     Column {
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "",
-            modifier = Modifier.padding(top = 17.dp, start = 3.dp),
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom,
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "",
+                modifier = Modifier.padding(top = 17.dp),
+            )
+
+            IconButton(
+                onClick = { onBellClick() },
+                modifier = Modifier.size(24.dp).padding(end = 4.dp)
+            ) {
+                Icon(painter = painterResource(id = R.drawable.icon_bell), contentDescription = "")
+            }
+        }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
