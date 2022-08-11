@@ -359,7 +359,7 @@ private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: ChinChinQuest
 }
 
 @Composable
-fun ChinChinGreyTextField(
+fun ChinChinGrayTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeHolder: String = "",
