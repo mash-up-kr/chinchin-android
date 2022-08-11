@@ -1,6 +1,7 @@
 package com.mashup.chinchin.presenter.ui.common
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -10,11 +11,13 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -192,7 +195,12 @@ fun ChinChinTitleAndTextFieldButton(
 }
 
 @Composable
-fun ChinChinTextFieldButton(iconRes: Int, placeHolder: String, text: String, onButtonClick: () -> Unit = {}) {
+fun ChinChinTextFieldButton(
+    iconRes: Int,
+    placeHolder: String,
+    text: String,
+    onButtonClick: () -> Unit = {}
+) {
     Button(
         onClick = { onButtonClick() },
         colors = ButtonDefaults.buttonColors(backgroundColor = Gray_100),
@@ -259,7 +267,7 @@ fun ChinChinActingButton(
 fun ChinChinQuestionCard(
     index: Int,
     question: String,
-    onQuestionChanged:(String) -> Unit = {},
+    onQuestionChanged: (String) -> Unit = {},
     answer: String?,
     cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.FRIEND_REPLY,
 ) {
@@ -348,6 +356,49 @@ private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: ChinChinQuest
             color = getChinChinQuestionCardTextColor(cardState)
         )
     }
+}
+
+@Composable
+fun ChinChinGreyTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeHolder: String = "",
+    paddingValues: PaddingValues = PaddingValues(0.dp),
+) {
+    BasicTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(paddingValues)
+            .clip(RoundedCornerShape(8.dp))
+            .height(48.dp)
+            .background(Gray_100),
+        singleLine = true,
+        maxLines = 1,
+        textStyle = TextStyle(
+            fontSize = 14.sp,
+            color = Gray_800
+        ),
+        cursorBrush = SolidColor(Gray_800),
+        decorationBox = { innerTextField ->
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                contentAlignment = Alignment.CenterStart,
+            ) {
+                if (value.isEmpty()) {
+                    Text(
+                        text = placeHolder,
+                        color = Gray_400,
+                        fontSize = 14.sp
+                    )
+                }
+                innerTextField()
+            }
+        },
+    )
 }
 
 private fun getChinChinQuestionCardBackgroundColor(cardState: ChinChinQuestionCardState): Color =
