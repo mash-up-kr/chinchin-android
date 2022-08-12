@@ -11,7 +11,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +21,7 @@ import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.ui.theme.Gray_500
 import com.mashup.chinchin.presenter.ui.theme.Gray_800
+import com.mashup.chinchin.presenter.ui.theme.White
 
 @Composable
 fun SendPreferenceQuestionTitle(userName: String) {
@@ -95,7 +95,7 @@ fun QuestionCategoryChip(category: String, onDialogOpen: (String) -> Unit = {}) 
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text = category,
-                color = Color.White,
+                color = White,
                 fontSize = 14.sp,
                 textAlign = TextAlign.Center
             )

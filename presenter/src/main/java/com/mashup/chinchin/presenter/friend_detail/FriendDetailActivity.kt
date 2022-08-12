@@ -3,6 +3,7 @@ package com.mashup.chinchin.presenter.friend_detail
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,6 +26,7 @@ import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.friend_detail.*
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
+import com.mashup.chinchin.presenter.ui.theme.White
 import kotlin.math.roundToInt
 
 class FriendDetailActivity : ComponentActivity() {
@@ -144,11 +146,14 @@ fun FriendDetailScreen(
                 isSavedTempQuestions = isSavedTempQuestions
             )
         }
-        Column(modifier = Modifier
-            .padding(top = 56.dp)
-            .offset {
-                IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt())
-            }) {
+        Column(
+            modifier = Modifier
+                .padding(top = 56.dp)
+                .offset {
+                    IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt())
+                }
+                .background(White)
+        ) {
             FriendProfile(friendProfileUiModel)
             FriendDetailNavBar(
                 screens = screens,

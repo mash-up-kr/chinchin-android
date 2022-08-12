@@ -36,7 +36,7 @@ fun ChinChinToolbar(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp)
-            .background(Color.White),
+            .background(White),
     ) {
         val (backButtonRef, confirmButtonRef, textRef) = createRefs()
 
