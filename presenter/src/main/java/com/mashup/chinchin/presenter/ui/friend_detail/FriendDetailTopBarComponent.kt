@@ -2,6 +2,7 @@ package com.mashup.chinchin.presenter.ui.friend_detail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,7 +11,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,45 +35,59 @@ fun FriendProfilePreview() {
 
 @Composable
 fun FriendProfile(friendProfileUiModel: FriendProfileUiModel) {
-    Row(
+    Column(
         modifier = Modifier
-            .wrapContentHeight()
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(top = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
             model = friendProfileUiModel.profileUrl,
             contentDescription = "profile",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(92.dp)
+                .size(68.dp)
                 .clip(CircleShape),
         )
-        Column {
+        Text(
+            modifier = Modifier.padding(top = 2.dp),
+            text = friendProfileUiModel.name,
+            color = Color.Black,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+        )
+        Row(
+            modifier = Modifier
+                .height(IntrinsicSize.Min)
+                .padding(top = 3.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
             Text(
-                modifier = Modifier.padding(start = 16.dp, top = 4.dp),
-                text = friendProfileUiModel.name,
-                color = Color.Black,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
+                text = friendProfileUiModel.birthday,
+                fontSize = 12.sp,
+                color = Gray_500,
             )
-            Row(
+            Spacer(modifier = Modifier.width(12.dp))
+            Divider(
+                color = Gray_500,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 18.dp, top = 2.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                FriendProfileSubInfo(friendProfileUiModel.birthday, friendProfileUiModel.groupName)
-                ChinChinButton(
-                    icon = R.drawable.ic_edit,
-                    buttonText = "프로필 편집",
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-
-                )
-            }
+                    .fillMaxHeight()
+                    .width(1.dp)
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = friendProfileUiModel.groupName,
+                fontSize = 12.sp,
+                color = Gray_500
+            )
         }
+        //TODO 다른 버튼으로 교체 해야함
+        ChinChinButton(
+            icon = R.drawable.ic_edit,
+            buttonText = "친구 추가하기",
+            modifier = Modifier.padding(top = 20.dp)
+        )
+        Spacer(modifier = Modifier.height(7.dp))
     }
 }
 

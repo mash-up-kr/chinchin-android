@@ -1,6 +1,7 @@
 package com.mashup.chinchin.presenter.ui.common
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -34,7 +35,8 @@ fun ChinChinToolbar(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp),
+            .height(56.dp)
+            .background(Color.White),
     ) {
         val (backButtonRef, confirmButtonRef, textRef) = createRefs()
 
