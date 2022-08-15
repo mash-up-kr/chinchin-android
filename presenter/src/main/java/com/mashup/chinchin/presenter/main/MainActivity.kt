@@ -2,18 +2,16 @@ package com.mashup.chinchin.presenter.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,7 +33,11 @@ import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsH
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsListBody
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
+import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -59,30 +61,81 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(
     screens: List<MainNavScreen> = MainNavScreen.values().toList(),
     recommendFriends: List<RecommendFriendUiModel> = listOf(),
 ) {
+
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
-    Scaffold(
-        bottomBar = {
-            MainNavBar(screens = screens, currentDestination = currentDestination) { screen ->
-                navController.navigate(screen.route) {
-                    popUpTo(navController.graph.findStartDestination().id)
-                    launchSingleTop = true
+    val selectedFriend = remember { mutableStateOf(RecommendFriendUiModel("", "")) }
+    val onSelectFriend: (friend: RecommendFriendUiModel) -> Unit = { friend ->
+        selectedFriend.value = friend
+    }
+    val coroutineScope = rememberCoroutineScope()
+
+    val modalBottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+
+    val showBottomSheet: () -> Unit = {
+        coroutineScope.launch {
+            modalBottomSheetState.show()
+        }
+    }
+
+    val closeBottomSheet: () -> Unit = {
+        coroutineScope.launch {
+            modalBottomSheetState.hide()
+        }
+    }
+
+    if (currentDestination.route == MainNavScreen.RecommendFriends.route) {
+        BackHandler(enabled = modalBottomSheetState.isVisible) {
+            closeBottomSheet()
+        }
+    }
+
+    ModalBottomSheetLayout(
+        sheetState = modalBottomSheetState,
+        sheetContent = {
+            BottomSheetContent(
+                "친구 추가할까요?", listOf(
+                    BottomSheetItemUiModel("신규 친구 추가하기", R.drawable.icon_user_more1) {
+                        closeBottomSheet() //TODO 신규 추가하기 로직 구현 해야함
+                    },
+                    BottomSheetItemUiModel("기존 친구에 연결하기", R.drawable.icon_connect) {},//TODO
+                    BottomSheetItemUiModel("취소", R.drawable.ic_x) {
+                        closeBottomSheet()
+                    },
+                )
+            )
+        },
+        sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
+    )
+    {
+        Scaffold(
+            bottomBar = {
+                MainNavBar(screens = screens, currentDestination = currentDestination) { screen ->
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.findStartDestination().id)
+                        launchSingleTop = true
+                    }
                 }
             }
+        ) {
+                paddingValues ->
+            MainNavGraph(
+                navController = navController,
+                recommendFriends = recommendFriends,
+                showBottomSheet,
+                onSelectFriend,
+                bottomPaddingValue = paddingValues.calculateBottomPadding()
+            )
         }
-    ) { paddingValues ->
-        MainNavGraph(
-            navController = navController,
-            recommendFriends = recommendFriends,
-            bottomPaddingValue = paddingValues.calculateBottomPadding()
-        )
     }
 }
 
@@ -117,7 +170,9 @@ fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
 @Composable
 fun RecommendFriendsScreen(
     recommendFriendsList: List<RecommendFriendUiModel> = listOf(),
-    bottomPaddingValue: Dp = 0.dp
+    showBottomSheet: () -> Unit,
+    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
+    bottomPaddingValue: Dp = 0.dp,
 ) {
     Column(
         modifier = Modifier
@@ -131,7 +186,7 @@ fun RecommendFriendsScreen(
         if (recommendFriendsList.isEmpty()) {
             RecommendFriendsPermissionBody()
         } else {
-            RecommendFriendsListBody(recommendFriendsList)
+            RecommendFriendsListBody(recommendFriendsList, showBottomSheet, onSelectFriend)
         }
     }
 }

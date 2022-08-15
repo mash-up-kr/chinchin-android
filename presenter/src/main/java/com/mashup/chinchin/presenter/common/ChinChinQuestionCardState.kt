@@ -8,4 +8,6 @@ enum class ChinChinQuestionCardState {
 
     EXPECT_INCOMPLETE_REPLY,
     INPUT_INCOMPLETE,
+
+    EDIT_MODE
 }

@@ -1,15 +1,7 @@
 package com.mashup.chinchin.presenter.ui.main.recommend_friends
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -55,8 +47,10 @@ fun RecommendFriendsHeader(recommendFriendCount: Int) {
 @Composable
 fun RecommendFriendsPermissionBody() {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 29.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 29.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "내 카톡 친구를 찾아보세요",
@@ -110,24 +104,34 @@ fun RequestPermissionButton(onButtonClick: () -> Unit = {}) {
 }
 
 @Composable
-fun RecommendFriendsListBody(recommendFriendsList: List<RecommendFriendUiModel>) {
+fun RecommendFriendsListBody(
+    recommendFriendsList: List<RecommendFriendUiModel>,
+    showBottomSheet: () -> Unit,
+    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit
+) {
     LazyColumn {
         itemsIndexed(recommendFriendsList) { index, recommendFriend ->
             if (index == 0) {
                 Divider(color = Color(0xFFD9D9D9), thickness = 0.5.dp)
             }
-            RecommendFriendItem(recommendFriend)
+            RecommendFriendItem(recommendFriend, showBottomSheet, onSelectFriend)
             Divider(color = Color(0xFFD9D9D9), thickness = 0.5.dp)
         }
     }
 }
 
 @Composable
-fun RecommendFriendItem(recommendFriend: RecommendFriendUiModel) {
+fun RecommendFriendItem(
+    recommendFriend: RecommendFriendUiModel,
+    showBottomSheet: () -> Unit,
+    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().height(70.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)
     ) {
         RecommendFriendInfo(recommendFriend)
         ChinChinButton(
@@ -136,7 +140,10 @@ fun RecommendFriendItem(recommendFriend: RecommendFriendUiModel) {
             modifier = Modifier
                 .width(91.dp)
                 .height(36.dp)
-        )
+        ) {
+            showBottomSheet.invoke()
+            onSelectFriend.invoke(recommendFriend)
+        }
     }
 }
 
@@ -148,13 +155,15 @@ fun RecommendFriendInfo(recommendFriend: RecommendFriendUiModel) {
         Image(
             painter = painterResource(id = R.drawable.image_124),
             contentDescription = "",
-            modifier = Modifier.width(54.dp).height(54.dp)
+            modifier = Modifier
+                .width(54.dp)
+                .height(54.dp),
         )
 
         Text(
             text = recommendFriend.name,
             fontSize = 14.sp,
-            modifier = Modifier.padding(start = 12.dp)
+            modifier = Modifier.padding(start = 12.dp),
         )
     }
 }
