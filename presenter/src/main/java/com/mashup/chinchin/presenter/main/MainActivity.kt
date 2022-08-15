@@ -1,5 +1,6 @@
 package com.mashup.chinchin.presenter.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -34,6 +35,7 @@ import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsL
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.group_detail.GroupDetailActivity
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.main.home.AddGroupDialog
@@ -49,7 +51,7 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     MainScreen(
                         recommendFriends = initRecommendFriends(),
-                        groups = initGroups()
+                        groups = initGroups(),
                     )
                 }
             }
@@ -84,7 +86,7 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(
     screens: List<MainNavScreen> = MainNavScreen.values().toList(),
     recommendFriends: List<RecommendFriendUiModel> = listOf(),
-    groups: List<FriendGroupUiModel> = listOf()
+    groups: List<FriendGroupUiModel> = listOf(),
 ) {
 
     val navController = rememberNavController()
@@ -164,9 +166,9 @@ fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) 
     val groups = remember { groups.toMutableStateList() }
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp)) {
-        HomeHeader(onAddGroupClick = setShowDialog)
-        HomeBody(groups)
+    Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = bottomPaddingValue)) {
+        HomeHeader(onAddGroupClick = setShowDialog, groups = groups)
+        HomeBody(groups = groups)
         AddGroupDialog(
             showDialog = showDialog,
             setShowDialog = setShowDialog,

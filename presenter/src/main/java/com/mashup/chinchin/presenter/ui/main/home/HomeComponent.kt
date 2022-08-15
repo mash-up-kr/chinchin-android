@@ -1,7 +1,9 @@
 package com.mashup.chinchin.presenter.ui.main.home
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,6 +16,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +26,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.group_detail.GroupDetailActivity
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.main.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
@@ -32,7 +36,9 @@ import com.mashup.chinchin.presenter.ui.theme.*
 
 
 @Composable
-fun HomeBody(groups: List<FriendGroupUiModel> = listOf()) {
+fun HomeBody(
+    groups: List<FriendGroupUiModel> = listOf(),
+) {
     if (groups.isEmpty()) {
         EmptyFriendGroups()
     } else {
@@ -65,6 +71,7 @@ fun HomeHeader(
     onButtonClick: () -> Unit = {},
     onBellClick: () -> Unit = {},
     onAddGroupClick: (Boolean) -> Unit = {},
+    groups: List<FriendGroupUiModel> = emptyList(),
 ) {
     Column {
         Row(
@@ -143,7 +150,7 @@ fun HomeHeader(
         ) {
             ChinChinText(
                 text = "친친 그룹",
-                highlightText = "${0}",
+                highlightText = "${groups.size}",
             )
             ChinChinButton(
                 icon = R.drawable.icon_group_plus,
@@ -155,33 +162,47 @@ fun HomeHeader(
 }
 
 @Composable
-fun FriendsGroupList(groups: List<FriendGroupUiModel>) {
+fun FriendsGroupList(
+    groups: List<FriendGroupUiModel>,
+) {
+    val context = LocalContext.current
+
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         items(groups) { group ->
-            FriendGroupCard(group)
+            FriendGroupCard(
+                friendGroup = group,
+                modifier = Modifier.clickable {
+                    context.startActivity(Intent(context, GroupDetailActivity::class.java).apply {
+                        putExtra("FRIEND_GROUP", group)
+                    })
+                }
+            )
         }
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun FriendGroupCard(friendGroup: FriendGroupUiModel) {
-    val group = friendGroup
-
+fun FriendGroupCard(
+    modifier: Modifier,
+    friendGroup: FriendGroupUiModel,
+) {
     Card(
         shape = RoundedCornerShape(8.dp),
         backgroundColor = Secondary_1,
-        elevation = 0.dp
+        elevation = 0.dp,
+        modifier = modifier,
     ) {
         Column(
             modifier = Modifier
                 .padding(0.dp)
                 .fillMaxWidth()
         ) {
-            FriendGroupCardTitle(group.name)
-            NumberOfFriends(group.friends.size)
-            FriendProfileThumbnailList(group.friends)
+            FriendGroupCardTitle(friendGroup.name)
+            NumberOfFriends(friendGroup.friends.size)
+            FriendProfileThumbnailList(friendGroup.friends)
         }
     }
 }
@@ -275,9 +296,14 @@ fun FriendProfileThumbnail(thumbnailUrl: String) {
             .border(2.dp, Secondary_1, CircleShape)
     )
 }
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun AddGroupDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit, addGroup: (String) -> Unit) {
+fun AddGroupDialog(
+    showDialog: Boolean,
+    setShowDialog: (Boolean) -> Unit,
+    addGroup: (String) -> Unit
+) {
     if (showDialog) {
         Dialog(
             onDismissRequest = {},

@@ -24,22 +24,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.group_detail.model.GroupDetailUiModel
+import com.mashup.chinchin.presenter.main.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.theme.Black
 import com.mashup.chinchin.presenter.ui.theme.Secondary_1
 
 @Composable
-fun GroupDetailList(groupDetailUiModels: List<GroupDetailUiModel>, modifier: Modifier = Modifier) {
+fun GroupDetailList(friends: List<FriendUiModel>, modifier: Modifier = Modifier) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {
-        items(groupDetailUiModels) { groupDetail ->
+        items(friends) { friend ->
             GroupDetailItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(78.dp)
                     .padding(horizontal = 24.dp),
-                groupDetail = groupDetail
+                friend = friend
             )
         }
     }
@@ -53,14 +54,14 @@ fun GroupDetailItemPreview() {
             .fillMaxWidth()
             .height(78.dp)
             .padding(horizontal = 24.dp),
-        groupDetail = GroupDetailUiModel("김매쉬", ""),
+        friend = FriendUiModel("김매쉬", ""),
     )
 }
 
 @Composable
 fun GroupDetailItem(
     modifier: Modifier = Modifier,
-    groupDetail: GroupDetailUiModel
+    friend: FriendUiModel
 ) {
     Card(
         modifier = modifier,
@@ -72,8 +73,8 @@ fun GroupDetailItem(
             modifier = Modifier.padding(start = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProfileThumbnail(groupDetail.profileUrl)
-            ProfileName(groupDetail.userName)
+            ProfileThumbnail(friend.profileThumbnailUrl)
+            ProfileName(friend.name)
         }
 
     }
