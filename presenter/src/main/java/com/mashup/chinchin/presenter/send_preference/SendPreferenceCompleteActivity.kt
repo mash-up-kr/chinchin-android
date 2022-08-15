@@ -24,10 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
-import com.mashup.chinchin.presenter.ui.theme.Black
-import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
-import com.mashup.chinchin.presenter.ui.theme.Gray_500
-import com.mashup.chinchin.presenter.ui.theme.White
+import com.mashup.chinchin.presenter.ui.theme.*
 
 class SendPreferenceCompleteActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,24 +61,28 @@ fun SendPreferenceCompleteScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "보내기 완료!\n홈으로 돌아갈까요?",
+                text = "친구에게 보내기 완료!",
                 color = Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
                 modifier = Modifier.padding(top = 96.dp),
                 textAlign = TextAlign.Center,
+                fontFamily = fonts,
             )
 
             Text(
-                text = "친구에게 취향질문보내기를 완료했습니다.\n답변완료되면 알림으로 알려드릴게요 !",
+                text = "친구에게 취향답변 보내기를 완료했어요!\n다른 친구의 질문지에도 답변해보세요!",
                 color = Gray_500,
                 fontSize = 14.sp,
                 modifier = Modifier.padding(top = 19.dp),
                 textAlign = TextAlign.Center,
+                lineHeight = 21.sp,
+                fontWeight = FontWeight.Light,
+                fontFamily = fonts,
             )
 
             Image(
-                painter = painterResource(id = R.drawable.illust_6_1),
+                painter = painterResource(id = R.drawable.send_complete),
                 contentDescription = "",
                 modifier = Modifier
                     .padding(top = 60.dp)
@@ -91,7 +92,7 @@ fun SendPreferenceCompleteScreen(
         }
 
         ChinChinConfirmButton(
-            buttonText = "네! 홈으로 돌아갈래요.",
+            buttonText = "홈으로 돌아갈래요",
             isEnable = true,
             modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 37.dp),
         ) {
