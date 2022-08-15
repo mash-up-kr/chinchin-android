@@ -176,7 +176,7 @@ fun TempSavedQuestionCard() {
                     color = Gray_500,
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.image_124),
+                    painter = painterResource(id = R.drawable.img_giftbox),
                     contentDescription = "tempSavedQuestionImage",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier

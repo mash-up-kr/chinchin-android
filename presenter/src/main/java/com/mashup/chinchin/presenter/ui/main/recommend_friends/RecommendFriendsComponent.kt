@@ -153,7 +153,7 @@ fun RecommendFriendInfo(recommendFriend: RecommendFriendUiModel) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(id = R.drawable.image_124),
+            painter = painterResource(id = R.drawable.img_giftbox),
             contentDescription = "",
             modifier = Modifier
                 .width(54.dp)
