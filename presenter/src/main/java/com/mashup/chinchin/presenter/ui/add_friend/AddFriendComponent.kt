@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.set_group.SetGroupActivity
 import com.mashup.chinchin.presenter.set_group.SetGroupActivity.Companion.EXTRA_GROUP_NAME
+import com.mashup.chinchin.presenter.ui.common.ChinChinGreyTextField
 import com.mashup.chinchin.presenter.ui.common.ChinChinTitleAndTextFieldButton
 import com.mashup.chinchin.presenter.ui.theme.*
 import java.util.*
@@ -58,18 +59,19 @@ fun AddFriendContents(
         date = birthday,
         onValueChanged = onBirthValueChanged
     )
-    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult())
-    {
-        if (it.resultCode != Activity.RESULT_OK) {
-            return@rememberLauncherForActivityResult
-        }
-        //GET TEXT ARRAY FROM VOICE INTENT
-        val result = it.data?.getStringExtra(EXTRA_GROUP_NAME)
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult())
+        {
+            if (it.resultCode != Activity.RESULT_OK) {
+                return@rememberLauncherForActivityResult
+            }
+            //GET TEXT ARRAY FROM VOICE INTENT
+            val result = it.data?.getStringExtra(EXTRA_GROUP_NAME)
 
-        if (result != null) {
-            onGroupValueChanged(result)
+            if (result != null) {
+                onGroupValueChanged(result)
+            }
         }
-    }
 
     Column {
         AddFriendNameComponent(friendName = friendName, onValueChanged = onNameValueChanged)
@@ -104,23 +106,11 @@ fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit)
             color = Black,
             fontWeight = FontWeight.Bold,
         )
-        TextField(
+        ChinChinGreyTextField(
             value = friendName,
-            onValueChange = { onValueChanged(it) },
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Gray_100,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-            ),
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 3.dp)
-                .height(48.dp),
-            placeholder = { Text(text = "친구 이름", color = Gray_400) },
-            textStyle = LocalTextStyle.current.copy(
-                fontSize = 14.sp
-            )
+            onValueChange = onValueChanged,
+            placeHolder = "친구 이름",
+            paddingValues = PaddingValues(top = 3.dp)
         )
     }
 }

@@ -1,20 +1,29 @@
 package com.mashup.chinchin.presenter.ui.set_group
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role.Companion.RadioButton
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import com.mashup.chinchin.presenter.ui.common.ChinChinGreyTextField
 import com.mashup.chinchin.presenter.ui.theme.*
 
 @Preview
@@ -120,14 +129,20 @@ fun NewGroupButton() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AddGroupDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
     if (showDialog) {
         Dialog(
-            onDismissRequest = {}
+            onDismissRequest = {},
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false
+            )
         ) {
             Surface(
-                modifier = Modifier.wrapContentSize(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
                 color = White,
                 shape = RoundedCornerShape(8.dp)
             ) {
@@ -139,41 +154,31 @@ fun AddGroupDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
 
 @Composable
 fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit = {}) {
-    var groupName by remember { mutableStateOf(TextFieldValue()) }
+    var groupName by remember { mutableStateOf("") }
 
-    Column {
+    Column(
+        modifier = Modifier.wrapContentSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
-            text = "새 그룹 추가 ",
+            text = "새 그룹 추가하기",
             fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
             modifier = Modifier
-                .padding(top = 20.dp, start = 16.dp, bottom = 14.dp)
                 .wrapContentSize()
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 20.dp, bottom = 11.dp)
         )
-
-        TextField(
+        ChinChinGreyTextField(
             value = groupName,
             onValueChange = { groupName = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .height(48.dp),
-            singleLine = true,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = Black,
-                cursorColor = Black,
-                disabledTextColor = Gray_400,
-                backgroundColor = Gray_100,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ),
-            shape = RoundedCornerShape(8.dp)
+            placeHolder = "그룹명을 작성해주세요",
+            paddingValues = PaddingValues(horizontal = 16.dp)
         )
 
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(58.dp)
+                .wrapContentSize()
                 .padding(top = 13.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -183,8 +188,8 @@ fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = White),
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f),
+                    .weight(1f)
+                    .height(58.dp),
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 0.dp,
                     pressedElevation = 0.dp,
@@ -194,7 +199,8 @@ fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit
                 Text(
                     "취소하기",
                     fontWeight = FontWeight.Bold,
-                    color = Gray_500
+                    color = Gray_500,
+                    fontSize = 16.sp
                 )
             }
             Button(
@@ -204,8 +210,8 @@ fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = White),
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f),
+                    .weight(1f)
+                    .height(58.dp),
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 0.dp,
                     pressedElevation = 0.dp,
@@ -215,7 +221,8 @@ fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit
                 Text(
                     "추가하기",
                     fontWeight = FontWeight.Bold,
-                    color = Primary_2
+                    color = Primary_2,
+                    fontSize = 16.sp
                 )
             }
         }
