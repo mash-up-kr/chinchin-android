@@ -3,21 +3,31 @@ package com.mashup.chinchin.presenter.friend_detail
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
+import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.friend_detail.*
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
+import com.mashup.chinchin.presenter.ui.theme.White
+import kotlin.math.roundToInt
 
 class FriendDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,40 +117,57 @@ fun FriendDetailScreen(
     val navBackStackEntry by naveController.currentBackStackEntryAsState()
     val currentDestination = FriendDetailNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
-    Column {
-        ChinChinToolbar(title = "") {
-            finishActivity()
+    var toolbarHeight = 210.dp  //TODO 하위 컴포저블 사이즈 측정해서 동적으로 변하게 수정 해야함
+    val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.roundToPx().toFloat() }
+    val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
+
+    val nestedScrollConnection = remember {
+        object : NestedScrollConnection {
+            //Todo 폴링 적용해야함 참고 https://github.com/onebone/compose-collapsing-toolbar.git
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                val delta = available.y
+                val newOffset = toolbarOffsetHeightPx.value + delta
+                toolbarOffsetHeightPx.value = newOffset.coerceIn(-toolbarHeightPx, 0f)
+                return Offset.Zero
+            }
         }
-        Box(
+    }
+
+    Box(
+        Modifier
+            .fillMaxSize()
+            .nestedScroll(nestedScrollConnection)
+    ) {
+        Column {
+            FriendDetailNavGraph(
+                navController = naveController,
+                answersFromFriend = answersFromFriend,
+                expectedAnswers = expectedAnswers,
+                isSavedTempQuestions = isSavedTempQuestions
+            )
+        }
+        Column(
             modifier = Modifier
-                .height(142.dp)
-                .fillMaxWidth()
-                .padding(start = 24.dp, end = 24.dp, top = 15.dp),
+                .padding(top = 56.dp)
+                .offset {
+                    IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt())
+                }
+                .background(White)
         ) {
             FriendProfile(friendProfileUiModel)
-        }
-
-        Scaffold(
-            topBar = {
-                FriendDetailNavBar(
-                    screens = screens,
-                    currentDestination = currentDestination,
-                ) { screen ->
-                    naveController.navigate(screen.route) {
-                        popUpTo(naveController.graph.findStartDestination().id)
-                        launchSingleTop = true
-                    }
+            FriendDetailNavBar(
+                screens = screens,
+                currentDestination = currentDestination,
+            ) { screen ->
+                naveController.navigate(screen.route) {
+                    popUpTo(naveController.graph.findStartDestination().id)
+                    launchSingleTop = true
                 }
             }
-        ) {
-            Column {
-                FriendDetailNavGraph(
-                    navController = naveController,
-                    answersFromFriend = answersFromFriend,
-                    expectedAnswers = expectedAnswers,
-                    isSavedTempQuestions = isSavedTempQuestions,
-                )
-            }
+            QuestionSizeText(answersFromFriend.size)
+        }
+        ChinChinToolbar(title = "") {
+            finishActivity()
         }
     }
 }
@@ -161,10 +188,9 @@ fun AnswersExpectedScreen(
     answersExpected: List<QuestionUiModel>,
     isSavedTempQuestions: Boolean,
 ) {
-
     if (answersExpected.isEmpty()) {
         if (isSavedTempQuestions) {
-            TempSavedQuestionContent(answersExpected.size)
+            TempSavedQuestionContent()
         } else {
             EmptyQuestionContent(false)
         }

@@ -1,6 +1,7 @@
 package com.mashup.chinchin.presenter.ui.friend_detail
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -18,10 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
+import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinActingButton
-import com.mashup.chinchin.presenter.ui.common.ChinChinButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinQuestionCard
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.theme.*
@@ -37,12 +37,12 @@ fun QuestionSizeText(size: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(63.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .height(56.dp)
+            .background(White)
+            .padding(start = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        ChinChinText(text = "총 질문", highlightText = "$size")
-        ChinChinButton(icon = R.drawable.ic_group_plus, buttonText = "질문 추가")
+        ChinChinText(text = "총 답변", highlightText = "$size")
     }
 }
 
@@ -57,11 +57,13 @@ fun QuestionAnswerListContent(
     answersFromFriend: List<QuestionUiModel>
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 24.dp),
+        modifier = Modifier
+            .padding(horizontal = 24.dp)
+            .background(White),
     ) {
-        QuestionSizeText(answersFromFriend.size)
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(14.dp),
+            contentPadding = PaddingValues(top = 380.dp), // Todo 부모한테 측정된 값으로 넘겨 받도록 수정해야함
         ) {
             itemsIndexed(answersFromFriend) { index, answerFromFriend ->
                 ChinChinQuestionCard(
@@ -87,6 +89,7 @@ fun EmptyQuestionContent(FROM_FRIEND: Boolean) {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
+            .padding(top = 380.dp)
     ) {
         Text(
             text = if (FROM_FRIEND) "친구 대답을 확인할 수 없어요!" else "아직 작성한 취향기록이 없어용!",
@@ -115,15 +118,12 @@ fun EmptyQuestionContent(FROM_FRIEND: Boolean) {
 @Preview(showBackground = true)
 @Composable
 fun TempSavedQuestionContentPreview() {
-    TempSavedQuestionContent(10)
+    TempSavedQuestionContent()
 }
 
 @Composable
-fun TempSavedQuestionContent(size: Int) {
-    Column {
-        QuestionSizeText(size)
-        TempSavedQuestionCard()
-    }
+fun TempSavedQuestionContent() {
+    TempSavedQuestionCard()
 }
 
 @Preview(showBackground = true)
@@ -140,7 +140,7 @@ fun TempSavedQuestionCard() {
         backgroundColor = Gray_300,
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .padding(top = 20.dp)
+            .padding(top = 380.dp)
     ) {
         Column {
             Row(

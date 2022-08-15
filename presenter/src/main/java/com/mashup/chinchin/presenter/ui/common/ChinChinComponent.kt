@@ -39,7 +39,8 @@ fun ChinChinToolbar(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp),
+            .height(56.dp)
+            .background(White),
     ) {
         val (backButtonRef, confirmButtonRef, textRef) = createRefs()
 
