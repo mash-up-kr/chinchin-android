@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
-import com.mashup.presenter.ui.common.bottom_sheet.BottomSheetContent
-import com.mashup.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.send_questions.QuestionCategoryList
 import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionList
 import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionTitle

@@ -33,8 +33,8 @@ import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsL
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.R
-import com.mashup.presenter.ui.common.bottom_sheet.BottomSheetContent
-import com.mashup.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

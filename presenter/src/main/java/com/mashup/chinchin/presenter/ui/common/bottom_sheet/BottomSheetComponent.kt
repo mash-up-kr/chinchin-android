@@ -1,4 +1,4 @@
-package com.mashup.presenter.ui.common.bottom_sheet
+package com.mashup.chinchin.presenter.ui.common.bottom_sheet
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -16,7 +16,7 @@ import com.mashup.chinchin.presenter.ui.theme.Black
 import com.mashup.chinchin.presenter.ui.theme.Gray_200
 import com.mashup.chinchin.presenter.ui.theme.Gray_400
 import com.mashup.chinchin.presenter.ui.theme.White
-import com.mashup.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 
 @Preview(showBackground = true)
 @Composable
