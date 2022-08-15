@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -269,7 +268,8 @@ fun ChinChinQuestionCard(
     index: Int,
     question: String,
     onQuestionChanged: (String) -> Unit = {},
-    answer: String?,
+    answer: String,
+    onAnswerChanged: (String) -> Unit = {},
     cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.FRIEND_REPLY,
 ) {
     Card(
@@ -320,14 +320,28 @@ fun ChinChinQuestionCard(
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp, bottom = 16.dp)
             ) {
-                if (answer == null) {
-                    Text(
-                        text = "답변을 적어보세요",
-                        color = Gray_500,
-                        fontSize = 14.sp,
+                if (cardState == ChinChinQuestionCardState.EDIT_MODE) {
+                    BasicTextField(
+                        value = answer,
+                        onValueChange = { onAnswerChanged(it) },
+                        textStyle = TextStyle(
+                            color = Gray_500,
+                            fontSize = 14.sp
+                        ),
+                        maxLines = 2,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        decorationBox = { innerTextField ->
+                            if (answer.isBlank()) {
+                                Text(
+                                    text = "답변을 입력하세요", modifier = Modifier.fillMaxWidth(),
+                                    color = Gray_500,
+                                    fontSize = 14.sp,
+                                )
+                            }
+                            innerTextField()
+                        },
                     )
                 } else {
                     Text(
