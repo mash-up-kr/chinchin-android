@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -33,8 +34,8 @@ import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsL
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.R
-import com.mashup.presenter.ui.common.bottom_sheet.BottomSheetContent
-import com.mashup.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -63,8 +64,8 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(
-    screens: List<MainNavScreen> =  MainNavScreen.values().toList(),
-    recommendFriends: List<RecommendFriendUiModel> = listOf()
+    screens: List<MainNavScreen> = MainNavScreen.values().toList(),
+    recommendFriends: List<RecommendFriendUiModel> = listOf(),
 ) {
 
     val navController = rememberNavController()
@@ -126,18 +127,20 @@ fun MainScreen(
                 }
             }
         ) {
+                paddingValues ->
             MainNavGraph(
                 navController = navController,
                 recommendFriends = recommendFriends,
                 showBottomSheet,
                 onSelectFriend,
+                bottomPaddingValue = paddingValues.calculateBottomPadding()
             )
         }
     }
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
     val groups = mutableListOf<FriendGroupUiModel>()
 
     repeat(20) {
@@ -155,7 +158,10 @@ fun HomeScreen() {
         groups.add(dummyGroup)
     }
 
-    Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(start = 24.dp, end = 24.dp, bottom = bottomPaddingValue)
+    ) {
         HomeHeader()
         HomeBody(groups)
     }
@@ -166,9 +172,12 @@ fun RecommendFriendsScreen(
     recommendFriendsList: List<RecommendFriendUiModel> = listOf(),
     showBottomSheet: () -> Unit,
     onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
+    bottomPaddingValue: Dp = 0.dp,
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 24.dp)
+        modifier = Modifier
+            .padding(horizontal = 24.dp)
+            .padding(bottom = bottomPaddingValue)
     ) {
         RecommendFriendsHeader(recommendFriendsList.size)
         Spacer(modifier = Modifier.height(7.dp))
@@ -185,7 +194,6 @@ fun RecommendFriendsScreen(
 @Composable
 fun MoreScreen() {
     ConstraintLayout(modifier = Modifier.background(Color.Green)) {
-
         val text = createRef()
         Text("More", Modifier.constrainAs(text) {
             top.linkTo(parent.top)

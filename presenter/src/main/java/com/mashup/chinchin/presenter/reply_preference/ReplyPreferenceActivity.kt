@@ -18,14 +18,13 @@ import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
-import com.mashup.presenter.ui.common.bottom_sheet.BottomSheetContent
-import com.mashup.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.reply_preference.ReplyPreferenceQuestionList
 import com.mashup.chinchin.presenter.ui.reply_preference.ReplyPreferenceTitle
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.ui.theme.Gray_600
 import kotlinx.coroutines.launch
-
 
 class ReplyPreferenceActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)

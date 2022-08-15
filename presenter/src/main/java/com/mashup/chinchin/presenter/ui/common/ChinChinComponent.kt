@@ -4,16 +4,20 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -116,7 +120,7 @@ fun ChinChinButton(
     OutlinedButton(
         onClick = { onButtonClick() },
         modifier = modifier.defaultMinSize(1.dp, 1.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 11.dp),
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 7.dp),
         border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(buttonColor)),
         shape = RoundedCornerShape(8.dp),
     ) {
@@ -147,34 +151,10 @@ fun ChinChinConfirmButton(
     isEnable: Boolean = false,
     onButtonClick: () -> Unit,
 ) {
-    if (isEnable) {
-        ChinChinEnableConfirmButton(
-            buttonText = buttonText,
-            radius = radius,
-            onButtonClick = onButtonClick,
-            modifier = modifier,
-        )
-    } else {
-        ChinChinDisableConfirmButton(
-            buttonText = buttonText,
-            radius = radius,
-            onButtonClick = onButtonClick,
-            modifier = modifier,
-        )
-    }
-}
-
-@Composable
-private fun ChinChinEnableConfirmButton(
-    buttonText: String,
-    modifier: Modifier = Modifier,
-    radius: Dp = 10.dp,
-    onButtonClick: () -> Unit,
-) {
     Button(
         onClick = { onButtonClick() },
         shape = RoundedCornerShape(radius),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Primary_1),
+        colors = ButtonDefaults.buttonColors(backgroundColor = if (isEnable) Primary_1 else Gray_300),
         contentPadding = PaddingValues(vertical = 20.dp),
         modifier = modifier
             .defaultMinSize(minHeight = 1.dp)
@@ -183,46 +163,16 @@ private fun ChinChinEnableConfirmButton(
             defaultElevation = 0.dp,
             pressedElevation = 0.dp,
         ),
+        enabled = isEnable,
     ) {
         Text(
             text = buttonText,
             fontSize = 16.sp,
-            color = Gray_800,
+            color = if (isEnable) Gray_800 else Gray_500,
             fontWeight = FontWeight.Bold,
         )
     }
 }
-
-@Composable
-private fun ChinChinDisableConfirmButton(
-    buttonText: String,
-    modifier: Modifier = Modifier,
-    radius: Dp = 10.dp,
-    buttonColor: Color = Gray_500,
-    onButtonClick: () -> Unit,
-) {
-    OutlinedButton(
-        onClick = { onButtonClick() },
-        shape = RoundedCornerShape(radius),
-        contentPadding = PaddingValues(vertical = 20.dp),
-        border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(buttonColor)),
-        modifier = modifier
-            .defaultMinSize(minHeight = 1.dp)
-            .fillMaxWidth(),
-        elevation = ButtonDefaults.elevation(
-            defaultElevation = 0.dp,
-            pressedElevation = 0.dp,
-        ),
-    ) {
-        Text(
-            text = buttonText,
-            fontSize = 16.sp,
-            color = buttonColor,
-            fontWeight = FontWeight.Bold,
-        )
-    }
-}
-
 
 @Composable
 fun ChinChinTitleAndTextFieldButton(
@@ -246,7 +196,12 @@ fun ChinChinTitleAndTextFieldButton(
 }
 
 @Composable
-fun ChinChinTextFieldButton(iconRes: Int, placeHolder: String, text: String, onButtonClick: () -> Unit = {}) {
+fun ChinChinTextFieldButton(
+    iconRes: Int,
+    placeHolder: String,
+    text: String,
+    onButtonClick: () -> Unit = {}
+) {
     Button(
         onClick = { onButtonClick() },
         colors = ButtonDefaults.buttonColors(backgroundColor = Gray_100),
@@ -313,6 +268,7 @@ fun ChinChinActingButton(
 fun ChinChinQuestionCard(
     index: Int,
     question: String,
+    onQuestionChanged: (String) -> Unit = {},
     answer: String?,
     cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.FRIEND_REPLY,
 ) {
@@ -329,16 +285,31 @@ fun ChinChinQuestionCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
-                Text(
-                    text = question,
-                    color = getChinChinQuestionCardTextColor(cardState),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp)
-                )
-
+                if (cardState == ChinChinQuestionCardState.EDIT_MODE) {
+                    BasicTextField(
+                        value = question,
+                        onValueChange = { onQuestionChanged(it) },
+                        textStyle = TextStyle(
+                            color = Black,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                        ),
+                        maxLines = 2,
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .fillMaxWidth(),
+                    )
+                } else {
+                    Text(
+                        text = question,
+                        color = getChinChinQuestionCardTextColor(cardState),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 8.dp)
+                    )
+                }
             }
 
             Card(
@@ -388,6 +359,49 @@ private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: ChinChinQuest
     }
 }
 
+@Composable
+fun ChinChinGrayTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeHolder: String = "",
+    paddingValues: PaddingValues = PaddingValues(0.dp),
+) {
+    BasicTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(paddingValues)
+            .clip(RoundedCornerShape(8.dp))
+            .height(48.dp)
+            .background(Gray_100),
+        singleLine = true,
+        maxLines = 1,
+        textStyle = TextStyle(
+            fontSize = 14.sp,
+            color = Gray_800
+        ),
+        cursorBrush = SolidColor(Gray_800),
+        decorationBox = { innerTextField ->
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                contentAlignment = Alignment.CenterStart,
+            ) {
+                if (value.isEmpty()) {
+                    Text(
+                        text = placeHolder,
+                        color = Gray_400,
+                        fontSize = 14.sp
+                    )
+                }
+                innerTextField()
+            }
+        },
+    )
+}
+
 private fun getChinChinQuestionCardBackgroundColor(cardState: ChinChinQuestionCardState): Color =
     when (cardState) {
         ChinChinQuestionCardState.FRIEND_REPLY,
@@ -397,6 +411,7 @@ private fun getChinChinQuestionCardBackgroundColor(cardState: ChinChinQuestionCa
         }
         ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
         ChinChinQuestionCardState.INPUT_INCOMPLETE,
+        ChinChinQuestionCardState.EDIT_MODE,
         -> {
             Secondary_1
         }
@@ -414,6 +429,7 @@ private fun getChinChinQuestionCardNumberIconBackgroundColor(cardState: ChinChin
         }
         ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
         ChinChinQuestionCardState.INPUT_INCOMPLETE,
+        ChinChinQuestionCardState.EDIT_MODE,
         -> {
             Primary_1
         }
@@ -427,6 +443,7 @@ private fun getChinChinQuestionCardTextColor(cardState: ChinChinQuestionCardStat
         ChinChinQuestionCardState.FRIEND_REPLY,
         ChinChinQuestionCardState.INPUT_COMPLETE,
         ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
+        ChinChinQuestionCardState.EDIT_MODE,
         ChinChinQuestionCardState.INPUT_INCOMPLETE,
         -> {
             Gray_700

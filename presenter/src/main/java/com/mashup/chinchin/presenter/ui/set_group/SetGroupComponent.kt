@@ -1,21 +1,45 @@
 package com.mashup.chinchin.presenter.ui.set_group
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Divider
+import androidx.compose.material.RadioButton
+import androidx.compose.material.RadioButtonDefaults
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role.Companion.RadioButton
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.mashup.chinchin.presenter.ui.theme.*
+import androidx.compose.ui.window.DialogProperties
+import com.mashup.chinchin.presenter.ui.common.ChinChinGrayTextField
+import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
+import com.mashup.chinchin.presenter.ui.theme.Gray_300
+import com.mashup.chinchin.presenter.ui.theme.Gray_500
+import com.mashup.chinchin.presenter.ui.theme.Primary_2
+import com.mashup.chinchin.presenter.ui.theme.White
 
 @Preview
 @Composable
@@ -120,14 +144,20 @@ fun NewGroupButton() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AddGroupDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
     if (showDialog) {
         Dialog(
-            onDismissRequest = {}
+            onDismissRequest = {},
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false
+            )
         ) {
             Surface(
-                modifier = Modifier.wrapContentSize(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
                 color = White,
                 shape = RoundedCornerShape(8.dp)
             ) {
@@ -139,41 +169,31 @@ fun AddGroupDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
 
 @Composable
 fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit = {}) {
-    var groupName by remember { mutableStateOf(TextFieldValue()) }
+    var groupName by remember { mutableStateOf("") }
 
-    Column {
+    Column(
+        modifier = Modifier.wrapContentSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
-            text = "새 그룹 추가 ",
+            text = "새 그룹 추가하기",
             fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
             modifier = Modifier
-                .padding(top = 20.dp, start = 16.dp, bottom = 14.dp)
                 .wrapContentSize()
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 20.dp, bottom = 11.dp)
         )
-
-        TextField(
+        ChinChinGrayTextField(
             value = groupName,
             onValueChange = { groupName = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .height(48.dp),
-            singleLine = true,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = Black,
-                cursorColor = Black,
-                disabledTextColor = Gray_400,
-                backgroundColor = Gray_100,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ),
-            shape = RoundedCornerShape(8.dp)
+            placeHolder = "그룹명을 작성해주세요",
+            paddingValues = PaddingValues(horizontal = 16.dp)
         )
 
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(58.dp)
+                .wrapContentSize()
                 .padding(top = 13.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -183,8 +203,8 @@ fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = White),
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f),
+                    .weight(1f)
+                    .height(58.dp),
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 0.dp,
                     pressedElevation = 0.dp,
@@ -194,7 +214,8 @@ fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit
                 Text(
                     "취소하기",
                     fontWeight = FontWeight.Bold,
-                    color = Gray_500
+                    color = Gray_500,
+                    fontSize = 16.sp
                 )
             }
             Button(
@@ -204,8 +225,8 @@ fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = White),
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f),
+                    .weight(1f)
+                    .height(58.dp),
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 0.dp,
                     pressedElevation = 0.dp,
@@ -215,10 +236,10 @@ fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit
                 Text(
                     "추가하기",
                     fontWeight = FontWeight.Bold,
-                    color = Primary_2
+                    color = Primary_2,
+                    fontSize = 16.sp
                 )
             }
         }
-
     }
 }

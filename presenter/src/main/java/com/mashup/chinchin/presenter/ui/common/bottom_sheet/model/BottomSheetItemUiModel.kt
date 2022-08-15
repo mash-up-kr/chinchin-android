@@ -1,4 +1,4 @@
-package com.mashup.presenter.ui.common.bottom_sheet.model
+package com.mashup.chinchin.presenter.ui.common.bottom_sheet.model
 
 
 data class BottomSheetItemUiModel(

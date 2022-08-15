@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,13 +20,15 @@ import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
-import com.mashup.presenter.ui.common.bottom_sheet.BottomSheetContent
-import com.mashup.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.send_questions.QuestionCategoryList
 import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionList
 import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionTitle
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.ui.theme.Gray_600
+import com.mashup.chinchin.presenter.common.model.CategoryUiModel
+import com.mashup.chinchin.presenter.common.model.KeywordQuestionUiModel
 import kotlinx.coroutines.launch
 
 class SendPreferenceActivity : ComponentActivity() {
@@ -71,8 +75,8 @@ class SendPreferenceActivity : ComponentActivity() {
                     sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
                 ) {
                     CreateQuestionSheetScreen(
-                        categories = listOf("취향 키워드", "개인정보", "자유질문"),
-                        onConfirmButtonClick = showBottomSheet,
+                        categoryList = getCategoryList(),
+                        onConfirmButtonClick = showBottomSheet
                     ) {
                         finish()
                     }
@@ -80,41 +84,74 @@ class SendPreferenceActivity : ComponentActivity() {
             }
         }
     }
+    private fun getCategoryList(): MutableList<CategoryUiModel> {
+        val categoryList = mutableListOf<CategoryUiModel>()
+        val preferences = CategoryUiModel(
+            category = "취향 키워드",
+            keywords = listOf(
+                KeywordQuestionUiModel(keyword = "좋아하는 음식", question = "좋아하는 음식은 무엇인가요?"),
+                KeywordQuestionUiModel(keyword = "싫어하는 음식", question = "싫어하는 음식은 무엇인가요?"),
+                KeywordQuestionUiModel(keyword = "좋아하는 향", question = "좋아하는 향은 무엇인가요?"),
+                KeywordQuestionUiModel(keyword = "좋아하는 옷 브랜드", question = "좋아하는 옷 브랜드는 무엇인가요?"),
+                KeywordQuestionUiModel(keyword = "좋아하는 꽃", question = "좋아하는 꽃은 무엇인가요?"),
+                KeywordQuestionUiModel(keyword = "좋아하는 술", question = "좋아하는 술은 무엇인가요?"),
+            )
+        )
 
-    @Composable
-    fun CreateQuestionSheetScreen(
-        categories: List<String> = listOf(),
-        questions: List<QuestionUiModel> = listOf(),
-        userName: String = "윤혜",
-        onConfirmButtonClick: () -> Unit = {},
-        onBackButtonClick: () -> Unit = {},
-    ) {
-        Column {
-            ChinChinToolbar(
-                title = "취향 질문 보내기",
-                isActiveConfirmButton = true,
-                isAbleConfirmButton = true, //TODO 활성화 기준 정해야함
-                onConfirmButtonClick = onConfirmButtonClick,
-            ) {
-                onBackButtonClick()
+        val privateInformation = CategoryUiModel(
+            category = "개인 정보",
+            keywords = listOf(
+                KeywordQuestionUiModel(keyword = "MBTI", question = "MBTI는 무엇인가요?"),
+                KeywordQuestionUiModel(keyword = "못 먹는 음식", question = "못 먹는 음식은 무엇인가요?"),
+                KeywordQuestionUiModel(keyword = "옷 사이즈", question = "옷 사이즈는 무엇인가요?"),
+                KeywordQuestionUiModel(keyword = "신발 사이즈", question = "신발 사이즈는 어떻게 되나요?"),
+                KeywordQuestionUiModel(keyword = "활동 지역", question = "주로 활동하는 지역은 어디인가요?"),
+                KeywordQuestionUiModel(keyword = "최애 영화", question = "지금까지 봤던 영화 중 가장 좋았던 영화는 어떤거야?"),
+            )
+        )
+        categoryList.add(preferences)
+        categoryList.add(privateInformation)
+
+        return categoryList
+    }
+}
+
+@Composable
+fun CreateQuestionSheetScreen(
+    userName: String = "윤혜",
+    onConfirmButtonClick: () -> Unit = {},
+    categoryList: List<CategoryUiModel>,
+    onBackButtonClick: () -> Unit = {},
+) {
+    val questions = remember { mutableStateListOf<QuestionUiModel>() }
+
+    Column {
+        ChinChinToolbar(
+            title = "취향 질문 보내기",
+            isActiveConfirmButton = true,
+            isAbleConfirmButton = true, //TODO 활성화 기준 정해야함
+            onConfirmButtonClick = onConfirmButtonClick,
+        ) {
+            onBackButtonClick()
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+            SendPreferenceQuestionTitle(userName)
+            Text(
+                text = "아래 카테고리들을 선택해 질문을 구성할 수 있습니다.",
+                color = Gray_600,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+            QuestionCategoryList(categories = categoryList) {
+                questions.add(it)
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-                SendPreferenceQuestionTitle(userName)
-                Text(
-                    text = "아래 키워드를 선택해 질문을 구성할 수 있습니다.",
-                    color = Gray_600,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(top = 8.dp),
-                )
-                Spacer(modifier = Modifier.height(32.dp))
-                QuestionCategoryList(categories)
-                Spacer(modifier = Modifier.height(13.dp))
-                SendPreferenceQuestionList(
-                    questions = questions,
-                )
-            }
+            Spacer(modifier = Modifier.height(13.dp))
+            SendPreferenceQuestionList(
+                questions = questions,
+                modifier = Modifier.padding(top = 16.dp),
+            )
         }
     }
-
 }
