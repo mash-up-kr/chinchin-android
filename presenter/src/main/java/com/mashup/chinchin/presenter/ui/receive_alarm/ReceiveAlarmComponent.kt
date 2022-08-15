@@ -34,7 +34,7 @@ fun RequestCountText(requestCount: Int) {
             .padding(start = 24.dp, top = 24.dp)
     ) {
         Text(
-            text = "요청",
+            text = "알림",
             color = Black,
             fontSize = 18.sp
         )

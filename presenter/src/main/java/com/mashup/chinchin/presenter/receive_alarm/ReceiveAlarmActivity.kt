@@ -60,7 +60,7 @@ fun ReceiveAlarmScreen(
 ) {
     Column {
         ChinChinToolbar(
-            title = "나에게 온 요청리스트",
+            title = "알림",
         ) {
             finishActivity()
         }
