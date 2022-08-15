@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.set_group.SetGroupActivity
 import com.mashup.chinchin.presenter.set_group.SetGroupActivity.Companion.EXTRA_GROUP_NAME
-import com.mashup.chinchin.presenter.ui.common.ChinChinGreyTextField
+import com.mashup.chinchin.presenter.ui.common.ChinChinGrayTextField
 import com.mashup.chinchin.presenter.ui.common.ChinChinTitleAndTextFieldButton
 import com.mashup.chinchin.presenter.ui.theme.*
 import java.util.*
@@ -106,7 +106,7 @@ fun AddFriendNameComponent(friendName: String, onValueChanged: (String) -> Unit)
             color = Black,
             fontWeight = FontWeight.Bold,
         )
-        ChinChinGreyTextField(
+        ChinChinGrayTextField(
             value = friendName,
             onValueChange = onValueChanged,
             placeHolder = "친구 이름",

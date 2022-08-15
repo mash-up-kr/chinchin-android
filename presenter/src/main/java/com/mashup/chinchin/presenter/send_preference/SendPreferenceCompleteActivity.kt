@@ -67,7 +67,6 @@ fun SendPreferenceCompleteScreen(
                 fontSize = 24.sp,
                 modifier = Modifier.padding(top = 96.dp),
                 textAlign = TextAlign.Center,
-                fontFamily = fonts,
             )
 
             Text(
@@ -78,7 +77,6 @@ fun SendPreferenceCompleteScreen(
                 textAlign = TextAlign.Center,
                 lineHeight = 21.sp,
                 fontWeight = FontWeight.Light,
-                fontFamily = fonts,
             )
 
             Image(
