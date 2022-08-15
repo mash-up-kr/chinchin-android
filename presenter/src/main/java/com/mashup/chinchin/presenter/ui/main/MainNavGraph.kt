@@ -1,6 +1,7 @@
 package com.mashup.chinchin.presenter.ui.main
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -15,16 +16,17 @@ fun MainNavGraph(
     recommendFriends: List<RecommendFriendUiModel>,
     showBottomSheet: () -> Unit,
     onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
+    bottomPaddingValue: Dp
 ) {
     NavHost(
         navController = navController,
         startDestination = MainNavScreen.Home.route,
     ) {
         composable(route = MainNavScreen.Home.route) {
-            HomeScreen()
+            HomeScreen(bottomPaddingValue = bottomPaddingValue)
         }
         composable(route = MainNavScreen.RecommendFriends.route) {
-            RecommendFriendsScreen(recommendFriends, showBottomSheet, onSelectFriend)
+            RecommendFriendsScreen(recommendFriends, showBottomSheet, onSelectFriend,bottomPaddingValue = bottomPaddingValue)
         }
         composable(route = MainNavScreen.More.route) {
             MoreScreen()
