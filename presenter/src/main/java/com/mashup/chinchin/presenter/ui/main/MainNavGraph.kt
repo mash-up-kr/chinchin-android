@@ -8,12 +8,14 @@ import androidx.navigation.compose.composable
 import com.mashup.chinchin.presenter.main.HomeScreen
 import com.mashup.chinchin.presenter.main.MoreScreen
 import com.mashup.chinchin.presenter.main.RecommendFriendsScreen
+import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
 
 @Composable
 fun MainNavGraph(
     navController: NavHostController,
     recommendFriends: List<RecommendFriendUiModel>,
+    groups: List<FriendGroupUiModel>,
     showBottomSheet: () -> Unit,
     onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
     bottomPaddingValue: Dp
@@ -23,7 +25,7 @@ fun MainNavGraph(
         startDestination = MainNavScreen.Home.route,
     ) {
         composable(route = MainNavScreen.Home.route) {
-            HomeScreen(bottomPaddingValue = bottomPaddingValue)
+            HomeScreen(bottomPaddingValue = bottomPaddingValue, groups = groups)
         }
         composable(route = MainNavScreen.RecommendFriends.route) {
             RecommendFriendsScreen(recommendFriends, showBottomSheet, onSelectFriend,bottomPaddingValue = bottomPaddingValue)
