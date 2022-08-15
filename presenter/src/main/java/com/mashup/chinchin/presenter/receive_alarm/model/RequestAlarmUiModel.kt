@@ -4,5 +4,5 @@ data class RequestAlarmUiModel(
     val requestUserName: String,
     val requestUserProfileUrl: String,
     val requestDate: Long,
-    val type: NotificationType,
+    val alarmType: AlarmType,
 )

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.receive_alarm.model.NotificationType
+import com.mashup.chinchin.presenter.receive_alarm.model.AlarmType
 import com.mashup.chinchin.presenter.receive_alarm.model.RequestAlarmUiModel
 import com.mashup.chinchin.presenter.ui.theme.*
 
@@ -57,7 +57,7 @@ fun RequestAlarmList(requestAlarmUiModels: List<RequestAlarmUiModel>, modifier: 
                 profileUrl = requestAlarm.requestUserProfileUrl,
                 modifier = Modifier.padding(horizontal = 24.dp),
                 date = requestAlarm.requestDate,
-                alarmType = requestAlarm.type
+                alarmType = requestAlarm.alarmType,
             )
         }
     }
@@ -78,7 +78,7 @@ fun ReceiveAlarmItemPreview() {
         userName = "경무",
         profileUrl = "good",
         date = 10,
-        alarmType = NotificationType.REQUEST,
+        alarmType = AlarmType.REQUEST,
     )
 }
 
@@ -88,14 +88,14 @@ fun ReceiveAlarmItem(
     profileUrl: String,
     date: Long,
     modifier: Modifier = Modifier,
-    alarmType: NotificationType,
+    alarmType: AlarmType,
     onClickButton: () -> Unit = {}
 ) {
     val titleMessage = when (alarmType) {
-        NotificationType.REQUEST -> {
+        AlarmType.REQUEST -> {
             "이 취향 질문을 요청했어요"
         }
-        NotificationType.REPLY -> {
+        AlarmType.REPLY -> {
             "이 취향질문에 답변완료했어요"
         }
     }
