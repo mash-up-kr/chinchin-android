@@ -335,7 +335,7 @@ fun ChinChinQuestionCard(
                         decorationBox = { innerTextField ->
                             if (answer.isBlank()) {
                                 Text(
-                                    text = "답변을 입력하세요", modifier = Modifier.fillMaxWidth(),
+                                    text = "답변을 적어보세요", modifier = Modifier.fillMaxWidth(),
                                     color = Gray_500,
                                     fontSize = 14.sp,
                                 )
