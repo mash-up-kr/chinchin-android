@@ -3,14 +3,19 @@ package com.mashup.chinchin.presenter.login
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
+import com.mashup.chinchin.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase,
+) : ViewModel() {
 
     val errorMessage: MutableLiveData<String> = MutableLiveData()
 
@@ -24,7 +29,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun handleError(error: Throwable) {
+    private fun handleError(error: Throwable) {
         if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
             errorMessage.value = "사용자가 명시적으로 취소"
         } else {
@@ -33,6 +38,9 @@ class LoginViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun sendUserToken(token: OAuthToken) {
-        // TODO: accessToken 서버에 보냄
+        viewModelScope.launch {
+            val result = loginUseCase.invoke(token.accessToken)
+            Log.d("로그인이 성공했나여? : ", result.toString())
+        }
     }
 }
