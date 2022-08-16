@@ -18,7 +18,8 @@ import javax.inject.Singleton
 class NetworkModule {
     @Provides
     @Singleton
-    fun provideChinChinService(retrofit: Retrofit): ChinChinService = retrofit.create(ChinChinService::class.java)
+    fun provideChinChinService(retrofit: Retrofit): ChinChinService =
+        retrofit.create(ChinChinService::class.java)
 
     @Provides
     @Singleton
