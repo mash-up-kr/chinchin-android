@@ -18,12 +18,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.common.ChinChinQuestionCardState
+import com.mashup.chinchin.presenter.common.model.CategoryUiModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinQuestionCard
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.theme.Gray_500
 import com.mashup.chinchin.presenter.ui.theme.Gray_800
-import com.mashup.chinchin.presenter.common.model.CategoryUiModel
 
 @Composable
 fun SendPreferenceQuestionTitle(userName: String) {
@@ -158,6 +158,7 @@ fun SendPreferenceQuestionList(
                     question = questionText,
                     onQuestionChanged = setQuestionText,
                     answer = answer,
+                    onAnswerChanged = setAnswer,
                     cardState = ChinChinQuestionCardState.EDIT_MODE
                 )
             }
