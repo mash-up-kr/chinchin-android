@@ -1,5 +1,6 @@
 package com.mashup.chinchin.presenter.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -34,8 +35,10 @@ import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsL
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.group_detail.GroupDetailActivity
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.main.home.AddGroupDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,10 +50,27 @@ class MainActivity : ComponentActivity() {
             ChinchinTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     MainScreen(
-                        recommendFriends = initRecommendFriends()
+                        recommendFriends = initRecommendFriends(),
+                        groups = initGroups(),
                     )
                 }
             }
+        }
+    }
+
+    private fun initGroups(): List<FriendGroupUiModel> {
+        return List(1) {
+            FriendGroupUiModel(
+                name = "매쉬업 사람들",
+                friends = listOf(
+                    FriendUiModel("히지니", "https://picsum.photos/200"),
+                    FriendUiModel("혜찌니", "https://picsum.photos/200"),
+                    FriendUiModel("경무", "https://picsum.photos/200"),
+                    FriendUiModel("히지니", "https://picsum.photos/200"),
+                    FriendUiModel("혜찌니", "https://picsum.photos/200"),
+                    FriendUiModel("경무", "https://picsum.photos/200")
+                )
+            )
         }
     }
 
@@ -66,6 +86,7 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(
     screens: List<MainNavScreen> = MainNavScreen.values().toList(),
     recommendFriends: List<RecommendFriendUiModel> = listOf(),
+    groups: List<FriendGroupUiModel> = listOf(),
 ) {
 
     val navController = rememberNavController()
@@ -131,6 +152,7 @@ fun MainScreen(
             MainNavGraph(
                 navController = navController,
                 recommendFriends = recommendFriends,
+                groups = groups,
                 showBottomSheet,
                 onSelectFriend,
                 bottomPaddingValue = paddingValues.calculateBottomPadding()
@@ -140,30 +162,17 @@ fun MainScreen(
 }
 
 @Composable
-fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
-    val groups = mutableListOf<FriendGroupUiModel>()
+fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) {
+    val groups = remember { groups.toMutableStateList() }
+    val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
 
-    repeat(20) {
-        val dummyGroup = FriendGroupUiModel(
-            name = "매쉬업 사람들",
-            friends = listOf(
-                FriendUiModel("히지니", "https://picsum.photos/200"),
-                FriendUiModel("혜찌니", "https://picsum.photos/200"),
-                FriendUiModel("경무", "https://picsum.photos/200"),
-                FriendUiModel("히지니", "https://picsum.photos/200"),
-                FriendUiModel("혜찌니", "https://picsum.photos/200"),
-                FriendUiModel("경무", "https://picsum.photos/200")
-            )
-        )
-        groups.add(dummyGroup)
-    }
-
-    Column(
-        modifier = Modifier
-            .padding(start = 24.dp, end = 24.dp, bottom = bottomPaddingValue)
-    ) {
-        HomeHeader()
-        HomeBody(groups)
+    Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = bottomPaddingValue)) {
+        HomeHeader(onAddGroupClick = setShowDialog, groups = groups)
+        HomeBody(groups = groups)
+        AddGroupDialog(
+            showDialog = showDialog,
+            setShowDialog = setShowDialog,
+            addGroup = { groups.add(FriendGroupUiModel(name = it, emptyList())) })
     }
 }
 
