@@ -1,6 +1,7 @@
 package com.mashup.chinchin.presenter.login
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,6 +17,9 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
 ) : ViewModel() {
+    private val _isLoginSuccess =  MutableLiveData<Boolean>()
+    val isLoginSuccess: LiveData<Boolean>
+        get() = _isLoginSuccess
 
     val errorMessage: MutableLiveData<String> = MutableLiveData()
 
@@ -40,7 +44,7 @@ class LoginViewModel @Inject constructor(
     private fun sendUserToken(token: OAuthToken) {
         viewModelScope.launch {
             val result = loginUseCase.invoke(token.accessToken)
-            Log.d("로그인이 성공했나여? : ", result.toString())
+            _isLoginSuccess.value = result
         }
     }
 }
