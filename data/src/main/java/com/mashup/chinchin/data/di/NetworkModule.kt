@@ -2,7 +2,7 @@ package com.mashup.chinchin.data.di
 
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
-import com.mashup.chinchin.data.service.GithubApi
+import com.mashup.chinchin.data.service.ChinChinService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,13 +18,14 @@ import javax.inject.Singleton
 class NetworkModule {
     @Provides
     @Singleton
-    fun provideGithubApi(retrofit: Retrofit): GithubApi = retrofit.create(GithubApi::class.java)
+    fun provideChinChinService(retrofit: Retrofit): ChinChinService =
+        retrofit.create(ChinChinService::class.java)
 
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
+            .baseUrl("https://www.chinchin.kr/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

@@ -19,24 +19,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.ui.theme.Gray_800
 import com.mashup.chinchin.presenter.ui.theme.KakaoYellow
 
 @Composable
 fun IntroductionText() {
-    val guide = "질문으로 서로를 알아가는 \n친구 취향수집 서비스, 친친!"
+    val guide = "질문으로 서로를 알아가는\n친구 취향수집 서비스"
     Text(
         text = guide,
-        color = Color.Black,
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
+        color = Gray_800,
+        fontSize = 14.sp,
         textAlign = TextAlign.Center,
-        modifier = Modifier.padding()
+        modifier = Modifier.padding(top = 20.dp)
     )
 }
 
 @Composable
 fun IntroductionImage() {
-    Image(painter = painterResource(id = R.drawable.signup), contentDescription = "회원가입 이미지")
+    Image(
+        painter = painterResource(id = R.drawable.illust_32_1),
+        contentDescription = "회원가입 이미지",
+    )
 }
 
 @Composable
