@@ -53,6 +53,7 @@
         <activity android:name="com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity" />
         <activity android:name="com.mashup.chinchin.presenter.dialog_test.DialogActivity" />
         <activity android:name="com.mashup.chinchin.presenter.send_preference.SendPreferenceCompleteActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity"/>
     </application>
 
 </manifest>

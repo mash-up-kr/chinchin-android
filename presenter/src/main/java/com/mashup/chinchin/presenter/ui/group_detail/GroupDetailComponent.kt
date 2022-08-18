@@ -30,6 +30,7 @@ import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.group_detail.model.GroupDetailUiModel
 import com.mashup.chinchin.presenter.main.model.FriendUiModel
+import com.mashup.chinchin.presenter.ui.common.ChinChinFriendCard
 import com.mashup.chinchin.presenter.ui.theme.Black
 import com.mashup.chinchin.presenter.ui.theme.Secondary_1
 
@@ -40,7 +41,7 @@ fun GroupDetailList(context: Context, friends: List<FriendUiModel>, modifier: Mo
         modifier = modifier
     ) {
         items(friends) { friend ->
-            GroupDetailItem(
+            ChinChinFriendCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(78.dp)
@@ -55,7 +56,7 @@ fun GroupDetailList(context: Context, friends: List<FriendUiModel>, modifier: Mo
 @Preview
 @Composable
 fun GroupDetailItemPreview() {
-    GroupDetailItem(
+    ChinChinFriendCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(78.dp)
@@ -64,63 +65,3 @@ fun GroupDetailItemPreview() {
         friend = FriendUiModel("김매쉬", ""),
     )
 }
-
-@Composable
-fun GroupDetailItem(
-    context: Context,
-    modifier: Modifier = Modifier,
-    friend: FriendUiModel
-) {
-    Card(
-        modifier = modifier.clickable {
-            val intent = Intent(context, FriendDetailActivity::class.java ).apply {
-                // TODO: FriendId 넘기기
-            }
-            context.startActivity(intent)
-        },
-        shape = RoundedCornerShape(8.dp),
-        elevation = 0.dp,
-        backgroundColor = Secondary_1
-    ) {
-        Row(
-            modifier = Modifier.padding(start = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ProfileThumbnail(friend.profileThumbnailUrl)
-            ProfileName(friend.name)
-        }
-
-    }
-
-}
-
-
-@Composable
-fun ProfileThumbnail(thumbnailUrl: String) {
-    AsyncImage(
-        model = thumbnailUrl,
-        contentDescription = "profile",
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(54.dp)
-            .clip(CircleShape),
-        )
-}
-
-@Composable
-fun ProfileName(userName: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 12.dp),
-        contentAlignment = Alignment.CenterStart,
-    ) {
-        Text(
-            text = userName,
-            fontWeight = FontWeight.Bold,
-            color = Black,
-            fontSize = 16.sp,
-        )
-    }
-}
-
