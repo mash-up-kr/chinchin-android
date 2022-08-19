@@ -267,9 +267,9 @@ fun ChinChinActingButton(
 fun ChinChinQuestionCard(
     index: Int,
     question: String,
-    onQuestionChanged: (String) -> Unit = {},
+    onQuestionChanged: ((Int, String) -> Unit)? = null,
     answer: String,
-    onAnswerChanged: (String) -> Unit = {},
+    onAnswerChanged: ((Int, String) -> Unit)? = null,
     cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.FRIEND_REPLY,
 ) {
     Card(
@@ -288,7 +288,7 @@ fun ChinChinQuestionCard(
                 if (cardState == ChinChinQuestionCardState.EDIT_MODE) {
                     BasicTextField(
                         value = question,
-                        onValueChange = { onQuestionChanged(it) },
+                        onValueChange = { onQuestionChanged?.invoke(index, it) },
                         textStyle = TextStyle(
                             color = Black,
                             fontSize = 16.sp,
@@ -323,7 +323,7 @@ fun ChinChinQuestionCard(
                 if (cardState == ChinChinQuestionCardState.EDIT_MODE) {
                     BasicTextField(
                         value = answer,
-                        onValueChange = { onAnswerChanged(it) },
+                        onValueChange = { onAnswerChanged?.invoke(index, it) },
                         textStyle = TextStyle(
                             color = Gray_500,
                             fontSize = 14.sp
@@ -417,6 +417,7 @@ fun ChinChinGrayTextField(
 }
 
 private fun getChinChinQuestionCardBackgroundColor(cardState: ChinChinQuestionCardState): Color =
+    //TODO STATE 별 컬러 정리 필요함
     when (cardState) {
         ChinChinQuestionCardState.FRIEND_REPLY,
         ChinChinQuestionCardState.INPUT_COMPLETE,
@@ -426,6 +427,7 @@ private fun getChinChinQuestionCardBackgroundColor(cardState: ChinChinQuestionCa
         ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
         ChinChinQuestionCardState.INPUT_INCOMPLETE,
         ChinChinQuestionCardState.EDIT_MODE,
+        ChinChinQuestionCardState.DELETE_MODE,
         -> {
             Secondary_1
         }
@@ -435,6 +437,7 @@ private fun getChinChinQuestionCardBackgroundColor(cardState: ChinChinQuestionCa
     }
 
 private fun getChinChinQuestionCardNumberIconBackgroundColor(cardState: ChinChinQuestionCardState): Color =
+    //TODO STATE 별 컬러 정리 필요함
     when (cardState) {
         ChinChinQuestionCardState.FRIEND_REPLY,
         ChinChinQuestionCardState.INPUT_COMPLETE,
@@ -450,15 +453,20 @@ private fun getChinChinQuestionCardNumberIconBackgroundColor(cardState: ChinChin
         ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY -> {
             Gray_600
         }
+        ChinChinQuestionCardState.DELETE_MODE -> {
+            Gray_400
+        }
     }
 
 private fun getChinChinQuestionCardTextColor(cardState: ChinChinQuestionCardState): Color =
+    //TODO STATE 별 컬러 정리 필요함
     when (cardState) {
         ChinChinQuestionCardState.FRIEND_REPLY,
         ChinChinQuestionCardState.INPUT_COMPLETE,
         ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
-        ChinChinQuestionCardState.EDIT_MODE,
         ChinChinQuestionCardState.INPUT_INCOMPLETE,
+        ChinChinQuestionCardState.EDIT_MODE,
+        ChinChinQuestionCardState.DELETE_MODE,
         -> {
             Gray_700
         }

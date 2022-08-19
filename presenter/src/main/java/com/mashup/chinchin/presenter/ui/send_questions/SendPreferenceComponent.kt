@@ -5,16 +5,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.common.ChinChinQuestionCardState
@@ -24,6 +27,7 @@ import com.mashup.chinchin.presenter.ui.common.ChinChinQuestionCard
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.theme.Gray_500
 import com.mashup.chinchin.presenter.ui.theme.Gray_800
+import com.mashup.chinchin.presenter.ui.theme.Primary_1
 
 @Composable
 fun SendPreferenceQuestionTitle(userName: String) {
@@ -63,7 +67,7 @@ fun SendPreferenceQuestionTitle(userName: String) {
 @Composable
 fun QuestionCategoryList(
     categories: List<CategoryUiModel> = listOf(),
-    addQuestion: (QuestionUiModel) -> Boolean
+    addQuestion: (QuestionUiModel) -> Unit
 ) {
     val selectedCategory = remember { mutableStateOf(CategoryUiModel("", emptyList())) }
     val showDialog = remember { mutableStateOf(false) }
@@ -107,7 +111,7 @@ fun QuestionCategoryList(
 fun QuestionCategoryChip(
     category: String,
     onClickCategory: (String) -> Unit = {},
-    addQuestion: (QuestionUiModel) -> Boolean
+    addQuestion: (QuestionUiModel) -> Unit
 ) {
     val emptyQuestion = QuestionUiModel(question = "질문을 적어보세요.")
     val freeQuestion = "자유 질문"
@@ -138,27 +142,84 @@ fun QuestionCategoryChip(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun chichinTextPreview() {
+    chinchinTextBox()
+}
+
+@Composable
+fun chinchinTextBox() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        ChinChinText(text = "총 질문", highlightText = "${7}")
+        EditButton {
+
+        }
+
+    }
+}
+
+@Composable
+fun EditButton(
+    onButtonClick: () -> Unit,
+) {
+    Button(
+        onClick = { onButtonClick() },
+        shape = RoundedCornerShape(64.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Primary_1),
+        contentPadding = PaddingValues(vertical = 4.dp, horizontal = 10.dp),
+        modifier = Modifier.defaultMinSize(minHeight = 1.dp, minWidth = 1.dp),
+        elevation = ButtonDefaults.elevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 0.dp,
+        ),
+    ) {
+        Text(
+            text = "편집",
+            fontSize = 12.sp,
+            color = Gray_800
+        )
+    }
+}
+
 @Composable
 fun SendPreferenceQuestionList(
     modifier: Modifier,
     questions: List<QuestionUiModel> = listOf(),
+    onQuestionChanged: (Int, String) -> Unit,
+    onAnswerChanged: (Int, String) -> Unit,
+    onClickEditButton: () -> Unit,
 ) {
+
     Column(modifier = modifier) {
-        ChinChinText(text = "총 질문", highlightText = "${questions.size}")
+        Row(
+            modifier = Modifier
+                .wrapContentHeight()
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ChinChinText(text = "총 질문", highlightText = "${questions.size}")
+            EditButton {
+                onClickEditButton()
+            }
+
+        }
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.padding(top = 8.dp),
         ) {
             itemsIndexed(questions) { index, question ->
-                val (questionText, setQuestionText) = remember { mutableStateOf(question.question) }
-                val (answer, setAnswer) = remember { mutableStateOf(question.answer) }
-
                 ChinChinQuestionCard(
                     index = index,
-                    question = questionText,
-                    onQuestionChanged = setQuestionText,
-                    answer = answer,
-                    onAnswerChanged = setAnswer,
+                    question = question.question,
+                    onQuestionChanged = onQuestionChanged,
+                    answer = question.answer,
+                    onAnswerChanged = onAnswerChanged,
                     cardState = ChinChinQuestionCardState.EDIT_MODE
                 )
             }

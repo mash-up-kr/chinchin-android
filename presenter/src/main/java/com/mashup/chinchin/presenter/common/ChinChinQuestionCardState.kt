@@ -1,5 +1,6 @@
 package com.mashup.chinchin.presenter.common
 
+//Todo 상태 정리 필요함
 enum class ChinChinQuestionCardState {
     FRIEND_REPLY,
     INPUT_COMPLETE,
@@ -9,5 +10,6 @@ enum class ChinChinQuestionCardState {
     EXPECT_INCOMPLETE_REPLY,
     INPUT_INCOMPLETE,
 
-    EDIT_MODE
+    EDIT_MODE,
+    DELETE_MODE,
 }
