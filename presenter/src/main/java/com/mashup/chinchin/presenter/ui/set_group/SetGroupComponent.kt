@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -63,8 +65,8 @@ fun GroupRadioButtons(
     // FIXME: 로직 추가시 상태값은 최상위에서 관리되도록 변경해야함.
     val isSelectedItem: (String) -> Boolean = { selectedGroup == it }
 
-    Column {
-        groups.forEach { group ->
+    LazyColumn {
+        items(groups) { group ->
             GroupRadioButton(group, isSelectedItem, onChangeState)
             Divider(
                 color = Gray_300,
@@ -73,6 +75,9 @@ fun GroupRadioButtons(
                     .height(1.dp)
                     .padding(horizontal = 24.dp)
             )
+        }
+        item {
+            NewGroupButton()
         }
     }
 }

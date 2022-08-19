@@ -50,7 +50,7 @@ fun SetGroupScreen(
     val onChangeState: (String) -> Unit = { selectedGroup.value = it }
 
     Column {
-        ChinChinToolbar(title = "그룹지정") {
+        ChinChinToolbar(title = "그룹 지정") {
             finishActivityWithResult()
         }
         GroupRadioButtons(
@@ -58,6 +58,5 @@ fun SetGroupScreen(
             onChangeState = onChangeState,
             groups = groups
         )
-        NewGroupButton()
     }
 }
