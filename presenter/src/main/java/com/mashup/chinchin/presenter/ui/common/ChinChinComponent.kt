@@ -280,9 +280,9 @@ fun ChinChinActingButton(
 fun ChinChinQuestionCard(
     index: Int,
     question: String,
-    onQuestionChanged: (String) -> Unit = {},
+    onQuestionChanged: ((Int, String) -> Unit)? = null,
     answer: String,
-    onAnswerChanged: (String) -> Unit = {},
+    onAnswerChanged: ((Int, String) -> Unit)? = null,
     cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.SEND_EDIT_MODE,
 ) {
     Card(
@@ -302,7 +302,7 @@ fun ChinChinQuestionCard(
                     ChinChinQuestionCardState.SEND_EDIT_MODE -> {
                         BasicTextField(
                             value = question,
-                            onValueChange = { onQuestionChanged(it) },
+                            onValueChange = { onQuestionChanged?.invoke(index, it) },
                             textStyle = TextStyle(
                                 color = Black,
                                 fontSize = 16.sp,
@@ -340,7 +340,7 @@ fun ChinChinQuestionCard(
                     ChinChinQuestionCardState.SEND_EDIT_MODE -> {
                         BasicTextField(
                             value = answer,
-                            onValueChange = { onAnswerChanged(it) },
+                            onValueChange = { onAnswerChanged?.invoke(index, it) },
                             textStyle = TextStyle(
                                 color = Gray_500,
                                 fontSize = 14.sp
@@ -527,6 +527,7 @@ fun ChinChinFriendCard(
 }
 
 private fun getChinChinCardBackgroundColor(cardState: CardState): Color =
+    //TODO STATE 별 컬러 정리 필요함
     when (cardState) {
         ChinChinAnswerCardState.FRIEND_ANSWER,
         ChinChinQuestionCardState.REPLY_COMPLETE,
@@ -546,6 +547,7 @@ private fun getChinChinCardBackgroundColor(cardState: CardState): Color =
     }
 
 private fun getChinChinCardNumberIconBackgroundColor(cardState: CardState): Color =
+    //TODO STATE 별 컬러 정리 필요함
     when (cardState) {
         ChinChinAnswerCardState.FRIEND_ANSWER,
         ChinChinAnswerCardState.MY_ANSWER,
