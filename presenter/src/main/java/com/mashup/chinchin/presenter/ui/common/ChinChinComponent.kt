@@ -2,7 +2,9 @@ package com.mashup.chinchin.presenter.ui.common
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
@@ -17,6 +19,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -284,7 +287,11 @@ fun ChinChinQuestionCard(
                     .padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
+                if (cardState == ChinChinQuestionCardState.DELETE_MODE) {
+                    ChinChinQuestionCardEmptyIcon(cardState = cardState)
+                } else {
+                    ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
+                }
                 if (cardState == ChinChinQuestionCardState.EDIT_MODE) {
                     BasicTextField(
                         value = question,
@@ -373,6 +380,24 @@ private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: ChinChinQuest
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+private fun ChinChinQuestionCardEmptyIconPreview() {
+    ChinChinQuestionCardEmptyIcon(cardState = ChinChinQuestionCardState.DELETE_MODE)
+}
+
+@Composable
+private fun ChinChinQuestionCardEmptyIcon(cardState: ChinChinQuestionCardState) {
+    Box(contentAlignment = Alignment.Center) {
+        Canvas(
+            modifier = Modifier
+                .size(20.dp)
+                .border(color = Gray_400, width = 2.dp, shape = CircleShape), onDraw = {
+                drawCircle(color = getChinChinQuestionCardNumberIconBackgroundColor(cardState))
+            })
+    }
+}
+
 @Composable
 fun ChinChinGrayTextField(
     value: String,
@@ -454,7 +479,7 @@ private fun getChinChinQuestionCardNumberIconBackgroundColor(cardState: ChinChin
             Gray_600
         }
         ChinChinQuestionCardState.DELETE_MODE -> {
-            Gray_400
+            Secondary_1
         }
     }
 
