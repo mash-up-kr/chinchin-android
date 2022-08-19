@@ -3,6 +3,7 @@ package com.mashup.chinchin.presenter.ui.common
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -297,7 +298,11 @@ fun ChinChinQuestionCard(
                     .padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
+                if (cardState == ChinChinQuestionCardState.SEND_DELETE_MODE) {
+                    ChinChinQuestionCardEmptyIcon(cardState = cardState)
+                } else {
+                    ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
+                }
                 when (cardState) {
                     ChinChinQuestionCardState.SEND_EDIT_MODE -> {
                         BasicTextField(
@@ -389,6 +394,18 @@ private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: CardState) {
             fontSize = 14.sp,
             color = Gray_700
         )
+    }
+}
+
+@Composable
+private fun ChinChinQuestionCardEmptyIcon(cardState: ChinChinQuestionCardState) {
+    Box(contentAlignment = Alignment.Center) {
+        Canvas(
+            modifier = Modifier
+                .size(20.dp)
+                .border(color = Gray_400, width = 2.dp, shape = CircleShape), onDraw = {
+                drawCircle(color = getChinChinCardNumberIconBackgroundColor(cardState))
+            })
     }
 }
 
@@ -527,7 +544,6 @@ fun ChinChinFriendCard(
 }
 
 private fun getChinChinCardBackgroundColor(cardState: CardState): Color =
-    //TODO STATE 별 컬러 정리 필요함
     when (cardState) {
         ChinChinAnswerCardState.FRIEND_ANSWER,
         ChinChinQuestionCardState.REPLY_COMPLETE,
@@ -547,7 +563,6 @@ private fun getChinChinCardBackgroundColor(cardState: CardState): Color =
     }
 
 private fun getChinChinCardNumberIconBackgroundColor(cardState: CardState): Color =
-    //TODO STATE 별 컬러 정리 필요함
     when (cardState) {
         ChinChinAnswerCardState.FRIEND_ANSWER,
         ChinChinAnswerCardState.MY_ANSWER,
@@ -556,10 +571,13 @@ private fun getChinChinCardNumberIconBackgroundColor(cardState: CardState): Colo
             Primary_2
         }
         ChinChinQuestionCardState.REPLY_INCOMPLETE,
-        ChinChinQuestionCardState.SEND_DELETE_MODE,
         ChinChinQuestionCardState.SEND_EDIT_MODE,
         -> {
             Primary_1
+        }
+        ChinChinQuestionCardState.SEND_DELETE_MODE,
+        -> {
+            Secondary_1
         }
         else -> {
             Primary_1
