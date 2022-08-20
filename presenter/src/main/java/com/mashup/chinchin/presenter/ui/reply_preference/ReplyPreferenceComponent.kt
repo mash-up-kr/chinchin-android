@@ -69,9 +69,9 @@ fun ReplyPreferenceQuestionList(modifier: Modifier = Modifier, questions: List<Q
                     answer = question.answer,
                     /* TODO: 카드 타입 테스트입니다 정상 로직으로 교체 예정.. */
                     cardState = when (index % 3) {
-                        0 -> ChinChinQuestionCardState.FRIEND_REPLY
-                        1 -> ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY
-                        else -> ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY
+                        0 -> ChinChinQuestionCardState.SEND_EDIT_MODE
+                        1 -> ChinChinQuestionCardState.SEND_DELETE_MODE
+                        else -> ChinChinQuestionCardState.REPLY_COMPLETE
                     }
                 )
             }

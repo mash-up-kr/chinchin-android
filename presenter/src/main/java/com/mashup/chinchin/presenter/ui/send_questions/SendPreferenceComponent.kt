@@ -159,7 +159,7 @@ fun SendPreferenceQuestionList(
                     onQuestionChanged = setQuestionText,
                     answer = answer,
                     onAnswerChanged = setAnswer,
-                    cardState = ChinChinQuestionCardState.EDIT_MODE
+                    cardState = ChinChinQuestionCardState.SEND_EDIT_MODE
                 )
             }
         }

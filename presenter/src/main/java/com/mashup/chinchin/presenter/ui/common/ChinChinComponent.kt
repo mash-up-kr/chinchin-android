@@ -17,12 +17,15 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.common.CardState
+import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
 import com.mashup.chinchin.presenter.common.ChinChinQuestionCardState
 import com.mashup.chinchin.presenter.ui.theme.*
 
@@ -263,6 +266,9 @@ fun ChinChinActingButton(
     }
 }
 
+/**
+ * 질문 카드
+ */
 @Composable
 fun ChinChinQuestionCard(
     index: Int,
@@ -270,12 +276,12 @@ fun ChinChinQuestionCard(
     onQuestionChanged: (String) -> Unit = {},
     answer: String,
     onAnswerChanged: (String) -> Unit = {},
-    cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.FRIEND_REPLY,
+    cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.SEND_EDIT_MODE,
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = 0.dp,
-        backgroundColor = getChinChinQuestionCardBackgroundColor(cardState),
+        backgroundColor = getChinChinCardBackgroundColor(cardState),
     ) {
         Column {
             Row(
@@ -285,7 +291,7 @@ fun ChinChinQuestionCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
-                if (cardState == ChinChinQuestionCardState.EDIT_MODE) {
+                if (cardState == ChinChinQuestionCardState.SEND_EDIT_MODE) {
                     BasicTextField(
                         value = question,
                         onValueChange = { onQuestionChanged(it) },
@@ -302,7 +308,7 @@ fun ChinChinQuestionCard(
                 } else {
                     Text(
                         text = question,
-                        color = getChinChinQuestionCardTextColor(cardState),
+                        color = Gray_700,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
                         modifier = Modifier
@@ -320,7 +326,7 @@ fun ChinChinQuestionCard(
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp, bottom = 16.dp)
             ) {
-                if (cardState == ChinChinQuestionCardState.EDIT_MODE) {
+                if (cardState == ChinChinQuestionCardState.SEND_EDIT_MODE) {
                     BasicTextField(
                         value = answer,
                         onValueChange = { onAnswerChanged(it) },
@@ -359,18 +365,65 @@ fun ChinChinQuestionCard(
 }
 
 @Composable
-private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: ChinChinQuestionCardState) {
+private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: CardState) {
     Box(contentAlignment = Alignment.Center) {
         Canvas(modifier = Modifier.size(20.dp), onDraw = {
-            drawCircle(color = getChinChinQuestionCardNumberIconBackgroundColor(cardState))
+            drawCircle(color = getChinChinCardNumberIconBackgroundColor(cardState))
         })
         Text(
             text = number.toString(),
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
-            color = getChinChinQuestionCardTextColor(cardState)
+            color = Gray_700
         )
     }
+}
+
+/**
+ * 답변 카드
+ */
+@Composable
+private fun ChinChinAnswerCard(
+    index: Int,
+    question: String,
+    answer: String,
+    cardState: ChinChinAnswerCardState
+) {
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        elevation = 0.dp,
+        backgroundColor = getChinChinCardBackgroundColor(cardState),
+    ) {
+        Column {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 14.dp)
+                    .padding(top = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
+                Text(
+                    text = question,
+                    color = Gray_700,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp)
+                )
+            }
+
+            Text(
+                text = answer,
+                color = Gray_800,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp, end = 30.dp, top = 12.dp, bottom = 16.dp)
+            )
+        }
+    }
+
 }
 
 @Composable
@@ -416,53 +469,41 @@ fun ChinChinGrayTextField(
     )
 }
 
-private fun getChinChinQuestionCardBackgroundColor(cardState: ChinChinQuestionCardState): Color =
+private fun getChinChinCardBackgroundColor(cardState: CardState): Color =
     when (cardState) {
-        ChinChinQuestionCardState.FRIEND_REPLY,
-        ChinChinQuestionCardState.INPUT_COMPLETE,
+        ChinChinAnswerCardState.FRIEND_ANSWER,
+        ChinChinQuestionCardState.REPLY_COMPLETE,
         -> {
             Primary_1
         }
-        ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
-        ChinChinQuestionCardState.INPUT_INCOMPLETE,
-        ChinChinQuestionCardState.EDIT_MODE,
+        ChinChinAnswerCardState.MY_ANSWER,
+        ChinChinQuestionCardState.REPLY_INCOMPLETE,
+        ChinChinQuestionCardState.SEND_DELETE_MODE,
+        ChinChinQuestionCardState.SEND_EDIT_MODE,
         -> {
             Secondary_1
         }
-        ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY -> {
-            Gray_400
+        else -> {
+            Secondary_1
         }
     }
 
-private fun getChinChinQuestionCardNumberIconBackgroundColor(cardState: ChinChinQuestionCardState): Color =
+private fun getChinChinCardNumberIconBackgroundColor(cardState: CardState): Color =
     when (cardState) {
-        ChinChinQuestionCardState.FRIEND_REPLY,
-        ChinChinQuestionCardState.INPUT_COMPLETE,
+        ChinChinAnswerCardState.FRIEND_ANSWER,
+        ChinChinAnswerCardState.MY_ANSWER,
+        ChinChinQuestionCardState.REPLY_COMPLETE,
         -> {
             Primary_2
         }
-        ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
-        ChinChinQuestionCardState.INPUT_INCOMPLETE,
-        ChinChinQuestionCardState.EDIT_MODE,
+        ChinChinQuestionCardState.REPLY_INCOMPLETE,
+        ChinChinQuestionCardState.SEND_DELETE_MODE,
+        ChinChinQuestionCardState.SEND_EDIT_MODE,
         -> {
             Primary_1
         }
-        ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY -> {
-            Gray_600
+        else -> {
+            Primary_1
         }
     }
 
-private fun getChinChinQuestionCardTextColor(cardState: ChinChinQuestionCardState): Color =
-    when (cardState) {
-        ChinChinQuestionCardState.FRIEND_REPLY,
-        ChinChinQuestionCardState.INPUT_COMPLETE,
-        ChinChinQuestionCardState.EXPECT_INCOMPLETE_REPLY,
-        ChinChinQuestionCardState.EDIT_MODE,
-        ChinChinQuestionCardState.INPUT_INCOMPLETE,
-        -> {
-            Gray_700
-        }
-        ChinChinQuestionCardState.EXPECT_COMPLETE_REPLY -> {
-            Gray_100
-        }
-    }
