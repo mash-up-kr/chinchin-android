@@ -27,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
 import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.EXTRA_PROFILE_TYPE
 import com.mashup.chinchin.presenter.add_friend.model.FriendProfileType
+import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity
@@ -201,7 +202,10 @@ fun AnswerFromFriendScreen(
     if (answersFromFriend.isEmpty()) {
         EmptyQuestionContent(true)
     } else {
-        QuestionAnswerListContent(answersFromFriend)
+        QuestionAnswerListContent(
+            answers = answersFromFriend,
+            cardState = ChinChinAnswerCardState.FRIEND_ANSWER
+        )
     }
 }
 
@@ -217,7 +221,10 @@ fun AnswersExpectedScreen(
             EmptyQuestionContent(false)
         }
     } else {
-        QuestionAnswerListContent(answersExpected)
+        QuestionAnswerListContent(
+            answers = answersExpected,
+            cardState = ChinChinAnswerCardState.MY_ANSWER
+        )
     }
 }
 

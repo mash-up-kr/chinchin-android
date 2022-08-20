@@ -19,10 +19,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinActingButton
-import com.mashup.chinchin.presenter.ui.common.ChinChinQuestionCard
+import com.mashup.chinchin.presenter.ui.common.ChinChinAnswerCard
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.theme.*
 
@@ -49,12 +50,16 @@ fun QuestionSizeText(size: Int) {
 @Preview(showBackground = true)
 @Composable
 fun QuestionAnswerListPreview() {
-    QuestionAnswerListContent(FriendDetailActivity.initFriendAnswerList())
+    QuestionAnswerListContent(
+        FriendDetailActivity.initFriendAnswerList(),
+        ChinChinAnswerCardState.FRIEND_ANSWER
+    )
 }
 
 @Composable
 fun QuestionAnswerListContent(
-    answersFromFriend: List<QuestionUiModel>
+    answers: List<QuestionUiModel>,
+    cardState: ChinChinAnswerCardState
 ) {
     Column(
         modifier = Modifier
@@ -65,11 +70,12 @@ fun QuestionAnswerListContent(
             verticalArrangement = Arrangement.spacedBy(14.dp),
             contentPadding = PaddingValues(top = 380.dp), // Todo 부모한테 측정된 값으로 넘겨 받도록 수정해야함
         ) {
-            itemsIndexed(answersFromFriend) { index, answerFromFriend ->
-                ChinChinQuestionCard(
+            itemsIndexed(answers) { index, answers ->
+                ChinChinAnswerCard(
                     index = index + 1,
-                    question = answerFromFriend.question,
-                    answer = answerFromFriend.answer,
+                    question = answers.question,
+                    answer = answers.answer,
+                    cardState = cardState
                 )
             }
         }

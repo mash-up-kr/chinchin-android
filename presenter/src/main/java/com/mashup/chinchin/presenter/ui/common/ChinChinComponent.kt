@@ -389,7 +389,7 @@ private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: CardState) {
  * 답변 카드
  */
 @Composable
-private fun ChinChinAnswerCard(
+fun ChinChinAnswerCard(
     index: Int,
     question: String,
     answer: String,
