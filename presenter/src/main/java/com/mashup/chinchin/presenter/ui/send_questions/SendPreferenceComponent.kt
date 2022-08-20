@@ -149,27 +149,6 @@ fun QuestionCategoryChip(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun chichinTextPreview() {
-    chinchinTextBox()
-}
-
-@Composable
-fun chinchinTextBox() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        ChinChinText(text = "총 질문", highlightText = "${7}")
-        EditButton {
-
-        }
-
-    }
-}
-
 @Composable
 fun EditButton(
     onButtonClick: () -> Unit,
