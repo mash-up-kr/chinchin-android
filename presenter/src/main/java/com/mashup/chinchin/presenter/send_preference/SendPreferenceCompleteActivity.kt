@@ -1,5 +1,7 @@
 package com.mashup.chinchin.presenter.send_preference
 
+import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.main.MainActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
 import com.mashup.chinchin.presenter.ui.theme.*
 
@@ -31,7 +34,13 @@ class SendPreferenceCompleteActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ChinchinTheme {
-                SendPreferenceCompleteScreen()
+                SendPreferenceCompleteScreen {
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        flags = FLAG_ACTIVITY_SINGLE_TOP
+                    }
+                    finish()
+                    startActivity(intent)
+                }
             }
         }
     }

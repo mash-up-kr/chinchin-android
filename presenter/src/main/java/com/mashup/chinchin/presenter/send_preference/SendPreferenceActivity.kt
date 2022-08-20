@@ -1,11 +1,10 @@
 package com.mashup.chinchin.presenter.send_preference
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -13,15 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.common.model.CategoryUiModel
+import com.mashup.chinchin.presenter.common.model.KeywordQuestionUiModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
+import com.mashup.chinchin.presenter.ui.common.ImageDialog
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.send_questions.QuestionCategoryList
@@ -29,17 +29,19 @@ import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionLis
 import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionTitle
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.ui.theme.Gray_600
-import com.mashup.chinchin.presenter.common.model.CategoryUiModel
-import com.mashup.chinchin.presenter.common.model.KeywordQuestionUiModel
 import kotlinx.coroutines.launch
 
 class SendPreferenceActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             ChinchinTheme {
                 val coroutineScope = rememberCoroutineScope()
+                val (showSendDialog, setShowSendDialog) = remember { mutableStateOf(false) }
+                val (showSaveDialog, setShowSaveDialog) = remember { mutableStateOf(false) }
+                val (showCancelDialog, setShowCancelDialog) = remember { mutableStateOf(false) }
 
                 val modalBottomSheetState =
                     rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
@@ -65,11 +67,17 @@ class SendPreferenceActivity : ComponentActivity() {
                     sheetContent = {
                         BottomSheetContent(
                             "다음 단계를 선택해주세요", listOf(
-                                BottomSheetItemUiModel("저장하기", R.drawable.ic_save) {
-                                    closeBottomSheet() //TODO 저장로직 구현해야함
+                                BottomSheetItemUiModel("임시 저장하고 나가기", R.drawable.ic_exit) {
+                                    closeBottomSheet()
+                                    setShowSaveDialog(true)
+                                },
+                                BottomSheetItemUiModel("친구에게 질문 보내기", R.drawable.ic_send) {
+                                    closeBottomSheet()
+                                    setShowSendDialog(true)
                                 },
                                 BottomSheetItemUiModel("취소", R.drawable.ic_x) {
                                     closeBottomSheet()
+                                    setShowCancelDialog(true)
                                 },
                             )
                         )
@@ -80,8 +88,55 @@ class SendPreferenceActivity : ComponentActivity() {
                         categoryList = getCategoryList(),
                         onConfirmButtonClick = showBottomSheet
                     ) {
-                        finish()
+                        setShowCancelDialog(true)
                     }
+                }
+                if (showSendDialog) {
+                    ImageDialog(
+                        drawableId = R.drawable.img_congrats,
+                        titleText = "취향 질문지를 \n" +
+                                "친구에게 전송할까요?",
+                        confirmText = "네, 전송할래요",
+                        cancelText = "아니요",
+                        subTitleText = "보낸 취향 질문은 수정이 불가능해요",
+                        onClickConfirm = {
+                            val intent = Intent(this, SendPreferenceCompleteActivity::class.java)
+                            startActivity(intent)
+                            setShowSendDialog(false)
+                        },
+                        onClickCancel = { setShowSendDialog(false) }
+                    )
+                }
+                if (showSaveDialog) {
+                    ImageDialog(
+                        titleText = "작성한 취향 질문을 \n저장할까요?",
+                        confirmText = "네, 저장할래요",
+                        cancelText = "아니요",
+                        subTitleText = "저장한 취향질문은 다시 작성할 수 있어요",
+                        onClickConfirm = {
+                            // TODO:  저장로직.
+                            setShowSendDialog(false)
+                            finish()
+                        },
+                        onClickCancel = {
+                            setShowSaveDialog(false)
+                        }
+                    )
+                }
+                if (showCancelDialog) {
+                    ImageDialog(
+                        titleText = "작성하지 않고 페이지를 \n나가시겠어요?",
+                        confirmText = "나가기",
+                        cancelText = "닫기",
+                        subTitleText = "상단 체크버튼을 눌러 질문을 저장해보세요",
+                        onClickConfirm = {
+                            setShowCancelDialog(false)
+                            finish()
+                        },
+                        onClickCancel = {
+                            setShowCancelDialog(false)
+                        }
+                    )
                 }
             }
         }
