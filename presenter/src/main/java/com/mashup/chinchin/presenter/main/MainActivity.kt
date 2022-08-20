@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
 
     private fun initRecommendFriends(): List<RecommendFriendUiModel> {
         return List(25) {
-            RecommendFriendUiModel(0, "good", "안경무 $it")
+            RecommendFriendUiModel(0, "https://picsum.photos/200", "안경무 $it")
         }
     }
 }
