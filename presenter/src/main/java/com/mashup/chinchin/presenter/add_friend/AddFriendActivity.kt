@@ -57,7 +57,7 @@ fun AddFriendPreview() {
 fun AddFriendScreen(
     profileType: FriendProfileType = FriendProfileType.CREATE,
     onActivityFinish: () -> Unit = {},
-    newFriend: FriendUiModel?,
+    newFriend: FriendUiModel? = null,
 ) {
     var friendName by rememberSaveable { mutableStateOf(newFriend?.name ?: "") }
     var birthday by rememberSaveable { mutableStateOf("") }

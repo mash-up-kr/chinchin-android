@@ -62,7 +62,7 @@ fun ConnectFriendScreen(
     val context = LocalContext.current
     val (searchText, onSearchTextChanged) = remember { mutableStateOf("") }
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
-    val selectedFriend = remember { mutableStateOf(FriendUiModel(0, "", "")) } // FIXME: 빈값을 이렇게 넣고 싶지 않은데 방법 아시는 분이 있을까요?ㅠ
+    val selectedFriend = remember { mutableStateOf(FriendUiModel()) }
 
     Column {
         ChinChinToolbar(
