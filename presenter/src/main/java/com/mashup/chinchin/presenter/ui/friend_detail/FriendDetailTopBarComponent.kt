@@ -2,13 +2,14 @@ package com.mashup.chinchin.presenter.ui.friend_detail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +20,8 @@ import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
 import com.mashup.chinchin.presenter.ui.theme.Gray_500
+import com.mashup.chinchin.presenter.ui.theme.Gray_800
+import com.mashup.chinchin.presenter.ui.theme.Primary_1
 
 @Preview(showBackground = true)
 @Composable
@@ -34,7 +37,7 @@ fun FriendProfilePreview() {
 }
 
 @Composable
-fun FriendProfile(friendProfileUiModel: FriendProfileUiModel) {
+fun FriendProfile(onButtonClick: () -> Unit = {}, friendProfileUiModel: FriendProfileUiModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -81,32 +84,28 @@ fun FriendProfile(friendProfileUiModel: FriendProfileUiModel) {
                 color = Gray_500
             )
         }
-        //TODO 다른 버튼으로 교체 해야함
-        ChinChinButton(
-            icon = R.drawable.ic_edit,
-            buttonText = "친구 추가하기",
-            modifier = Modifier.padding(top = 20.dp)
-        )
+        OutlinedButton(
+            onClick = { onButtonClick() },
+            shape = RoundedCornerShape(64.dp),
+            border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(Gray_800)),
+            contentPadding = PaddingValues(horizontal = 21.dp, vertical = 16.dp),
+            modifier = Modifier
+                .defaultMinSize(1.dp, 1.dp)
+                .padding(top = 30.dp),
+            elevation = ButtonDefaults.elevation(
+                defaultElevation = 0.dp,
+                pressedElevation = 0.dp,
+            ),
+        ) {
+            Text(
+                text = "취향 질문 보내기",
+                fontSize = 16.sp,
+                color = Gray_800,
+                fontWeight = FontWeight.Bold,
+            )
+        }
         Spacer(modifier = Modifier.height(7.dp))
     }
 }
-
-@Composable
-fun FriendProfileSubInfo(birthday: String, groupName: String) {
-    Column {
-        Text(
-            text = birthday,
-            fontSize = 14.sp,
-            color = Gray_500,
-        )
-        Text(
-            modifier = Modifier.padding(top = 4.dp),
-            text = groupName,
-            fontSize = 14.sp,
-            color = Gray_500
-        )
-    }
-}
-
 
 

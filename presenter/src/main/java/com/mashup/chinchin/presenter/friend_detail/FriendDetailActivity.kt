@@ -1,5 +1,6 @@
 package com.mashup.chinchin.presenter.friend_detail
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +15,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -23,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.friend_detail.*
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
@@ -113,6 +116,7 @@ fun FriendDetailScreen(
     isSavedTempQuestions: Boolean = false,
     finishActivity: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     val naveController = rememberNavController()
     val navBackStackEntry by naveController.currentBackStackEntryAsState()
     val currentDestination = FriendDetailNavScreen.fromRoute(navBackStackEntry?.destination?.route)
@@ -154,7 +158,15 @@ fun FriendDetailScreen(
                 }
                 .background(White)
         ) {
-            FriendProfile(friendProfileUiModel)
+            FriendProfile(
+                onButtonClick = {
+                    val intent = Intent(context, SendPreferenceActivity::class.java).apply {
+                        // TODO: friend 보내기. 이름 필요.
+                    }
+                    context.startActivity(intent)
+                },
+                friendProfileUiModel = friendProfileUiModel
+            )
             FriendDetailNavBar(
                 screens = screens,
                 currentDestination = currentDestination,
@@ -166,9 +178,9 @@ fun FriendDetailScreen(
             }
             QuestionSizeText(answersFromFriend.size)
         }
-        ChinChinToolbar(title = "") {
-            finishActivity()
-        }
+    }
+    ChinChinToolbar(title = "") {
+        finishActivity()
     }
 }
 
