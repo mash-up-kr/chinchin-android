@@ -8,12 +8,12 @@ class CreateNewGroupUseCase @Inject constructor(
     private val loginRepository: LoginRepository,
     private val groupRepository: GroupRepository,
 ) {
-    suspend operator fun invoke(): Boolean {
+    suspend operator fun invoke(groupName: String): Boolean {
         val jwt: String = loginRepository.getJwt()
 
         return groupRepository.createNewGroup(
             jwt = " Bearer $jwt",
-            groupName = "",
+            groupName = groupName,
         )
     }
 }
