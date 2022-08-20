@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mashup.chinchin.presenter.add_friend.model.FriendProfileType
 import com.mashup.chinchin.presenter.ui.add_friend.AddFriendContents
 import com.mashup.chinchin.presenter.ui.add_friend.AddFriendTitles
 import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
@@ -23,13 +24,21 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddFriendActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val profileType =
+            intent.extras?.get(EXTRA_PROFILE_TYPE) as? FriendProfileType ?: FriendProfileType.CREATE
+
         setContent {
             ChinchinTheme {
                 AddFriendScreen(
+                    profileType = profileType,
                     onActivityFinish = { finish() },
                 )
             }
         }
+    }
+
+    companion object {
+        const val EXTRA_PROFILE_TYPE = "EXTRA_PROFILE_TYPE"
     }
 }
 
@@ -41,6 +50,7 @@ fun AddFriendPreview() {
 
 @Composable
 fun AddFriendScreen(
+    profileType: FriendProfileType = FriendProfileType.CREATE,
     onActivityFinish: () -> Unit = {},
 ) {
     var friendName by rememberSaveable { mutableStateOf("") }
@@ -52,7 +62,9 @@ fun AddFriendScreen(
     Column(
         modifier = Modifier.fillMaxHeight(),
     ) {
-        ChinChinToolbar(title = "친구 추가하기") {
+        ChinChinToolbar(
+            title = if (profileType == FriendProfileType.CREATE) "친구 추가하기" else "프로필 수정"
+        ) {
             onActivityFinish()
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -76,7 +88,10 @@ fun AddFriendScreen(
             }
 
             Column {
-                ChinChinConfirmButton(isEnable = isEnable, buttonText = "친구 취향 기록하기") {}
+                ChinChinConfirmButton(
+                    isEnable = isEnable,
+                    buttonText = if (profileType == FriendProfileType.CREATE) "친구 취향 기록하기" else "수정완료"
+                ) {}
                 Spacer(modifier = Modifier.height(32.dp))
             }
         }

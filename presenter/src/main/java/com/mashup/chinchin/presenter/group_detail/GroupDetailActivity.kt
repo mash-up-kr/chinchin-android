@@ -1,5 +1,6 @@
 package com.mashup.chinchin.presenter.group_detail
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,9 +14,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
 import com.mashup.chinchin.presenter.group_detail.model.GroupDetailUiModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
@@ -56,6 +59,8 @@ fun GroupDetailScreen(
     group: FriendGroupUiModel = FriendGroupUiModel("test", emptyList()),
     finishActivity: () -> Unit = {}
 ) {
+    val context = LocalContext.current
+
     Column {
         ChinChinToolbar(
             title = group.name,
@@ -64,14 +69,24 @@ fun GroupDetailScreen(
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 24.dp, end = 24.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             ChinChinText(text = "전체", highlightText = "${group.friends.size}")
-            ChinChinButton(icon = R.drawable.icon_user_more1, buttonText = "친구 추가")
+            ChinChinButton(icon = R.drawable.icon_user_more1, buttonText = "친구 추가", onButtonClick = {
+                val intent = Intent(context, AddFriendActivity::class.java).apply {
+                    // TODO: 그룹 이름 넘기기
+                }
+                context.startActivity(intent)
+            })
         }
         Spacer(modifier = Modifier.height(16.dp))
-        GroupDetailList(group.friends)
+        GroupDetailList(
+            context = context,
+            friends = group.friends
+        )
     }
 }
