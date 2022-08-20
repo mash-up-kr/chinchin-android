@@ -291,30 +291,33 @@ fun ChinChinQuestionCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
-                if (cardState == ChinChinQuestionCardState.SEND_EDIT_MODE) {
-                    BasicTextField(
-                        value = question,
-                        onValueChange = { onQuestionChanged(it) },
-                        textStyle = TextStyle(
-                            color = Black,
-                            fontSize = 16.sp,
+                when (cardState) {
+                    ChinChinQuestionCardState.SEND_EDIT_MODE -> {
+                        BasicTextField(
+                            value = question,
+                            onValueChange = { onQuestionChanged(it) },
+                            textStyle = TextStyle(
+                                color = Black,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                            ),
+                            maxLines = 2,
+                            modifier = Modifier
+                                .padding(start = 8.dp)
+                                .fillMaxWidth(),
+                        )
+                    }
+                    else -> {
+                        Text(
+                            text = question,
+                            color = Gray_700,
                             fontWeight = FontWeight.Bold,
-                        ),
-                        maxLines = 2,
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .fillMaxWidth(),
-                    )
-                } else {
-                    Text(
-                        text = question,
-                        color = Gray_700,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 8.dp)
-                    )
+                            fontSize = 16.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 8.dp)
+                        )
+                    }
                 }
             }
 
@@ -326,38 +329,41 @@ fun ChinChinQuestionCard(
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp, bottom = 16.dp)
             ) {
-                if (cardState == ChinChinQuestionCardState.SEND_EDIT_MODE) {
-                    BasicTextField(
-                        value = answer,
-                        onValueChange = { onAnswerChanged(it) },
-                        textStyle = TextStyle(
-                            color = Gray_500,
-                            fontSize = 14.sp
-                        ),
-                        maxLines = 2,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        decorationBox = { innerTextField ->
-                            if (answer.isBlank()) {
-                                Text(
-                                    text = "답변을 적어보세요", modifier = Modifier.fillMaxWidth(),
-                                    color = Gray_500,
-                                    fontSize = 14.sp,
-                                )
-                            }
-                            innerTextField()
-                        },
-                    )
-                } else {
-                    Text(
-                        text = answer,
-                        color = Gray_800,
-                        fontSize = 14.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
-                    )
+                when (cardState) {
+                    ChinChinQuestionCardState.SEND_EDIT_MODE -> {
+                        BasicTextField(
+                            value = answer,
+                            onValueChange = { onAnswerChanged(it) },
+                            textStyle = TextStyle(
+                                color = Gray_500,
+                                fontSize = 14.sp
+                            ),
+                            maxLines = 2,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            decorationBox = { innerTextField ->
+                                if (answer.isBlank()) {
+                                    Text(
+                                        text = "답변을 적어보세요", modifier = Modifier.fillMaxWidth(),
+                                        color = Gray_500,
+                                        fontSize = 14.sp,
+                                    )
+                                }
+                                innerTextField()
+                            },
+                        )
+                    }
+                    else -> {
+                        Text(
+                            text = answer,
+                            color = Gray_800,
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
+                        )
+                    }
                 }
             }
         }
