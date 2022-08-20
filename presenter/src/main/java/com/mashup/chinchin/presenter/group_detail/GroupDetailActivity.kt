@@ -4,17 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.chinchin.presenter.R
@@ -78,22 +74,38 @@ fun GroupDetailScreen(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             ChinChinText(text = "전체", highlightText = "${group.friends.size}")
-            ChinChinButton(icon = R.drawable.icon_user_more1, buttonText = "친구 추가", onButtonClick = {
-                val intent = Intent(context, AddFriendActivity::class.java).apply {
-                    // TODO: 그룹 이름 넘기기
-                }
-                context.startActivity(intent)
-            })
+            ChinChinButton(
+                icon = R.drawable.icon_user_more1,
+                buttonText = "친구 추가",
+                onButtonClick = {
+                    val intent = Intent(context, AddFriendActivity::class.java).apply {
+                        // TODO: 그룹 이름 넘기기
+                    }
+                    context.startActivity(intent)
+                })
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        GroupDetailList(
-            onClickCard = {
-                val intent = Intent(context, FriendDetailActivity::class.java).apply {
-                    putExtra(EXTRA_FRIEND_ID, it.id)
-                }
-                context.startActivity(intent)
-            },
-            friends = group.friends
-        )
+        if (group.friends.isEmpty()) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.img_empty_addfriend),
+                    contentDescription = "",
+                )
+            }
+        } else {
+            Spacer(modifier = Modifier.height(16.dp))
+            GroupDetailList(
+                onClickCard = {
+                    val intent = Intent(context, FriendDetailActivity::class.java).apply {
+                        putExtra(EXTRA_FRIEND_ID, it.id)
+                    }
+                    context.startActivity(intent)
+                },
+                friends = group.friends
+            )
+        }
     }
 }
