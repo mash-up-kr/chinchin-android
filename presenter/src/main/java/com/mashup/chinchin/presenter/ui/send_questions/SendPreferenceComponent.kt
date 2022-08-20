@@ -1,6 +1,8 @@
 package com.mashup.chinchin.presenter.ui.send_questions
 
 import QuestionCategoryDialog
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -11,12 +13,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.ChinChinQuestionCardState
 import com.mashup.chinchin.presenter.common.model.CategoryUiModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
@@ -77,9 +83,12 @@ fun QuestionCategoryList(
             onClick = { keyword ->
                 selectedKeyword.value = keyword
 
-                val selectedQuestion = selectedCategory.value.keywords.find { it.keyword == keyword }?.question
+                val selectedQuestion =
+                    selectedCategory.value.keywords.find { it.keyword == keyword }?.question
                 addQuestion(
-                    QuestionUiModel(selectedQuestion ?: throw Exception("선택된 키워드가 질문리스트에 존재하지 않습니다."))
+                    QuestionUiModel(
+                        selectedQuestion ?: throw Exception("선택된 키워드가 질문리스트에 존재하지 않습니다.")
+                    )
                 )
             }
         ) {
@@ -95,7 +104,8 @@ fun QuestionCategoryList(
                 category = category.category,
                 addQuestion = addQuestion,
                 onClickCategory = { category ->
-                    selectedCategory.value = categories.find { it.category == category } ?: return@QuestionCategoryChip
+                    selectedCategory.value =
+                        categories.find { it.category == category } ?: return@QuestionCategoryChip
                     showDialog.value = true
                 })
         }
@@ -145,23 +155,41 @@ fun SendPreferenceQuestionList(
 ) {
     Column(modifier = modifier) {
         ChinChinText(text = "총 질문", highlightText = "${questions.size}")
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(top = 8.dp),
-        ) {
-            itemsIndexed(questions) { index, question ->
-                val (questionText, setQuestionText) = remember { mutableStateOf(question.question) }
-                val (answer, setAnswer) = remember { mutableStateOf(question.answer) }
+        if (questions.isEmpty()) {
+            EmptyAddQuestion()
+        } else {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(top = 8.dp),
+            ) {
+                itemsIndexed(questions) { index, question ->
+                    val (questionText, setQuestionText) = remember { mutableStateOf(question.question) }
+                    val (answer, setAnswer) = remember { mutableStateOf(question.answer) }
 
-                ChinChinQuestionCard(
-                    index = index,
-                    question = questionText,
-                    onQuestionChanged = setQuestionText,
-                    answer = answer,
-                    onAnswerChanged = setAnswer,
-                    cardState = ChinChinQuestionCardState.SEND_EDIT_MODE
-                )
+                    ChinChinQuestionCard(
+                        index = index,
+                        question = questionText,
+                        onQuestionChanged = setQuestionText,
+                        answer = answer,
+                        onAnswerChanged = setAnswer,
+                        cardState = ChinChinQuestionCardState.SEND_EDIT_MODE
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+fun EmptyAddQuestion() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.img_empty_addquestion),
+            contentDescription = ""
+        )
     }
 }
