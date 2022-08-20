@@ -37,7 +37,7 @@ fun IntroductionText() {
 @Composable
 fun IntroductionImage() {
     Image(
-        painter = painterResource(id = R.drawable.illust_32_1),
+        painter = painterResource(id = R.drawable.img_aduck),
         contentDescription = "회원가입 이미지",
     )
 }
