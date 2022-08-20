@@ -1,5 +1,6 @@
 package com.mashup.chinchin.presenter.ui.common
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,6 +41,7 @@ fun ChinChinToolbar(
     isActiveConfirmButton: Boolean = false,
     isActiveBackButton: Boolean = true,
     isAbleConfirmButton: Boolean = false,
+    @DrawableRes confirmDrawableId: Int = R.drawable.icon_check,
     onConfirmButtonClick: () -> Unit = {},
     onBackButtonClick: () -> Unit = {},
 ) {
@@ -75,7 +77,7 @@ fun ChinChinToolbar(
                 enabled = isAbleConfirmButton
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.icon_check),
+                    painter = painterResource(id = confirmDrawableId),
                     contentDescription = "confirm button",
                     tint = if (isAbleConfirmButton) Black else Gray_400
                 )
