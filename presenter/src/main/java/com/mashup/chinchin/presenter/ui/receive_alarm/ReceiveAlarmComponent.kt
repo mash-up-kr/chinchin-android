@@ -15,10 +15,12 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.receive_alarm.model.RequestAlarmUiModel
 import com.mashup.chinchin.presenter.ui.theme.Black
 import com.mashup.chinchin.presenter.ui.theme.Gray_100
@@ -59,6 +61,14 @@ fun RequestAlarmList(requestAlarmUiModels: List<RequestAlarmUiModel>, modifier: 
             )
         }
     }
+}
+
+@Composable
+fun EmptyRequestAlarm() {
+    Image(
+        painter = painterResource(id = R.drawable.img_empty_basic),
+        contentDescription = "",
+    )
 }
 
 @Preview(showBackground = true)

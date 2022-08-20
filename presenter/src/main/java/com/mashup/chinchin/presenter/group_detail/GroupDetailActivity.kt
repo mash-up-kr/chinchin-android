@@ -22,6 +22,7 @@ import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
+import com.mashup.chinchin.presenter.ui.group_detail.EmptyGroupDetail
 import com.mashup.chinchin.presenter.ui.group_detail.GroupDetailList
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import java.lang.Exception
@@ -90,10 +91,7 @@ fun GroupDetailScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.img_empty_addfriend),
-                    contentDescription = "",
-                )
+                EmptyGroupDetail()
             }
         } else {
             Spacer(modifier = Modifier.height(16.dp))
