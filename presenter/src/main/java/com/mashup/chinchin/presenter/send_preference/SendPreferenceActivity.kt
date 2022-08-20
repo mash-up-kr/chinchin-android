@@ -27,7 +27,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.CategoryUiModel
 import com.mashup.chinchin.presenter.common.model.KeywordQuestionUiModel
+import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.edit_preference.EditPreferenceActivity
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_BUNDLE
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_QUESTIONS
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.ImageDialog
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
@@ -85,6 +88,10 @@ class SendPreferenceActivity : ComponentActivity() {
         categoryList.add(privateInformation)
 
         return categoryList
+    }
+    companion object{
+        const val EXTRA_QUESTIONS = "EXTRA_QUESTIONS"
+        const val EXTRA_BUNDLE = "EXTRA_BUNDLE"
     }
 }
 
@@ -211,7 +218,12 @@ fun CreateQuestionSheetScreen(
     val startForResult =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val intent = result.data
+                val passedExtras: Bundle =
+                    result.data?.extras ?: return@rememberLauncherForActivityResult //TODO activity 종료 되도록 바꿔야하는지 고민입니다.
+                val questions = passedExtras.getBundle(EXTRA_BUNDLE)?.getParcelableArrayList<QuestionUiModel>(EXTRA_QUESTIONS)
+                questions?.let{
+                    sendPreferenceViewModel.onQuestionsChange(questions.toList())
+                }
             }
         }
     val context = LocalContext.current
@@ -220,9 +232,8 @@ fun CreateQuestionSheetScreen(
     val onClickEditButton: () -> Unit = {
         Intent(context, EditPreferenceActivity::class.java).apply {
             val bundle = Bundle()
-            bundle.putParcelableArrayList("questions", questionsArrayList)
-            putExtra("key", "test")
-            putExtra("bundle", bundle)
+            bundle.putParcelableArrayList(EXTRA_QUESTIONS, questionsArrayList)
+            putExtra(EXTRA_BUNDLE, bundle)
         }.also {
             startForResult.launch(it)
         }

@@ -8,8 +8,9 @@ class SendPreferenceViewModel : ViewModel() {
 
     val questions = mutableStateListOf<QuestionUiModel>()
 
-    fun onQuestionsChange(newQuestions: QuestionUiModel) {
-        questions.add(newQuestions)
+    fun onQuestionsChange(_questions: List<QuestionUiModel>) {
+        questions.clear()
+        questions.addAll(_questions)
     }
 
     fun addQuestion(question: QuestionUiModel) {

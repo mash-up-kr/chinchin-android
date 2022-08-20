@@ -7,4 +7,5 @@ import kotlinx.android.parcel.Parcelize
 data class QuestionUiModel(
     val question: String,
     val answer: String = "",
+    val isChecked: Boolean = false,
 ) : Parcelable

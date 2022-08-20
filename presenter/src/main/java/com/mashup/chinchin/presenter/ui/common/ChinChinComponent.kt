@@ -2,6 +2,7 @@ package com.mashup.chinchin.presenter.ui.common
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -285,11 +286,14 @@ fun ChinChinQuestionCard(
     answer: String,
     onAnswerChanged: ((Int, String) -> Unit)? = null,
     cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.SEND_EDIT_MODE,
+    isChecked: Boolean = false,
+    modifier: Modifier = Modifier
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = 0.dp,
         backgroundColor = getChinChinCardBackgroundColor(cardState),
+        modifier = modifier
     ) {
         Column {
             Row(
@@ -299,7 +303,7 @@ fun ChinChinQuestionCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (cardState == ChinChinQuestionCardState.SEND_DELETE_MODE) {
-                    ChinChinQuestionCardEmptyIcon(cardState = cardState)
+                    ChinChinQuestionCardEmptyIcon(cardState = cardState, isChecked = isChecked)
                 } else {
                     ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
                 }
@@ -398,14 +402,28 @@ private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: CardState) {
 }
 
 @Composable
-private fun ChinChinQuestionCardEmptyIcon(cardState: ChinChinQuestionCardState) {
+private fun ChinChinQuestionCardEmptyIcon(
+    cardState: ChinChinQuestionCardState,
+    isChecked: Boolean
+) {
     Box(contentAlignment = Alignment.Center) {
-        Canvas(
-            modifier = Modifier
-                .size(20.dp)
-                .border(color = Gray_400, width = 2.dp, shape = CircleShape), onDraw = {
-                drawCircle(color = getChinChinCardNumberIconBackgroundColor(cardState))
-            })
+        if (isChecked) {
+            Image(
+                painter = painterResource(id = R.drawable.checked),
+                contentDescription = "",
+                modifier = Modifier
+                    .width(20.dp)
+                    .height(20.dp),
+                contentScale = ContentScale.Fit
+            )
+        } else {
+            Canvas(
+                modifier = Modifier
+                    .size(20.dp)
+                    .border(color = Gray_400, width = 2.dp, shape = CircleShape), onDraw = {
+                    drawCircle(color = getChinChinCardNumberIconBackgroundColor(cardState))
+                })
+        }
     }
 }
 
