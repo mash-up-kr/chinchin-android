@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class FriendUiModel(
+    val id: Long,
     val name: String,
     val profileThumbnailUrl: String,
 ): Parcelable

@@ -1,6 +1,7 @@
 package com.mashup.chinchin.presenter.main.model
 
 data class RecommendFriendUiModel(
+    val id: Long,
     val profileUrl: String,
     val name: String,
 ) {
@@ -10,6 +11,7 @@ data class RecommendFriendUiModel(
      */
     fun toFriendUiModel(): FriendUiModel {
         return FriendUiModel(
+            id = id,
             profileThumbnailUrl = profileUrl,
             name = name
         )

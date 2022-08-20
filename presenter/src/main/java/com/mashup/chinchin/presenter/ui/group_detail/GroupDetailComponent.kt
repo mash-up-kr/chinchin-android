@@ -47,7 +47,6 @@ fun GroupDetailList(context: Context, friends: List<FriendUiModel>, modifier: Mo
                     .height(78.dp)
                     .padding(horizontal = 24.dp),
                 friend = friend,
-                context = context,
             )
         }
     }
@@ -61,7 +60,6 @@ fun GroupDetailItemPreview() {
             .fillMaxWidth()
             .height(78.dp)
             .padding(horizontal = 24.dp),
-        context = LocalContext.current,
-        friend = FriendUiModel("김매쉬", ""),
+        friend = FriendUiModel(0, "김매쉬", ""),
     )
 }

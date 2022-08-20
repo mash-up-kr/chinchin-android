@@ -67,12 +67,12 @@ class MainActivity : ComponentActivity() {
             FriendGroupUiModel(
                 name = "매쉬업 사람들",
                 friends = listOf(
-                    FriendUiModel("히지니", "https://picsum.photos/200"),
-                    FriendUiModel("혜찌니", "https://picsum.photos/200"),
-                    FriendUiModel("경무", "https://picsum.photos/200"),
-                    FriendUiModel("히지니", "https://picsum.photos/200"),
-                    FriendUiModel("혜찌니", "https://picsum.photos/200"),
-                    FriendUiModel("경무", "https://picsum.photos/200")
+                    FriendUiModel(0, "히지니", "https://picsum.photos/200"),
+                    FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
+                    FriendUiModel(0, "경무", "https://picsum.photos/200"),
+                    FriendUiModel(0, "히지니", "https://picsum.photos/200"),
+                    FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
+                    FriendUiModel(0, "경무", "https://picsum.photos/200")
                 )
             )
         }
@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
 
     private fun initRecommendFriends(): List<RecommendFriendUiModel> {
         return List(25) {
-            RecommendFriendUiModel("good", "안경무 $it")
+            RecommendFriendUiModel(0, "good", "안경무 $it")
         }
     }
 }
@@ -98,7 +98,7 @@ fun MainScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
-    val selectedFriend = remember { mutableStateOf(RecommendFriendUiModel("", "")) }
+    val selectedFriend = remember { mutableStateOf(RecommendFriendUiModel(0, "", "")) }
     val onSelectFriend: (friend: RecommendFriendUiModel) -> Unit = { friend ->
         selectedFriend.value = friend
     }

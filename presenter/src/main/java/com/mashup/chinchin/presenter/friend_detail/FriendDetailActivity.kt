@@ -2,6 +2,7 @@ package com.mashup.chinchin.presenter.friend_detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -35,11 +36,18 @@ import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.friend_detail.*
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.ui.theme.White
+import java.util.logging.Logger
 import kotlin.math.roundToInt
 
 class FriendDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // TODO: ViewModel 만들면 이관
+        // TODO: viewModel saveInstance 주입받아서 get 한다음에 init에서 api 호출
+        val friendId = intent.extras?.get(EXTRA_FRIEND_ID) ?: return
+
+        Log.e("friendId", friendId.toString())
         setContent {
             ChinchinTheme {
                 FriendDetailScreen(
@@ -56,6 +64,8 @@ class FriendDetailActivity : ComponentActivity() {
     }
 
     companion object {
+        const val EXTRA_FRIEND_ID = "EXTRA_FRIEND_ID"
+
         fun initScreen(): List<FriendDetailNavScreen> {
             return listOf(
                 FriendDetailNavScreen.ANSWER_FROM_FRIEND,
