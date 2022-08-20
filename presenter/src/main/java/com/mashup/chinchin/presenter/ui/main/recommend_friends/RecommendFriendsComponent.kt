@@ -121,6 +121,20 @@ fun RecommendFriendsListBody(
 }
 
 @Composable
+fun RecommendFriendsEmptyBody() {
+ Column(
+     modifier = Modifier.fillMaxSize(),
+     verticalArrangement = Arrangement.Center,
+     horizontalAlignment = Alignment.CenterHorizontally
+ ) {
+     Image(
+         painter = painterResource(id = R.drawable.img_empty_findfriend),
+         contentDescription = "",
+     )
+ }
+}
+
+@Composable
 fun RecommendFriendItem(
     recommendFriend: RecommendFriendUiModel,
     showBottomSheet: () -> Unit,

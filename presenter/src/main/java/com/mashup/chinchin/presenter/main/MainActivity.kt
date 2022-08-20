@@ -43,6 +43,7 @@ import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Compan
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.main.home.AddGroupDialog
+import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsEmptyBody
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -208,15 +209,21 @@ fun RecommendFriendsScreen(
         Spacer(modifier = Modifier.height(7.dp))
 
         /* TODO: 퍼미션 체크를 기준으로 변경하자 */
-        if (recommendFriendsList.isEmpty()) {
+        val isAgreedKakaoPermission = false
+
+        if (isAgreedKakaoPermission) {
             RecommendFriendsPermissionBody()
         } else {
-            RecommendFriendsListBody(
-                recommendFriendsList = recommendFriendsList,
-                showBottomSheet = showBottomSheet,
-                onSelectFriend = onSelectFriend,
-                onClickMore = onClickMore,
-            )
+            if (recommendFriendsList.isEmpty()) {
+                RecommendFriendsEmptyBody()
+            } else {
+                RecommendFriendsListBody(
+                    recommendFriendsList = recommendFriendsList,
+                    showBottomSheet = showBottomSheet,
+                    onSelectFriend = onSelectFriend,
+                    onClickMore = onClickMore,
+                )
+            }
         }
     }
 }
