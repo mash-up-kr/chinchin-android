@@ -15,6 +15,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -35,6 +36,7 @@ import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsL
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
 import com.mashup.chinchin.presenter.group_detail.GroupDetailActivity
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
@@ -147,8 +149,7 @@ fun MainScreen(
                     }
                 }
             }
-        ) {
-                paddingValues ->
+        ) { paddingValues ->
             MainNavGraph(
                 navController = navController,
                 recommendFriends = recommendFriends,
@@ -163,11 +164,16 @@ fun MainScreen(
 
 @Composable
 fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) {
+    val context = LocalContext.current
     val groups = remember { groups.toMutableStateList() }
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = bottomPaddingValue)) {
-        HomeHeader(onAddGroupClick = setShowDialog, groups = groups)
+        HomeHeader(
+            onButtonClick = { context.startActivity(Intent(context, AddFriendActivity::class.java)) },
+            onAddGroupClick = setShowDialog, 
+            groups = groups
+        )
         HomeBody(groups = groups)
         AddGroupDialog(
             showDialog = showDialog,
