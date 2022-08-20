@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -12,13 +13,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
+import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.theme.Gray_500
 import com.mashup.chinchin.presenter.ui.theme.Gray_700
@@ -28,12 +33,10 @@ import com.mashup.chinchin.presenter.ui.theme.Primary_1
 @Composable
 fun RecommendFriendsHeader(recommendFriendCount: Int) {
     Column {
-        /* TODO: Image 로 변경될 예정 */
-        Text(
-            text = "친친",
-            fontSize = 30.sp,
-            color = Primary_1,
-            modifier = Modifier.padding(top = 6.dp, start = 4.dp)
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "",
+            modifier = Modifier.padding(top = 16.dp),
         )
 
         ChinChinText(
@@ -107,7 +110,8 @@ fun RequestPermissionButton(onButtonClick: () -> Unit = {}) {
 fun RecommendFriendsListBody(
     recommendFriendsList: List<RecommendFriendUiModel>,
     showBottomSheet: () -> Unit,
-    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit
+    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
+    onClickMore: () -> Unit,
 ) {
     LazyColumn {
         itemsIndexed(recommendFriendsList) { index, recommendFriend ->
@@ -116,6 +120,14 @@ fun RecommendFriendsListBody(
             }
             RecommendFriendItem(recommendFriend, showBottomSheet, onSelectFriend)
             Divider(color = Color(0xFFD9D9D9), thickness = 0.5.dp)
+        }
+        item { 
+            ChinChinConfirmButton(
+                buttonText = "친구 더보기",
+                isEnable = true,
+            ) {
+                onClickMore()
+            }
         }
     }
 }
@@ -131,9 +143,8 @@ fun RecommendFriendItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp)
     ) {
-        RecommendFriendInfo(recommendFriend)
+        RecommendFriendInfo(recommendFriend, modifier = Modifier.padding(vertical = 8.dp))
         ChinChinButton(
             icon = R.drawable.icon_plus,
             buttonText = "친구 추가",
@@ -148,16 +159,21 @@ fun RecommendFriendItem(
 }
 
 @Composable
-fun RecommendFriendInfo(recommendFriend: RecommendFriendUiModel) {
+fun RecommendFriendInfo(
+    recommendFriend: RecommendFriendUiModel,
+    modifier: Modifier = Modifier,
+) {
     Row(
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier,
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.img_giftbox),
+        AsyncImage(
+            model = recommendFriend.profileUrl,
             contentDescription = "",
+            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .width(54.dp)
-                .height(54.dp),
+                .size(54.dp)
+                .clip(CircleShape)
         )
 
         Text(

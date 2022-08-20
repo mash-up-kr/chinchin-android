@@ -82,7 +82,7 @@ fun HomeHeader(
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "",
-                modifier = Modifier.padding(top = 17.dp),
+                modifier = Modifier.padding(top = 16.dp),
             )
 
             IconButton(

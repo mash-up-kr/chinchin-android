@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
 
     private fun initRecommendFriends(): List<RecommendFriendUiModel> {
         return List(25) {
-            RecommendFriendUiModel(0, "good", "안경무 $it")
+            RecommendFriendUiModel(0, "https://picsum.photos/200", "안경무 $it")
         }
     }
 }
@@ -197,10 +197,11 @@ fun RecommendFriendsScreen(
     showBottomSheet: () -> Unit,
     onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
     bottomPaddingValue: Dp = 0.dp,
+    onClickMore: () -> Unit,
 ) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 24.dp)
+            .padding(start = 24.dp, end = 24.dp, bottom = 20.dp)
             .padding(bottom = bottomPaddingValue)
     ) {
         RecommendFriendsHeader(recommendFriendsList.size)
@@ -210,7 +211,12 @@ fun RecommendFriendsScreen(
         if (recommendFriendsList.isEmpty()) {
             RecommendFriendsPermissionBody()
         } else {
-            RecommendFriendsListBody(recommendFriendsList, showBottomSheet, onSelectFriend)
+            RecommendFriendsListBody(
+                recommendFriendsList = recommendFriendsList,
+                showBottomSheet = showBottomSheet,
+                onSelectFriend = onSelectFriend,
+                onClickMore = onClickMore,
+            )
         }
     }
 }
