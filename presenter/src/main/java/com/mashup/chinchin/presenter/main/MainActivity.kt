@@ -5,21 +5,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -41,11 +40,13 @@ import com.mashup.chinchin.presenter.ui.main.MainNavScreen
 import com.mashup.chinchin.presenter.ui.main.home.AddGroupDialog
 import com.mashup.chinchin.presenter.ui.main.home.HomeBody
 import com.mashup.chinchin.presenter.ui.main.home.HomeHeader
+import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsEmptyBody
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsHeader
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsListBody
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
+import com.mashup.chinchin.presenter.ui.theme.Black
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
-import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsEmptyBody
+import com.mashup.chinchin.presenter.ui.theme.Gray_300
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -182,8 +183,15 @@ fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) 
 
     Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = bottomPaddingValue)) {
         HomeHeader(
-            onButtonClick = { context.startActivity(Intent(context, AddFriendActivity::class.java)) },
-            onAddGroupClick = setShowDialog, 
+            onButtonClick = {
+                context.startActivity(
+                    Intent(
+                        context,
+                        AddFriendActivity::class.java
+                    )
+                )
+            },
+            onAddGroupClick = setShowDialog,
             groups = groups
         )
         HomeBody(groups = groups)
@@ -233,17 +241,63 @@ fun RecommendFriendsScreen(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun MoreScreenPreview() {
+    MoreScreen()
+}
+
 @Composable
 fun MoreScreen() {
-    ConstraintLayout(modifier = Modifier.background(Color.Green)) {
-        val text = createRef()
-        Text("More", Modifier.constrainAs(text) {
-            top.linkTo(parent.top)
-            bottom.linkTo(parent.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-        })
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "",
+            modifier = Modifier.padding(top = 16.dp, bottom = 10.dp),
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        MoreItemButton(text = "이용 안내", onClickButton = { })
+        MoreItemButton(text = "만든이들", onClickButton = { })
+        MoreItemButton(text = "피드백 보내기", onClickButton = { })
     }
+}
+
+@Composable
+fun MoreItemButton(
+    text: String,
+    onClickButton: () -> Unit,
+) {
+    Button(
+        onClick = { onClickButton() },
+        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background),
+        modifier = Modifier.defaultMinSize(minHeight = 1.dp, minWidth = 1.dp),
+        elevation = ButtonDefaults.elevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 0.dp,
+        ),
+        contentPadding = PaddingValues(vertical = 20.dp),
+    ) {
+
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Start,
+            fontSize = 16.sp,
+            color = Black,
+            fontWeight = FontWeight.Bold,
+            text = text,
+        )
+
+    }
+    Divider(
+        color = Gray_300,
+        thickness = 0.5.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+    )
 }
 
 @Composable
