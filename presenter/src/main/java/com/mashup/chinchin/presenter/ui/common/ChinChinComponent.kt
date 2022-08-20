@@ -2,7 +2,9 @@ package com.mashup.chinchin.presenter.ui.common
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
@@ -14,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -23,10 +26,12 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.CardState
 import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
 import com.mashup.chinchin.presenter.common.ChinChinQuestionCardState
+import com.mashup.chinchin.presenter.main.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.theme.*
 
 @Composable
@@ -473,6 +478,50 @@ fun ChinChinGrayTextField(
             }
         },
     )
+}
+
+@Composable
+fun ChinChinFriendCard(
+    modifier: Modifier = Modifier,
+    friend: FriendUiModel,
+    onClickCard: () -> Unit = {},
+) {
+    Card(
+        modifier = modifier.clickable {
+            onClickCard()
+        },
+        shape = RoundedCornerShape(8.dp),
+        elevation = 0.dp,
+        backgroundColor = Secondary_1
+    ) {
+        Row(
+            modifier = Modifier.padding(start = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                model = friend.profileThumbnailUrl,
+                contentDescription = "profile",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(54.dp)
+                    .clip(CircleShape),
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp),
+                contentAlignment = Alignment.CenterStart,
+            ) {
+                Text(
+                    text = friend.name,
+                    fontWeight = FontWeight.Bold,
+                    color = Black,
+                    fontSize = 16.sp,
+                )
+            }
+        }
+
+    }
 }
 
 private fun getChinChinCardBackgroundColor(cardState: CardState): Color =

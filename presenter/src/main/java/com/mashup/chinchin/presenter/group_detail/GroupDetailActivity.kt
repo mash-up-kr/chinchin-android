@@ -19,6 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
+import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
+import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.EXTRA_FRIEND_ID
 import com.mashup.chinchin.presenter.group_detail.model.GroupDetailUiModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
@@ -85,7 +87,12 @@ fun GroupDetailScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         GroupDetailList(
-            context = context,
+            onClickCard = {
+                val intent = Intent(context, FriendDetailActivity::class.java).apply {
+                    putExtra(EXTRA_FRIEND_ID, it.id)
+                }
+                context.startActivity(intent)
+            },
             friends = group.friends
         )
     }

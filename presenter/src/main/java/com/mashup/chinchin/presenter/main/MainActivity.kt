@@ -37,7 +37,9 @@ import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsP
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
-import com.mashup.chinchin.presenter.group_detail.GroupDetailActivity
+import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.NEW_FRIEND
+import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity
+import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.OLD_FRIEND
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.main.home.AddGroupDialog
@@ -65,12 +67,12 @@ class MainActivity : ComponentActivity() {
             FriendGroupUiModel(
                 name = "매쉬업 사람들",
                 friends = listOf(
-                    FriendUiModel("히지니", "https://picsum.photos/200"),
-                    FriendUiModel("혜찌니", "https://picsum.photos/200"),
-                    FriendUiModel("경무", "https://picsum.photos/200"),
-                    FriendUiModel("히지니", "https://picsum.photos/200"),
-                    FriendUiModel("혜찌니", "https://picsum.photos/200"),
-                    FriendUiModel("경무", "https://picsum.photos/200")
+                    FriendUiModel(0, "히지니", "https://picsum.photos/200"),
+                    FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
+                    FriendUiModel(0, "경무", "https://picsum.photos/200"),
+                    FriendUiModel(0, "히지니", "https://picsum.photos/200"),
+                    FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
+                    FriendUiModel(0, "경무", "https://picsum.photos/200")
                 )
             )
         }
@@ -78,7 +80,7 @@ class MainActivity : ComponentActivity() {
 
     private fun initRecommendFriends(): List<RecommendFriendUiModel> {
         return List(25) {
-            RecommendFriendUiModel("good", "안경무 $it")
+            RecommendFriendUiModel(0, "good", "안경무 $it")
         }
     }
 }
@@ -91,11 +93,12 @@ fun MainScreen(
     groups: List<FriendGroupUiModel> = listOf(),
 ) {
 
+    val context = LocalContext.current
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
-    val selectedFriend = remember { mutableStateOf(RecommendFriendUiModel("", "")) }
+    val selectedFriend = remember { mutableStateOf(RecommendFriendUiModel(0, "", "")) }
     val onSelectFriend: (friend: RecommendFriendUiModel) -> Unit = { friend ->
         selectedFriend.value = friend
     }
@@ -128,9 +131,15 @@ fun MainScreen(
             BottomSheetContent(
                 "친구 추가할까요?", listOf(
                     BottomSheetItemUiModel("신규 친구 추가하기", R.drawable.icon_user_more1) {
-                        closeBottomSheet() //TODO 신규 추가하기 로직 구현 해야함
+                        context.startActivity(Intent(context, AddFriendActivity::class.java)
+                            .putExtra(NEW_FRIEND, selectedFriend.value.toFriendUiModel())
+                        )
                     },
-                    BottomSheetItemUiModel("기존 친구에 연결하기", R.drawable.icon_connect) {},//TODO
+                    BottomSheetItemUiModel("기존 친구에 연결하기", R.drawable.icon_connect) {
+                        context.startActivity(Intent(context, ConnectFriendActivity::class.java).apply {
+                            putExtra(OLD_FRIEND, selectedFriend.value.toFriendUiModel())
+                        })
+                    },
                     BottomSheetItemUiModel("취소", R.drawable.ic_x) {
                         closeBottomSheet()
                     },
