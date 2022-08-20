@@ -210,7 +210,7 @@ fun AnswerFromFriendScreen(
     answersFromFriend: List<QuestionUiModel>,
 ) {
     if (answersFromFriend.isEmpty()) {
-        EmptyQuestionContent(true)
+        EmptyQuestionContent()
     } else {
         QuestionAnswerListContent(
             answers = answersFromFriend,
@@ -228,7 +228,7 @@ fun AnswersExpectedScreen(
         if (isSavedTempQuestions) {
             TempSavedQuestionContent()
         } else {
-            EmptyQuestionContent(false)
+            EmptyQuestionContent()
         }
     } else {
         QuestionAnswerListContent(

@@ -5,9 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -27,8 +25,6 @@ import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.theme.Gray_500
 import com.mashup.chinchin.presenter.ui.theme.Gray_700
-import com.mashup.chinchin.presenter.ui.theme.Gray_800
-import com.mashup.chinchin.presenter.ui.theme.Primary_1
 
 @Composable
 fun RecommendFriendsHeader(recommendFriendCount: Int) {
@@ -49,60 +45,53 @@ fun RecommendFriendsHeader(recommendFriendCount: Int) {
 
 @Composable
 fun RecommendFriendsPermissionBody() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 29.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = "내 카톡 친구를 찾아보세요",
-            color = Gray_700,
-            fontSize = 20.sp
-        )
-
-        Text(
-            text = "친구찾기 기능을 통해 친친에 가입한 친구들을\n" +
-                "찾을 수 있습니다. 친구들에게 취향질문지를 보내고\n" +
-                "친구에 대해 알아가보세요!",
-            color = Gray_500,
-            fontSize = 14.sp,
-            modifier = Modifier.padding(top = 16.dp)
-        )
-
-        Image(
-            painter = painterResource(id = R.drawable.recommend_friends_permission),
-            contentDescription = "",
+    Box {
+        Column(
             modifier = Modifier
-                .width(195.dp)
-                .height(156.dp)
-        )
+                .fillMaxSize()
+                .padding(top = 29.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = "내 카톡 친구를 찾아보세요",
+                color = Gray_700,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
 
-        RequestPermissionButton()
+            Text(
+                text = "친친에 가입한 친구들을 찾을 수 있어요. \n" +
+                        "친구들에게 취향질문지를 보내고\n" +
+                        "친구에 대해 알아가보세요!",
+                color = Gray_500,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+
+            Image(
+                painter = painterResource(id = R.drawable.img_search),
+                contentDescription = "",
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            RequestPermissionButton()
+        }
     }
 }
 
 @Composable
 fun RequestPermissionButton(onButtonClick: () -> Unit = {}) {
-    Button(
-        onClick = { onButtonClick() },
-        shape = RoundedCornerShape(10.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Primary_1),
-        contentPadding = PaddingValues(vertical = 20.dp),
-        modifier = Modifier
-            .defaultMinSize(minHeight = 1.dp)
-            .fillMaxWidth()
-            .padding(top = 25.dp, start = 24.dp, end = 24.dp),
-        elevation = ButtonDefaults.elevation(
-            defaultElevation = 0.dp,
-            pressedElevation = 0.dp,
-        ),
+    ChinChinConfirmButton(
+        modifier = Modifier.padding(bottom = 20.dp),
+        isEnable = true,
+        buttonText = "권한 동의하고 친구 찾기"
     ) {
-        Text(
-            text = "권한 동의하고 친구 찾기",
-            fontSize = 16.sp,
-            color = Gray_800,
-        )
+        onButtonClick
     }
 }
 
@@ -121,7 +110,7 @@ fun RecommendFriendsListBody(
             RecommendFriendItem(recommendFriend, showBottomSheet, onSelectFriend)
             Divider(color = Color(0xFFD9D9D9), thickness = 0.5.dp)
         }
-        item { 
+        item {
             ChinChinConfirmButton(
                 buttonText = "친구 더보기",
                 isEnable = true,
@@ -129,6 +118,20 @@ fun RecommendFriendsListBody(
                 onClickMore()
             }
         }
+    }
+}
+
+@Composable
+fun RecommendFriendsEmptyBody() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.img_empty_findfriend),
+            contentDescription = "",
+        )
     }
 }
 

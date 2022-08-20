@@ -4,17 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
@@ -84,6 +86,7 @@ class SendPreferenceActivity : ComponentActivity() {
             }
         }
     }
+
     private fun getCategoryList(): MutableList<CategoryUiModel> {
         val categoryList = mutableListOf<CategoryUiModel>()
         val preferences = CategoryUiModel(
@@ -106,7 +109,10 @@ class SendPreferenceActivity : ComponentActivity() {
                 KeywordQuestionUiModel(keyword = "옷 사이즈", question = "옷 사이즈는 무엇인가요?"),
                 KeywordQuestionUiModel(keyword = "신발 사이즈", question = "신발 사이즈는 어떻게 되나요?"),
                 KeywordQuestionUiModel(keyword = "활동 지역", question = "주로 활동하는 지역은 어디인가요?"),
-                KeywordQuestionUiModel(keyword = "최애 영화", question = "지금까지 봤던 영화 중 가장 좋았던 영화는 어떤거야?"),
+                KeywordQuestionUiModel(
+                    keyword = "최애 영화",
+                    question = "지금까지 봤던 영화 중 가장 좋았던 영화는 어떤거야?"
+                ),
             )
         )
         categoryList.add(preferences)
@@ -148,6 +154,7 @@ fun CreateQuestionSheetScreen(
                 questions.add(it)
             }
             Spacer(modifier = Modifier.height(13.dp))
+
             SendPreferenceQuestionList(
                 questions = questions,
                 modifier = Modifier.padding(top = 16.dp),
