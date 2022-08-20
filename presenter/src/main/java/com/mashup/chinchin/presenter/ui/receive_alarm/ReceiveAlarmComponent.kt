@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +27,8 @@ import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.receive_alarm.model.AlarmType
 import com.mashup.chinchin.presenter.receive_alarm.model.RequestAlarmUiModel
 import com.mashup.chinchin.presenter.ui.theme.*
+import com.mashup.chinchin.presenter.ui.theme.Black
+import com.mashup.chinchin.presenter.ui.theme.Primary_2
 
 @Composable
 fun RequestCountText(requestCount: Int) {
@@ -50,6 +53,7 @@ fun RequestCountText(requestCount: Int) {
 
 @Composable
 fun RequestAlarmList(requestAlarmUiModels: List<RequestAlarmUiModel>, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier

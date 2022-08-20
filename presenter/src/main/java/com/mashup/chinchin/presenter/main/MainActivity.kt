@@ -32,6 +32,7 @@ import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.main.model.FriendUiModel
 import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
+import com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
@@ -200,6 +201,14 @@ fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) 
                 )
             },
             onAddGroupClick = setShowDialog,
+            onBellClick = {
+                context.startActivity(
+                    Intent(
+                        context,
+                        ReceiveAlarmActivity::class.java
+                    )
+                )
+            },
             groups = groups
         )
         HomeBody(groups = groups)
