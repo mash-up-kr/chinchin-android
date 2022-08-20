@@ -197,10 +197,11 @@ fun RecommendFriendsScreen(
     showBottomSheet: () -> Unit,
     onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
     bottomPaddingValue: Dp = 0.dp,
+    onClickMore: () -> Unit,
 ) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 24.dp)
+            .padding(start = 24.dp, end = 24.dp, bottom = 20.dp)
             .padding(bottom = bottomPaddingValue)
     ) {
         RecommendFriendsHeader(recommendFriendsList.size)
@@ -210,7 +211,12 @@ fun RecommendFriendsScreen(
         if (recommendFriendsList.isEmpty()) {
             RecommendFriendsPermissionBody()
         } else {
-            RecommendFriendsListBody(recommendFriendsList, showBottomSheet, onSelectFriend)
+            RecommendFriendsListBody(
+                recommendFriendsList = recommendFriendsList,
+                showBottomSheet = showBottomSheet,
+                onSelectFriend = onSelectFriend,
+                onClickMore = onClickMore,
+            )
         }
     }
 }

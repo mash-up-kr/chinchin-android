@@ -29,7 +29,13 @@ fun MainNavGraph(
             HomeScreen(bottomPaddingValue = bottomPaddingValue, groups = groups)
         }
         composable(route = MainNavScreen.RecommendFriends.route) {
-            RecommendFriendsScreen(recommendFriends, showBottomSheet, onSelectFriend,bottomPaddingValue = bottomPaddingValue)
+            RecommendFriendsScreen(
+                recommendFriends,
+                showBottomSheet,
+                onSelectFriend,
+                bottomPaddingValue = bottomPaddingValue,
+                onClickMore = {}
+            )
         }
         composable(route = MainNavScreen.More.route) {
             MoreScreen()

@@ -23,6 +23,7 @@ import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
+import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.theme.Gray_500
 import com.mashup.chinchin.presenter.ui.theme.Gray_700
@@ -109,7 +110,8 @@ fun RequestPermissionButton(onButtonClick: () -> Unit = {}) {
 fun RecommendFriendsListBody(
     recommendFriendsList: List<RecommendFriendUiModel>,
     showBottomSheet: () -> Unit,
-    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit
+    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
+    onClickMore: () -> Unit,
 ) {
     LazyColumn {
         itemsIndexed(recommendFriendsList) { index, recommendFriend ->
@@ -118,6 +120,14 @@ fun RecommendFriendsListBody(
             }
             RecommendFriendItem(recommendFriend, showBottomSheet, onSelectFriend)
             Divider(color = Color(0xFFD9D9D9), thickness = 0.5.dp)
+        }
+        item { 
+            ChinChinConfirmButton(
+                buttonText = "친구 더보기",
+                isEnable = true,
+            ) {
+                onClickMore()
+            }
         }
     }
 }
