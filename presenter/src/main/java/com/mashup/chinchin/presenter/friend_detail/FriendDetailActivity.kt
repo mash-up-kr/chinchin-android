@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
+import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.EXTRA_PROFILE_TYPE
+import com.mashup.chinchin.presenter.add_friend.model.FriendProfileType
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity
@@ -159,6 +163,12 @@ fun FriendDetailScreen(
                 .background(White)
         ) {
             FriendProfile(
+                onProfileClick = {
+                    val intent = Intent(context, AddFriendActivity::class.java).apply {
+                        putExtra(EXTRA_PROFILE_TYPE, FriendProfileType.MODIFY)
+                    }
+                    context.startActivity(intent)
+                },
                 onButtonClick = {
                     val intent = Intent(context, SendPreferenceActivity::class.java).apply {
                         // TODO: friend 보내기. 이름 필요.

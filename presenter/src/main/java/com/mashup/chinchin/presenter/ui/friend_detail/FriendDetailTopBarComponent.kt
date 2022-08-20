@@ -1,5 +1,8 @@
 package com.mashup.chinchin.presenter.ui.friend_detail
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,21 +41,59 @@ fun FriendProfilePreview() {
 }
 
 @Composable
-fun FriendProfile(onButtonClick: () -> Unit = {}, friendProfileUiModel: FriendProfileUiModel) {
+fun FriendProfile(
+    onProfileClick: () -> Unit = {},
+    onButtonClick: () -> Unit = {},
+    friendProfileUiModel: FriendProfileUiModel
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AsyncImage(
-            model = friendProfileUiModel.profileUrl,
-            contentDescription = "profile",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(68.dp)
-                .clip(CircleShape),
-        )
+        Box(
+            modifier = Modifier.clickable {
+                onProfileClick()
+            }
+        ) {
+            val isGuest = true // TODO: 미가입자일 경우
+
+            if (isGuest) {
+                Image(
+                    modifier = Modifier
+                        .padding(horizontal = 11.dp)
+                        .size(68.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray)
+                        .align(Alignment.Center),
+                    painter = painterResource(id = R.drawable.profile_default_image),
+                    contentDescription = ""
+                )
+            } else {
+                AsyncImage(
+                    model = friendProfileUiModel.profileUrl,
+                    contentDescription = "profile",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .padding(horizontal = 11.dp)
+                        .size(68.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray)
+                        .align(Alignment.Center),
+                    placeholder = painterResource(id = R.drawable.profile_default_image)
+                )
+            }
+            Image(
+                painter = painterResource(id = R.drawable.button_edit),
+                contentDescription = "",
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .height(34.dp)
+            )
+
+        }
+
         Text(
             modifier = Modifier.padding(top = 2.dp),
             text = friendProfileUiModel.name,
