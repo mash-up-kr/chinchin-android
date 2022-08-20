@@ -222,7 +222,7 @@ fun CreateQuestionSheetScreen(
                     result.data?.extras ?: return@rememberLauncherForActivityResult //TODO activity 종료 되도록 바꿔야하는지 고민입니다.
                 val questions = passedExtras.getBundle(EXTRA_BUNDLE)?.getParcelableArrayList<QuestionUiModel>(EXTRA_QUESTIONS)
                 questions?.let{
-                    sendPreferenceViewModel.onQuestionsChange(questions.toList())
+                    sendPreferenceViewModel.changeQuestions(questions.toList())
                 }
             }
         }

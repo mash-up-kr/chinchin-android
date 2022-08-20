@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 
 class EditPreferenceViewModel : ViewModel() {
-
+    //TODO 라이브 데이터로 변경해야함
     val questions = mutableStateListOf<QuestionUiModel>()
 
     fun initializeQuestions( _questions :List<QuestionUiModel>){

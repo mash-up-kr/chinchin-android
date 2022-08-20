@@ -64,7 +64,7 @@ fun EditPreferenceScreen(
     val onClickedSuccess: () -> Unit ={
         onSendResultDataAndFinishActivity()
     }
-    val onClickedCancel: () ->Unit ={
+    val onClickedCancel: () -> Unit ={
         showDialog.value = false
     }
     val onConfirmButtonClick: () -> Unit ={

@@ -22,9 +22,6 @@ android {
         // app key 변수
         resValue "string", "KAKAO_APP_NATIVE_KEY", properties['kakao_native_app_key']
         resValue "string", "KAKAO_APP_REDIRECTION_SCHEME", properties['kakao_redirection_scheme']
-        vectorDrawables {
-            useSupportLibrary true
-        }
     }
     buildTypes {
         release {
@@ -45,11 +42,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
         kotlinCompilerVersion '1.6.10'
-    }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
     }
 }
 
