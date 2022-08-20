@@ -24,7 +24,6 @@ import com.mashup.chinchin.presenter.ui.theme.Gray_100
 import com.mashup.chinchin.presenter.ui.theme.Gray_400
 import com.mashup.chinchin.presenter.ui.theme.Gray_800
 
-
 @Composable
 fun ConnectFriendSearchBar(
     value: String,
@@ -54,15 +53,22 @@ fun ConnectFriendSearchBar(
                     .padding(horizontal = 16.dp),
                 contentAlignment = Alignment.CenterStart,
             ) {
-                Row {
-                    if (value.isEmpty()) {
-                        Text(
-                            text = placeHolder,
-                            color = Gray_400,
-                            fontSize = 14.sp
-                        )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        if (value.isEmpty()) {
+                            Text(
+                                text = placeHolder,
+                                color = Gray_400,
+                                fontSize = 14.sp,
+                            )
+                        }
+                        innerTextField()
                     }
-                    innerTextField()
                     Icon(
                         painter = painterResource(id = R.drawable.icon_search),
                         contentDescription = ""
