@@ -32,12 +32,10 @@ import com.mashup.chinchin.presenter.ui.theme.Primary_1
 @Composable
 fun RecommendFriendsHeader(recommendFriendCount: Int) {
     Column {
-        /* TODO: Image 로 변경될 예정 */
-        Text(
-            text = "친친",
-            fontSize = 30.sp,
-            color = Primary_1,
-            modifier = Modifier.padding(top = 6.dp, start = 4.dp)
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "",
+            modifier = Modifier.padding(top = 16.dp),
         )
 
         ChinChinText(
