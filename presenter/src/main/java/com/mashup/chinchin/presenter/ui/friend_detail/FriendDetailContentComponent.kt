@@ -85,39 +85,17 @@ fun QuestionAnswerListContent(
 @Preview(showBackground = true)
 @Composable
 fun EmptyQuestionContentPreview() {
-    EmptyQuestionContent(false)
+    EmptyQuestionContent()
 }
 
 @Composable
-fun EmptyQuestionContent(FROM_FRIEND: Boolean) {
+fun EmptyQuestionContent() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(top = 380.dp)
+        modifier = Modifier.fillMaxSize().padding(top = 380.dp),
+        verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = if (FROM_FRIEND) "친구 대답을 확인할 수 없어요!" else "아직 작성한 취향기록이 없어용!",
-            fontSize = 16.sp,
-            color = Gray_600,
-            modifier = Modifier.padding(top = 102.dp)
-        )
-        Text(
-            text = if (FROM_FRIEND) "친구의 취향을 기록해 보세요" else "친구를 초대하고 질문을 보내보세요",
-            fontSize = 12.sp,
-            color = Gray_400,
-            modifier = Modifier.padding(top = 12.dp)
-        )
-        ChinChinActingButton(
-            text = if (FROM_FRIEND) "친구 취향 기록하기" else "친구의 취향을 기록해보세요",
-            fontSize = 16.sp,
-            modifier = Modifier
-                .defaultMinSize(1.dp, 1.dp)
-                .padding(top = 39.dp),
-        ) {
-            // Todo OnclickListener
-        }
+        Image(painter = painterResource(id = R.drawable.img_pencil), contentDescription = "")
     }
 }
 
