@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mashup.chinchin.presenter.receive_alarm.model.AlarmType
 import com.mashup.chinchin.presenter.receive_alarm.model.RequestAlarmUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.receive_alarm.EmptyRequestAlarm
@@ -37,8 +38,9 @@ class ReceiveAlarmActivity : ComponentActivity() {
             requestAlarmUiModels.add(
                 RequestAlarmUiModel(
                     requestUserName = "경무",
-                    requestUserProfileUrl = "good",
+                    requestUserProfileUrl = "https://cdnimg.melon.co.kr/cm2/artistcrop/images/002/61/143/261143_20210325180240_500.jpg?61e575e8653e5920470a38d1482d7312/melon/resize/416/quality/80/optimize",
                     requestDate = index.toLong(),
+                    alarmType = if (index % 2 == 0) AlarmType.REQUEST else AlarmType.REPLY,
                 )
             )
         }
@@ -60,7 +62,7 @@ fun ReceiveAlarmScreen(
 ) {
     Column {
         ChinChinToolbar(
-            title = "나에게 온 요청리스트",
+            title = "알림",
         ) {
             finishActivity()
         }

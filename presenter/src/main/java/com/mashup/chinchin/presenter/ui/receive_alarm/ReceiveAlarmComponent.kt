@@ -2,29 +2,30 @@ package com.mashup.chinchin.presenter.ui.receive_alarm
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
+import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.receive_alarm.model.AlarmType
 import com.mashup.chinchin.presenter.receive_alarm.model.RequestAlarmUiModel
-import com.mashup.chinchin.presenter.ui.theme.Black
-import com.mashup.chinchin.presenter.ui.theme.Gray_100
-import com.mashup.chinchin.presenter.ui.theme.Primary_2
+import com.mashup.chinchin.presenter.ui.theme.*
 
 @Composable
 fun RequestCountText(requestCount: Int) {
@@ -34,12 +35,12 @@ fun RequestCountText(requestCount: Int) {
             .padding(start = 24.dp, top = 24.dp)
     ) {
         Text(
-            text = "요청",
+            text = "알림",
             color = Black,
             fontSize = 18.sp
         )
         Text(
-            text = "${requestCount}개",
+            text = "$requestCount",
             modifier = Modifier.padding(start = 8.dp),
             color = Primary_2,
             fontSize = 18.sp,
@@ -57,8 +58,13 @@ fun RequestAlarmList(requestAlarmUiModels: List<RequestAlarmUiModel>, modifier: 
             ReceiveAlarmItem(
                 userName = requestAlarm.requestUserName,
                 profileUrl = requestAlarm.requestUserProfileUrl,
+                modifier = Modifier.padding(horizontal = 24.dp),
                 date = requestAlarm.requestDate,
+                alarmType = requestAlarm.alarmType,
             )
+        }
+        item {
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
@@ -74,7 +80,12 @@ fun EmptyRequestAlarm() {
 @Preview(showBackground = true)
 @Composable
 fun ReceiveAlarmItemPreview() {
-    ReceiveAlarmItem(userName = "경무", profileUrl = "good", date = 10)
+    ReceiveAlarmItem(
+        userName = "경무",
+        profileUrl = "good",
+        date = 10,
+        alarmType = AlarmType.REQUEST,
+    )
 }
 
 @Composable
@@ -82,50 +93,116 @@ fun ReceiveAlarmItem(
     userName: String,
     profileUrl: String,
     date: Long,
-    onItemSelected: () -> Unit = {}
+    modifier: Modifier = Modifier,
+    alarmType: AlarmType,
+    onClickButton: () -> Unit = {}
 ) {
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(66.dp)
-            .padding(start = 24.dp, end = 24.dp)
-            .background(color = Gray_100, shape = RoundedCornerShape(8.dp)),
-    ) {
-        val (requestAlarmInfoRef, moveRequestQuestionButtonRef) = createRefs()
-        
-        Row(
-            modifier = Modifier.constrainAs(requestAlarmInfoRef) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-            }
-        ) {
-            Image(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = "",
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(start = 11.dp)
-            )
+    val titleMessage = when (alarmType) {
+        AlarmType.REQUEST -> {
+            "이 취향 질문을 요청했어요"
+        }
+        AlarmType.REPLY -> {
+            "이 취향질문에 답변완료했어요"
+        }
+    }
 
-            Column(modifier = Modifier.padding(start = 12.dp)) {
-                Text(text = "${userName}님이 친구 질문응답을 요청했습니다.", fontSize = 12.sp)
+    Box(
+        modifier = modifier
+            .height(66.dp)
+            .fillMaxWidth()
+            .background(color = Secondary_1, shape = RoundedCornerShape(8.dp))
+            .clickable { onClickButton() },
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            ReceiveAlarmItemProfileBox(profileUrl = profileUrl, alarmType = alarmType)
+            ReceiveAlarmItemContents(userName = "${userName}님", titleMessage = titleMessage, date = date.toString())
+        }
+    }
+}
+
+@Composable
+fun ReceiveAlarmItemProfileBox(profileUrl: String, alarmType: AlarmType) {
+    val (typeBackgroundColor: Color, typeIconRes: Int) = when (alarmType) {
+        AlarmType.REQUEST -> {
+            (Primary_2 to R.drawable.icon_question)
+        }
+        AlarmType.REPLY -> {
+            (Gray_700 to R.drawable.icon_smile)
+        }
+    }
+
+    Box(
+        modifier = Modifier.size(58.dp),
+    ) {
+        AsyncImage(
+            model = profileUrl,
+            contentDescription = "",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(50.dp)
+                .clip(CircleShape)
+                .align(Alignment.TopStart),
+        )
+        Box(
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(22.dp)
+                .background(typeBackgroundColor)
+                .align(Alignment.BottomEnd),
+        ) {
+            Icon(
+                painter = painterResource(id = typeIconRes),
+                contentDescription = "",
+                modifier = Modifier.align(Alignment.Center),
+                tint = White,
+            )
+        }
+    }
+}
+
+@Composable
+fun ReceiveAlarmItemContents(userName: String, titleMessage: String, date: String) {
+    Row(
+        modifier = Modifier
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.width(205.dp)
+        ) {
+            Row {
                 Text(
-                    text = "12월 ${date}일",
+                    text = userName,
                     fontSize = 12.sp,
-                    modifier = Modifier.padding(top = 8.dp)
+                    color = Black,
+                    fontWeight = FontWeight.Bold,
+                )
+
+                Text(
+                    text = titleMessage,
+                    fontSize = 12.sp,
+                    color = Black,
                 )
             }
+
+            Text(
+                text = date,
+                fontSize = 12.sp,
+                color = Gray_500,
+            )
         }
-        IconButton(
-            modifier = Modifier.constrainAs(moveRequestQuestionButtonRef) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                end.linkTo(parent.end)
-            },
-            onClick = { onItemSelected() },
-        ) {
-            Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "")
-        }
+
+        Icon(
+            painter = painterResource(id = R.drawable.icon_arrow),
+            contentDescription = "",
+            tint = Gray_400,
+        )
     }
 }
