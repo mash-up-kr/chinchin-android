@@ -39,7 +39,7 @@ fun RequestCountText(requestCount: Int) {
             fontSize = 18.sp
         )
         Text(
-            text = "${requestCount}개",
+            text = "$requestCount",
             modifier = Modifier.padding(start = 8.dp),
             color = Primary_2,
             fontSize = 18.sp,
