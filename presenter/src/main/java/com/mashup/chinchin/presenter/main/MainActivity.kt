@@ -34,6 +34,7 @@ import com.mashup.chinchin.presenter.main.model.FriendUiModel
 import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.main.MainNavBar
 import com.mashup.chinchin.presenter.ui.main.MainNavGraph
 import com.mashup.chinchin.presenter.ui.main.MainNavScreen
@@ -128,20 +129,27 @@ fun MainScreen(
         }
     }
 
+    StatusBarColor()
+
     ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
         sheetContent = {
             BottomSheetContent(
                 "친구 추가할까요?", listOf(
                     BottomSheetItemUiModel("신규 친구 추가하기", R.drawable.icon_user_more1) {
-                        context.startActivity(Intent(context, AddFriendActivity::class.java)
-                            .putExtra(NEW_FRIEND, selectedFriend.value.toFriendUiModel())
+                        context.startActivity(
+                            Intent(context, AddFriendActivity::class.java)
+                                .putExtra(NEW_FRIEND, selectedFriend.value.toFriendUiModel())
                         )
                     },
                     BottomSheetItemUiModel("기존 친구에 연결하기", R.drawable.icon_connect) {
-                        context.startActivity(Intent(context, ConnectFriendActivity::class.java).apply {
-                            putExtra(OLD_FRIEND, selectedFriend.value.toFriendUiModel())
-                        })
+                        context.startActivity(
+                            Intent(
+                                context,
+                                ConnectFriendActivity::class.java
+                            ).apply {
+                                putExtra(OLD_FRIEND, selectedFriend.value.toFriendUiModel())
+                            })
                     },
                     BottomSheetItemUiModel("취소", R.drawable.ic_x) {
                         closeBottomSheet()

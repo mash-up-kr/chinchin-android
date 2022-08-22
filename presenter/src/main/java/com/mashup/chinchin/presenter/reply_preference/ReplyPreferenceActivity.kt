@@ -3,18 +3,15 @@ package com.mashup.chinchin.presenter.reply_preference
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -24,16 +21,13 @@ import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceCompleteActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.ImageDialog
-import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
-import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.reply_preference.ReplyPreferenceQuestionList
 import com.mashup.chinchin.presenter.ui.reply_preference.ReplyPreferenceTitle
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.ui.theme.Gray_600
-import kotlinx.coroutines.launch
 
 class ReplyPreferenceActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val list = MutableList(14) {
@@ -61,6 +55,7 @@ fun ReplyPreferenceScreen(
     val (showSendDialog, setShowSendDialog) = remember { mutableStateOf(false) }
     val (showCancelDialog, setShowCancelDialog) = remember { mutableStateOf(false) }
 
+    StatusBarColor()
     Column {
         ChinChinToolbar(
             title = "취향 질문 답변하기",

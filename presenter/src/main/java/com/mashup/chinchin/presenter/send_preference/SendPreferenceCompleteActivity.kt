@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.main.MainActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.theme.*
 
 class SendPreferenceCompleteActivity: ComponentActivity() {
@@ -56,6 +57,7 @@ fun SendPreferenceCompletePreview() {
 fun SendPreferenceCompleteScreen(
     onConfirmButtonClick: () -> Unit = {},
 ) {
+    StatusBarColor()
     Column(
         modifier = Modifier
             .fillMaxWidth()

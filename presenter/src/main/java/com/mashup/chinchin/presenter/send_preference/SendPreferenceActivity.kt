@@ -35,6 +35,7 @@ import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.ImageDialog
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.send_questions.QuestionCategoryList
 import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionList
 import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionTitle
@@ -126,6 +127,7 @@ fun SendPreferenceScreen(
         closeBottomSheet()
     }
 
+    StatusBarColor()
     ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
         sheetContent = {

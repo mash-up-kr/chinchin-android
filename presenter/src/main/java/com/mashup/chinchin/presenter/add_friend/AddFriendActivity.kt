@@ -18,6 +18,7 @@ import com.mashup.chinchin.presenter.ui.add_friend.AddFriendContents
 import com.mashup.chinchin.presenter.ui.add_friend.AddFriendTitles
 import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -62,9 +63,9 @@ fun AddFriendScreen(
     var friendName by rememberSaveable { mutableStateOf(newFriend?.name ?: "") }
     var birthday by rememberSaveable { mutableStateOf("") }
     var groupName by rememberSaveable { mutableStateOf("") }
-
     val isEnable = friendName.isNotEmpty() && birthday.isNotEmpty() && groupName.isNotEmpty()
 
+    StatusBarColor()
     Column(
         modifier = Modifier.fillMaxHeight(),
     ) {

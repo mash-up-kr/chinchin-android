@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,10 +32,10 @@ import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.friend_detail.*
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.ui.theme.White
-import java.util.logging.Logger
 import kotlin.math.roundToInt
 
 class FriendDetailActivity : ComponentActivity() {
@@ -152,6 +151,7 @@ fun FriendDetailScreen(
         }
     }
 
+    StatusBarColor()
     Box(
         Modifier
             .fillMaxSize()

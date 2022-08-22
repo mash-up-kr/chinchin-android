@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.mashup.chinchin.presenter.receive_alarm.model.AlarmType
 import com.mashup.chinchin.presenter.receive_alarm.model.RequestAlarmUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.receive_alarm.EmptyRequestAlarm
 import com.mashup.chinchin.presenter.ui.receive_alarm.RequestAlarmList
 import com.mashup.chinchin.presenter.ui.receive_alarm.RequestCountText
@@ -60,6 +61,7 @@ fun ReceiveAlarmScreen(
     requestAlarmUiModels: List<RequestAlarmUiModel> = listOf(),
     finishActivity: () -> Unit = {},
 ) {
+    StatusBarColor()
     Column {
         ChinChinToolbar(
             title = "알림",
