@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -114,23 +115,49 @@ fun ReceiveAlarmItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            ReceiveAlarmItemProfileBox(profileUrl = profileUrl)
+            ReceiveAlarmItemProfileBox(profileUrl = profileUrl, alarmType = alarmType)
             ReceiveAlarmItemContents(userName = "${userName}님", titleMessage = titleMessage, date = date.toString())
         }
     }
 }
 
 @Composable
-fun ReceiveAlarmItemProfileBox(profileUrl: String) {
-    Box {
+fun ReceiveAlarmItemProfileBox(profileUrl: String, alarmType: AlarmType) {
+    val (typeBackgroundColor: Color, typeIconRes: Int) = when (alarmType) {
+        AlarmType.REQUEST -> {
+            (Primary_2 to R.drawable.icon_question)
+        }
+        AlarmType.REPLY -> {
+            (Gray_700 to R.drawable.icon_smile)
+        }
+    }
+
+    Box(
+        modifier = Modifier.size(58.dp),
+    ) {
         AsyncImage(
             model = profileUrl,
             contentDescription = "",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(50.dp)
-                .clip(CircleShape),
+                .clip(CircleShape)
+                .align(Alignment.TopStart),
         )
+        Box(
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(22.dp)
+                .background(typeBackgroundColor)
+                .align(Alignment.BottomEnd),
+        ) {
+            Icon(
+                painter = painterResource(id = typeIconRes),
+                contentDescription = "",
+                modifier = Modifier.align(Alignment.Center),
+                tint = White,
+            )
+        }
     }
 }
 
