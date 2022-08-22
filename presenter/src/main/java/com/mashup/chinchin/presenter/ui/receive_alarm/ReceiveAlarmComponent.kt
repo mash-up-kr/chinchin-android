@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -114,7 +115,7 @@ fun ReceiveAlarmItem(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             ReceiveAlarmItemProfileBox(profileUrl = profileUrl)
-            ReceiveAlarmItemContents(titleMessage = titleMessage, date = date.toString())
+            ReceiveAlarmItemContents(userName = "${userName}님", titleMessage = titleMessage, date = date.toString())
         }
     }
 }
@@ -134,7 +135,7 @@ fun ReceiveAlarmItemProfileBox(profileUrl: String) {
 }
 
 @Composable
-fun ReceiveAlarmItemContents(titleMessage: String, date: String) {
+fun ReceiveAlarmItemContents(userName: String, titleMessage: String, date: String) {
     Row(
         modifier = Modifier
             .padding(vertical = 4.dp),
@@ -144,11 +145,20 @@ fun ReceiveAlarmItemContents(titleMessage: String, date: String) {
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.width(205.dp)
         ) {
-            Text(
-                text = titleMessage,
-                fontSize = 12.sp,
-                color = Black,
-            )
+            Row {
+                Text(
+                    text = userName,
+                    fontSize = 12.sp,
+                    color = Black,
+                    fontWeight = FontWeight.Bold,
+                )
+
+                Text(
+                    text = titleMessage,
+                    fontSize = 12.sp,
+                    color = Black,
+                )
+            }
 
             Text(
                 text = date,
