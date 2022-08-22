@@ -20,29 +20,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
+import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.NEW_FRIEND
+import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity
+import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.OLD_FRIEND
+import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.main.model.FriendUiModel
 import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
+import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.main.MainNavBar
 import com.mashup.chinchin.presenter.ui.main.MainNavGraph
 import com.mashup.chinchin.presenter.ui.main.MainNavScreen
+import com.mashup.chinchin.presenter.ui.main.home.AddGroupDialog
 import com.mashup.chinchin.presenter.ui.main.home.HomeBody
 import com.mashup.chinchin.presenter.ui.main.home.HomeHeader
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsHeader
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsListBody
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsPermissionBody
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
-import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.NEW_FRIEND
-import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity
-import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.OLD_FRIEND
-import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
-import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
-import com.mashup.chinchin.presenter.ui.main.home.AddGroupDialog
 import com.mashup.chinchin.presenter.ui.main.recommend_friends.RecommendFriendsEmptyBody
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -93,7 +95,6 @@ fun MainScreen(
     recommendFriends: List<RecommendFriendUiModel> = listOf(),
     groups: List<FriendGroupUiModel> = listOf(),
 ) {
-
     val context = LocalContext.current
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -174,6 +175,7 @@ fun MainScreen(
 
 @Composable
 fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) {
+    val viewModel: HomeViewModel = hiltViewModel()
     val context = LocalContext.current
     val groups = remember { groups.toMutableStateList() }
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
@@ -188,7 +190,10 @@ fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) 
         AddGroupDialog(
             showDialog = showDialog,
             setShowDialog = setShowDialog,
-            addGroup = { groups.add(FriendGroupUiModel(name = it, emptyList())) })
+            addGroup = { groupName ->
+                viewModel.createNewGroup(groupName)
+            }
+        )
     }
 }
 
