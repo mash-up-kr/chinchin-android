@@ -63,6 +63,9 @@ fun RequestAlarmList(requestAlarmUiModels: List<RequestAlarmUiModel>, modifier: 
                 alarmType = requestAlarm.alarmType,
             )
         }
+        item {
+            Spacer(modifier = Modifier.height(20.dp))
+        }
     }
 }
 
