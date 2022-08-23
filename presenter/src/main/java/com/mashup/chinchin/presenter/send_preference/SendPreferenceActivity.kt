@@ -210,18 +210,20 @@ fun CreateQuestionSheetScreen(
     userName: String = "윤혜",
     onConfirmButtonClick: () -> Unit = {},
     categoryList: List<CategoryUiModel>,
-    sendPreferenceViewModel: SendPreferenceViewModel = viewModel(),
     onBackButtonClick: () -> Unit = {},
 ) {
+    //TODO 아래 주석 코드가 동작안됨 확인필요!! 도와주세요~
+    //val questions by sendPreferenceViewModel._questionsLiveData.observeAsState()
+    val sendPreferenceViewModel: SendPreferenceViewModel = viewModel()
     val questions = sendPreferenceViewModel.questions
-
     val startForResult =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val passedExtras: Bundle =
-                    result.data?.extras ?: return@rememberLauncherForActivityResult //TODO activity 종료 되도록 바꿔야하는지 고민입니다.
-                val questions = passedExtras.getBundle(EXTRA_BUNDLE)?.getParcelableArrayList<QuestionUiModel>(EXTRA_QUESTIONS)
-                questions?.let{
+                val passedExtras: Bundle? = result.data?.extras
+                checkNotNull(passedExtras)
+                val questions = passedExtras.getBundle(EXTRA_BUNDLE)
+                    ?.getParcelableArrayList<QuestionUiModel>(EXTRA_QUESTIONS)
+                questions?.let {
                     sendPreferenceViewModel.changeQuestions(questions.toList())
                 }
             }

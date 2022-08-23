@@ -2,7 +2,6 @@ package com.mashup.chinchin.presenter.edit_preference
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
@@ -19,24 +18,27 @@ import com.mashup.chinchin.presenter.common.ChinChinQuestionCardState
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.ui.common.*
 
-//TODO 27Line 데이터가 없으면 해당 액티비티가 실행되지 않아야 한다고 생각해서 이렇게 리턴했는데 의견 부탁드립니다.
+//TODO 1,2문제때문 해결하고 Acitivity에 있는 viewModel을 스크린에 넣기가 어려움. 나중에 리뷰 받아서 수정
 class EditPreferenceActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val passedExtras: Bundle = intent.extras ?: return@setContent
-            var question: ArrayList<QuestionUiModel>? = passedExtras.getBundle(EXTRA_BUNDLE)?.getParcelableArrayList(EXTRA_QUESTIONS)
+            val passedExtras: Bundle? = intent.extras
+            checkNotNull(passedExtras)
+            var question: ArrayList<QuestionUiModel>? =
+                passedExtras.getBundle(EXTRA_BUNDLE)?.getParcelableArrayList(EXTRA_QUESTIONS)
             val editPreferenceViewModel: EditPreferenceViewModel = viewModel()
             question?.let {
-                editPreferenceViewModel.initializeQuestions(it)
+                editPreferenceViewModel.initializeQuestions(it) //TODO 1.요기 초기화 부분이랑
             }
-            val onSendResultDataAndFinishActivity : () -> Unit = {
-                val resultData = Intent().apply{
+            val onSendResultDataAndFinishActivity: () -> Unit = {
+                val resultData = Intent().apply {
                     editPreferenceViewModel.removeCheckedQuestions()
+                    //TODO 2.데이터 읽어오는 부분
                     val questionsArrayList = ArrayList(editPreferenceViewModel.questions.toList())
                     val bundle = Bundle()
-                    bundle.putParcelableArrayList(EXTRA_QUESTIONS,questionsArrayList)
-                    putExtra(EXTRA_BUNDLE,bundle)
+                    bundle.putParcelableArrayList(EXTRA_QUESTIONS, questionsArrayList)
+                    putExtra(EXTRA_BUNDLE, bundle)
                 }
                 setResult(RESULT_OK, resultData)
                 finish()
@@ -56,30 +58,25 @@ class EditPreferenceActivity : ComponentActivity() {
 
 @Composable
 fun EditPreferenceScreen(
-    editPreferenceViewModel: EditPreferenceViewModel = viewModel(),
     onSendResultDataAndFinishActivity:() -> Unit = {},
     onClickBackButton: () -> Unit = {},
 ) {
-    val showDialog = remember { mutableStateOf(false)}
-    val onClickedSuccess: () -> Unit ={
-        onSendResultDataAndFinishActivity()
-    }
-    val onClickedCancel: () -> Unit ={
-        showDialog.value = false
-    }
-    val onConfirmButtonClick: () -> Unit ={
-        showDialog.value = true
-    }
-    if(showDialog.value){
+    val editPreferenceViewModel: EditPreferenceViewModel = viewModel()
+    val showDialog = remember { mutableStateOf(false) }
+
+    if (showDialog.value) {
         NormalDialog(
-            titleText="질문지를 삭제할까요?",
-            onClickSuccess=onClickedSuccess,
-            onClickCancel =onClickedCancel,
+            titleText = "질문지를 삭제할까요?",
+            onClickSuccess = {
+                onSendResultDataAndFinishActivity()
+            },
+            onClickCancel = {
+                showDialog.value = false
+            },
         )
     }
     val onClickQuestionCard: (Int) -> Unit = { index ->
         editPreferenceViewModel.updateCheckedState(index)
-        Log.i("hyejin", "CreateQuestionSheetScreen: $index")
     }
     val title =
         if (editPreferenceViewModel.isEmptyCheckedCard())
@@ -103,7 +100,7 @@ fun EditPreferenceScreen(
                 modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 32.dp),
                 isEnable = !editPreferenceViewModel.isEmptyCheckedCard(),
             ) {
-                onConfirmButtonClick()
+                showDialog.value = true
             }
         }
     }
