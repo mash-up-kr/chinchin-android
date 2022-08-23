@@ -28,8 +28,8 @@ import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
 import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.EXTRA_PROFILE_TYPE
 import com.mashup.chinchin.presenter.add_friend.model.FriendProfileType
 import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
-import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
@@ -51,7 +51,7 @@ class FriendDetailActivity : ComponentActivity() {
             ChinchinTheme {
                 FriendDetailScreen(
                     screens = initScreen(),
-                    friendProfileUiModel = initFriendProfile(),
+                    friendUiModel = initFriendProfile(),
                     answersFromFriend = initFriendAnswerList(),
                     expectedAnswers = emptyList(),
                     isSavedTempQuestions = true,
@@ -72,8 +72,8 @@ class FriendDetailActivity : ComponentActivity() {
             )
         }
 
-        fun initFriendProfile(): FriendProfileUiModel {
-            return FriendProfileUiModel(
+        fun initFriendProfile(): FriendUiModel {
+            return FriendUiModel(
                 profileUrl = "https://s3-alpha-sig.figma.com/img/8bbf/4576/60f7ab03c8f19e4de6c019fd6f0769a2?Expires=1658102400&Signature=RxL8HYAoquqxPWHDVN-0nIXbJUGIoAa1QW9KqeL0-2uZMM0iHdVrk9d~4LH2fGvEg4gNl7-VBcWNFe446Xz7bX7e8-qh5-IKzxUoVmjMXQOlMhz8bjepncmfJO0PoyAuVmWOqZaSvbIw1rAG-xP3vDmHXIII~gyG4c8rk5Nf3D8PL4vGEvgI-L73hoAjI4rJDbLnciRj2n52nOu67BAhSytQso9G2V0cytGDhfKEOR-FdexnaI3KWTb1uLGzJb1STkOjJNXVqp9eOegL5KfF3fUpu4uxdXe0EvbWg6ij5nTQlhy1qtRlKe4o1liApZ5USODd0eODBZEunGs9szyfTw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
                 name = "매쉬업",
                 birthday = "12월 31일",
@@ -114,7 +114,7 @@ class FriendDetailActivity : ComponentActivity() {
 fun FriendDetailPreview() {
     FriendDetailScreen(
         screens = FriendDetailActivity.initScreen(),
-        friendProfileUiModel = FriendDetailActivity.initFriendProfile(),
+        friendUiModel = FriendDetailActivity.initFriendProfile(),
         answersFromFriend = FriendDetailActivity.initFriendAnswerList(),
         expectedAnswers = emptyList(),
         isSavedTempQuestions = true,
@@ -124,7 +124,7 @@ fun FriendDetailPreview() {
 @Composable
 fun FriendDetailScreen(
     screens: List<FriendDetailNavScreen> = FriendDetailNavScreen.values().toList(),
-    friendProfileUiModel: FriendProfileUiModel,
+    friendUiModel: FriendUiModel,
     answersFromFriend: List<QuestionUiModel>,
     expectedAnswers: List<QuestionUiModel>,
     isSavedTempQuestions: Boolean = false,
@@ -186,7 +186,7 @@ fun FriendDetailScreen(
                     }
                     context.startActivity(intent)
                 },
-                friendProfileUiModel = friendProfileUiModel
+                friendUiModel = friendUiModel
             )
             FriendDetailNavBar(
                 screens = screens,
