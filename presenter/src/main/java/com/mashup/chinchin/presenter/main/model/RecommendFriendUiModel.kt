@@ -1,5 +1,7 @@
 package com.mashup.chinchin.presenter.main.model
 
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
+
 data class RecommendFriendUiModel(
     val id: Long,
     val profileUrl: String,

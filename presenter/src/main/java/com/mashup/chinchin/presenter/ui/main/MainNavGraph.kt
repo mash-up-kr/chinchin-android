@@ -9,7 +9,6 @@ import com.mashup.chinchin.presenter.main.HomeScreen
 import com.mashup.chinchin.presenter.main.MoreScreen
 import com.mashup.chinchin.presenter.main.RecommendFriendsScreen
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
-import com.mashup.chinchin.presenter.main.model.FriendUiModel
 import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
 
 @Composable

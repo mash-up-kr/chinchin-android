@@ -1,6 +1,7 @@
 package com.mashup.chinchin.presenter.main.model
 
 import android.os.Parcelable
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import kotlinx.parcelize.Parcelize
 
 /**

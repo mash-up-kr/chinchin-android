@@ -1,4 +1,4 @@
-package com.mashup.chinchin.presenter.main.model
+package com.mashup.chinchin.presenter.common.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

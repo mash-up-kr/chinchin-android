@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.chinchin.presenter.add_friend.model.FriendProfileType
-import com.mashup.chinchin.presenter.main.model.FriendUiModel
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.add_friend.AddFriendContents
 import com.mashup.chinchin.presenter.ui.add_friend.AddFriendTitles
 import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton

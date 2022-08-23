@@ -30,7 +30,7 @@ import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity
 import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.OLD_FRIEND
 import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
-import com.mashup.chinchin.presenter.main.model.FriendUiModel
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
 import com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent

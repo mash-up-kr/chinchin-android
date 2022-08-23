@@ -18,7 +18,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.main.model.FriendUiModel
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinFriendCard
 import com.mashup.chinchin.presenter.ui.theme.Gray_100
 import com.mashup.chinchin.presenter.ui.theme.Gray_400
