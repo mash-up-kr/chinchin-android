@@ -14,5 +14,5 @@ import kotlinx.parcelize.Parcelize
 data class FriendUiModel(
     val id: Long = -1,
     val name: String = "",
-    val profileThumbnailUrl: String = "",
+    val profileUrl: String = "",
 ): Parcelable

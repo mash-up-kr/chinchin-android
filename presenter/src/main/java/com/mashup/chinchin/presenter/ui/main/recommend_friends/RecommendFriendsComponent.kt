@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
@@ -97,9 +97,9 @@ fun RequestPermissionButton(onButtonClick: () -> Unit = {}) {
 
 @Composable
 fun RecommendFriendsListBody(
-    recommendFriendsList: List<RecommendFriendUiModel>,
+    recommendFriendsList: List<FriendUiModel>,
     showBottomSheet: () -> Unit,
-    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
+    onSelectFriend: (friend: FriendUiModel) -> Unit,
     onClickMore: () -> Unit,
 ) {
     LazyColumn {
@@ -137,9 +137,9 @@ fun RecommendFriendsEmptyBody() {
 
 @Composable
 fun RecommendFriendItem(
-    recommendFriend: RecommendFriendUiModel,
+    recommendFriend: FriendUiModel,
     showBottomSheet: () -> Unit,
-    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
+    onSelectFriend: (friend: FriendUiModel) -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -163,7 +163,7 @@ fun RecommendFriendItem(
 
 @Composable
 fun RecommendFriendInfo(
-    recommendFriend: RecommendFriendUiModel,
+    recommendFriend: FriendUiModel,
     modifier: Modifier = Modifier,
 ) {
     Row(

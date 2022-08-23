@@ -531,7 +531,7 @@ fun ChinChinFriendCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = friend.profileThumbnailUrl,
+                model = friend.profileUrl,
                 contentDescription = "profile",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

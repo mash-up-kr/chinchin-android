@@ -291,7 +291,7 @@ fun FriendProfileThumbnailList(friends: List<FriendUiModel>) {
                 val start = (27 * index).dp
                 if (index < 5) {
                     FriendProfileThumbnail(
-                        thumbnailUrl = friend.profileThumbnailUrl,
+                        thumbnailUrl = friend.profileUrl,
                         modifier = Modifier.padding(start = start),
                     )
                 } else {

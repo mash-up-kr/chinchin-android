@@ -31,7 +31,6 @@ import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Compan
 import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
-import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
 import com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
@@ -84,9 +83,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun initRecommendFriends(): List<RecommendFriendUiModel> {
+    private fun initRecommendFriends(): List<FriendUiModel> {
         return List(25) {
-            RecommendFriendUiModel(0, "https://picsum.photos/200", "안경무 $it")
+            FriendUiModel(0, "안경무 $it", "https://picsum.photos/200")
         }
     }
 }
@@ -95,7 +94,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(
     screens: List<MainNavScreen> = MainNavScreen.values().toList(),
-    recommendFriends: List<RecommendFriendUiModel> = listOf(),
+    recommendFriends: List<FriendUiModel> = listOf(),
     groups: List<FriendGroupUiModel> = listOf(),
 ) {
     val context = LocalContext.current
@@ -103,8 +102,8 @@ fun MainScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
-    val selectedFriend = remember { mutableStateOf(RecommendFriendUiModel(0, "", "")) }
-    val onSelectFriend: (friend: RecommendFriendUiModel) -> Unit = { friend ->
+    val selectedFriend = remember { mutableStateOf(FriendUiModel(0, "", "")) }
+    val onSelectFriend: (friend: FriendUiModel) -> Unit = { friend ->
         selectedFriend.value = friend
     }
     val coroutineScope = rememberCoroutineScope()
@@ -138,19 +137,14 @@ fun MainScreen(
             BottomSheetContent(
                 "친구 추가할까요?", listOf(
                     BottomSheetItemUiModel("신규 친구 추가하기", R.drawable.icon_user_more1) {
-                        context.startActivity(
-                            Intent(context, AddFriendActivity::class.java)
-                                .putExtra(NEW_FRIEND, selectedFriend.value.toFriendUiModel())
+                        context.startActivity(Intent(context, AddFriendActivity::class.java)
+                            .putExtra(NEW_FRIEND, selectedFriend.value)
                         )
                     },
                     BottomSheetItemUiModel("기존 친구에 연결하기", R.drawable.icon_connect) {
-                        context.startActivity(
-                            Intent(
-                                context,
-                                ConnectFriendActivity::class.java
-                            ).apply {
-                                putExtra(OLD_FRIEND, selectedFriend.value.toFriendUiModel())
-                            })
+                        context.startActivity(Intent(context, ConnectFriendActivity::class.java).apply {
+                            putExtra(OLD_FRIEND, selectedFriend.value)
+                        })
                     },
                     BottomSheetItemUiModel("취소", R.drawable.ic_x) {
                         closeBottomSheet()
@@ -224,9 +218,9 @@ fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) 
 
 @Composable
 fun RecommendFriendsScreen(
-    recommendFriendsList: List<RecommendFriendUiModel> = listOf(),
+    recommendFriendsList: List<FriendUiModel> = listOf(),
     showBottomSheet: () -> Unit,
-    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
+    onSelectFriend: (friend: FriendUiModel) -> Unit,
     bottomPaddingValue: Dp = 0.dp,
     onClickMore: () -> Unit,
 ) {
