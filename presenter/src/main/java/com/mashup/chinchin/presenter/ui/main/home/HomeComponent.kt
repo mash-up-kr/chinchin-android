@@ -1,6 +1,7 @@
 package com.mashup.chinchin.presenter.ui.main.home
 
 import android.content.Intent
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -85,13 +86,27 @@ fun HomeHeader(
                 modifier = Modifier.padding(top = 16.dp),
             )
 
-            IconButton(
-                onClick = { onBellClick() },
-                modifier = Modifier
-                    .size(24.dp)
-                    .padding(end = 4.dp)
-            ) {
-                Icon(painter = painterResource(id = R.drawable.icon_bell), contentDescription = "")
+            //TODO BOX 점 알림 있을 때만 보이도록 수정해야함?
+            Box {
+                IconButton(
+                    onClick = { },
+                    modifier = Modifier
+                        .padding(top = 5.dp, end = 5.dp)
+                        .size(24.dp)
+                        .align(Alignment.BottomStart),
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_bell),
+                        contentDescription = "",
+                    )
+                }
+                Canvas(modifier = Modifier
+                    .size(9.dp)
+                    .align(Alignment.TopEnd),
+                    onDraw = {
+                        drawCircle(color = Primary_2)
+                    },
+                )
             }
         }
 
@@ -137,7 +152,7 @@ fun HomeHeader(
                 contentDescription = "",
                 modifier = Modifier
                     .size(126.dp)
-                    .padding(end = 4.dp)
+                    .padding(end = 4.dp),
             )
         }
 
@@ -183,7 +198,24 @@ fun FriendsGroupList(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@Preview(showBackground = true)
+@Composable
+fun FriendGroupCardPreview() {
+    FriendGroupCard(
+        modifier = Modifier, friendGroup = FriendGroupUiModel(
+            name = "매쉬업 사람들",
+            friends = listOf(
+                FriendUiModel(0, "히지니", "https://picsum.photos/200"),
+                FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
+                FriendUiModel(0, "경무", "https://picsum.photos/200"),
+                FriendUiModel(0, "히지니", "https://picsum.photos/200"),
+                FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
+                FriendUiModel(0, "경무", "https://picsum.photos/200")
+            )
+        )
+    )
+}
+
 @Composable
 fun FriendGroupCard(
     modifier: Modifier,
@@ -249,17 +281,24 @@ fun FriendProfileThumbnailList(friends: List<FriendUiModel>) {
         0
     }
 
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 18.dp, vertical = 16.dp)
     ) {
         run loop@{
             friends.forEachIndexed { index, friend ->
+                val start = (27 * index).dp
                 if (index < 5) {
-                    FriendProfileThumbnail(thumbnailUrl = friend.profileThumbnailUrl)
+                    FriendProfileThumbnail(
+                        thumbnailUrl = friend.profileThumbnailUrl,
+                        modifier = Modifier.padding(start = start),
+                    )
                 } else {
-                    FriendProfileThumbnailMore(profileMoreCount)
+                    FriendProfileThumbnailMore(
+                        moreSize = profileMoreCount,
+                        Modifier.padding(start = start),
+                    )
                     return@forEachIndexed
                 }
             }
@@ -268,10 +307,10 @@ fun FriendProfileThumbnailList(friends: List<FriendUiModel>) {
 }
 
 @Composable
-fun FriendProfileThumbnailMore(moreSize: Int) {
+fun FriendProfileThumbnailMore(moreSize: Int, modifier: Modifier = Modifier) {
     Card(
         shape = CircleShape,
-        modifier = Modifier
+        modifier = modifier
             .height(36.dp)
             .width(36.dp),
     ) {
@@ -285,12 +324,12 @@ fun FriendProfileThumbnailMore(moreSize: Int) {
 }
 
 @Composable
-fun FriendProfileThumbnail(thumbnailUrl: String) {
+fun FriendProfileThumbnail(thumbnailUrl: String, modifier: Modifier = Modifier) {
     AsyncImage(
         model = thumbnailUrl,
         contentDescription = "friendProfile",
         contentScale = ContentScale.Crop,
-        modifier = Modifier
+        modifier = modifier
             .size(36.dp)
             .clip(CircleShape)
             .border(2.dp, Secondary_1, CircleShape)
