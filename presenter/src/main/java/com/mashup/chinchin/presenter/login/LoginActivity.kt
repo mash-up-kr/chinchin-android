@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.kakao.sdk.user.UserApiClient
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.main.MainActivity
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.login.IntroductionImage
 import com.mashup.chinchin.presenter.ui.login.IntroductionText
 import com.mashup.chinchin.presenter.ui.login.KakaoLoginButton
@@ -77,6 +78,7 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 private fun LoginScreen(kakaoLogin: () -> Unit = {}) {
+    StatusBarColor()
     Box(
         modifier = Modifier.background(Secondary_1)
     ) {

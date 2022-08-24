@@ -21,6 +21,7 @@ import com.mashup.chinchin.presenter.main.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.NormalDialog
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.connect_friend.ConnectFriendSearchBar
 import com.mashup.chinchin.presenter.ui.connect_friend.TotalFriendList
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
@@ -64,6 +65,7 @@ fun ConnectFriendScreen(
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
     val selectedFriend = remember { mutableStateOf(FriendUiModel()) }
 
+    StatusBarColor()
     Column {
         ChinChinToolbar(
             title = "모든 친구 리스트",

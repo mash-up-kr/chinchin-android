@@ -11,8 +11,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.set_group.GroupRadioButtons
-import com.mashup.chinchin.presenter.ui.set_group.NewGroupButton
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 
 class SetGroupActivity : ComponentActivity() {
@@ -49,6 +49,7 @@ fun SetGroupScreen(
 ) {
     val onChangeState: (String) -> Unit = { selectedGroup.value = it }
 
+    StatusBarColor()
     Column {
         ChinChinToolbar(title = "그룹 지정") {
             finishActivityWithResult()

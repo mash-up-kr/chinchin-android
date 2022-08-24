@@ -4,28 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.EXTRA_FRIEND_ID
-import com.mashup.chinchin.presenter.group_detail.model.GroupDetailUiModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.group_detail.EmptyGroupDetail
 import com.mashup.chinchin.presenter.ui.group_detail.GroupDetailList
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
-import java.lang.Exception
 
 class GroupDetailActivity : ComponentActivity() {
 
@@ -60,6 +57,7 @@ fun GroupDetailScreen(
 ) {
     val context = LocalContext.current
 
+    StatusBarColor()
     Column {
         ChinChinToolbar(
             title = group.name,
