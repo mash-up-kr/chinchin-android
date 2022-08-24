@@ -8,8 +8,23 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.TabRowDefaults.Divider
+import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -60,26 +75,9 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     MainScreen(
                         recommendFriends = initRecommendFriends(),
-                        groups = initGroups(),
                     )
                 }
             }
-        }
-    }
-
-    private fun initGroups(): List<FriendGroupUiModel> {
-        return List(1) {
-            FriendGroupUiModel(
-                name = "매쉬업 사람들",
-                friends = listOf(
-                    FriendUiModel(0, "히지니", "https://picsum.photos/200"),
-                    FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
-                    FriendUiModel(0, "경무", "https://picsum.photos/200"),
-                    FriendUiModel(0, "히지니", "https://picsum.photos/200"),
-                    FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
-                    FriendUiModel(0, "경무", "https://picsum.photos/200")
-                )
-            )
         }
     }
 
@@ -168,7 +166,6 @@ fun MainScreen(
             MainNavGraph(
                 navController = navController,
                 recommendFriends = recommendFriends,
-                groups = groups,
                 showBottomSheet,
                 onSelectFriend,
                 bottomPaddingValue = paddingValues.calculateBottomPadding()
@@ -178,10 +175,12 @@ fun MainScreen(
 }
 
 @Composable
-fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) {
+fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
     val viewModel: HomeViewModel = hiltViewModel()
+    viewModel.getGroups()
+
     val context = LocalContext.current
-    val groups = remember { groups.toMutableStateList() }
+    val groups = viewModel.groups.observeAsState().value ?: FriendGroupUiModel(emptyList())
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = bottomPaddingValue)) {
@@ -203,9 +202,9 @@ fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) 
                     )
                 )
             },
-            groups = groups
+            groups = groups.groups
         )
-        HomeBody(groups = groups)
+        HomeBody(groups = groups.groups)
         AddGroupDialog(
             showDialog = showDialog,
             setShowDialog = setShowDialog,
