@@ -1,26 +1,36 @@
 package com.mashup.chinchin.presenter.send_preference
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.CategoryUiModel
 import com.mashup.chinchin.presenter.common.model.KeywordQuestionUiModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
+import com.mashup.chinchin.presenter.edit_preference.EditPreferenceActivity
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_BUNDLE
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_QUESTIONS
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.ImageDialog
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
@@ -78,6 +88,10 @@ class SendPreferenceActivity : ComponentActivity() {
         categoryList.add(privateInformation)
 
         return categoryList
+    }
+    companion object{
+        const val EXTRA_QUESTIONS = "EXTRA_QUESTIONS"
+        const val EXTRA_BUNDLE = "EXTRA_BUNDLE"
     }
 }
 
@@ -198,7 +212,34 @@ fun CreateQuestionSheetScreen(
     categoryList: List<CategoryUiModel>,
     onBackButtonClick: () -> Unit = {},
 ) {
-    val questions = remember { mutableStateListOf<QuestionUiModel>() }
+    //TODO 아래 주석 코드가 동작안됨 확인필요!! 도와주세요~
+    //val questions by sendPreferenceViewModel._questionsLiveData.observeAsState()
+    val sendPreferenceViewModel: SendPreferenceViewModel = viewModel()
+    val questions = sendPreferenceViewModel.questions
+    val startForResult =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val passedExtras: Bundle? = result.data?.extras
+                checkNotNull(passedExtras)
+                val questions = passedExtras.getBundle(EXTRA_BUNDLE)
+                    ?.getParcelableArrayList<QuestionUiModel>(EXTRA_QUESTIONS)
+                questions?.let {
+                    sendPreferenceViewModel.changeQuestions(questions.toList())
+                }
+            }
+        }
+    val context = LocalContext.current
+    val questionsArrayList = ArrayList(questions.toList())
+
+    val onClickEditButton: () -> Unit = {
+        Intent(context, EditPreferenceActivity::class.java).apply {
+            val bundle = Bundle()
+            bundle.putParcelableArrayList(EXTRA_QUESTIONS, questionsArrayList)
+            putExtra(EXTRA_BUNDLE, bundle)
+        }.also {
+            startForResult.launch(it)
+        }
+    }
 
     Column {
         ChinChinToolbar(
@@ -220,13 +261,27 @@ fun CreateQuestionSheetScreen(
             )
             Spacer(modifier = Modifier.height(32.dp))
             QuestionCategoryList(categories = categoryList) {
-                questions.add(it)
+                sendPreferenceViewModel.addQuestion(it)
             }
             Spacer(modifier = Modifier.height(13.dp))
 
             SendPreferenceQuestionList(
                 questions = questions,
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier
+                    .padding(top = 4.dp),
+                onQuestionChanged = { index, questionText ->
+                    sendPreferenceViewModel.changeQuestionByIndex(
+                        index,
+                        questionText
+                    )
+                },
+                onAnswerChanged = { index, answerText ->
+                    sendPreferenceViewModel.changeAnswerByIndex(
+                        index,
+                        answerText
+                    )
+                },
+                onClickEditButton = onClickEditButton,
             )
         }
     }

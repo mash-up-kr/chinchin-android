@@ -1,9 +1,7 @@
 package com.mashup.chinchin.presenter.ui.common
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +19,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -278,17 +275,20 @@ fun ChinChinActingButton(
  */
 @Composable
 fun ChinChinQuestionCard(
+    modifier: Modifier = Modifier,
     index: Int,
     question: String,
-    onQuestionChanged: (String) -> Unit = {},
+    onQuestionChanged: ((Int, String) -> Unit) = { _, _ -> },
     answer: String,
-    onAnswerChanged: (String) -> Unit = {},
+    onAnswerChanged: ((Int, String) -> Unit) = { _, _ -> },
     cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.SEND_EDIT_MODE,
+    isChecked: Boolean = false,
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = 0.dp,
         backgroundColor = getChinChinCardBackgroundColor(cardState),
+        modifier = modifier
     ) {
         Column {
             Row(
@@ -297,12 +297,16 @@ fun ChinChinQuestionCard(
                     .padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
+                if (cardState == ChinChinQuestionCardState.SEND_DELETE_MODE) {
+                    ChinChinQuestionCardEmptyIcon(cardState = cardState, isChecked = isChecked)
+                } else {
+                    ChinChinQuestionCardNumberIcon(number = index, cardState = cardState)
+                }
                 when (cardState) {
                     ChinChinQuestionCardState.SEND_EDIT_MODE -> {
                         BasicTextField(
                             value = question,
-                            onValueChange = { onQuestionChanged(it) },
+                            onValueChange = { onQuestionChanged.invoke(index, it) },
                             textStyle = TextStyle(
                                 color = Black,
                                 fontSize = 16.sp,
@@ -340,7 +344,7 @@ fun ChinChinQuestionCard(
                     ChinChinQuestionCardState.SEND_EDIT_MODE -> {
                         BasicTextField(
                             value = answer,
-                            onValueChange = { onAnswerChanged(it) },
+                            onValueChange = { onAnswerChanged.invoke(index, it) },
                             textStyle = TextStyle(
                                 color = Gray_500,
                                 fontSize = 14.sp
@@ -389,6 +393,32 @@ private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: CardState) {
             fontSize = 14.sp,
             color = Gray_700
         )
+    }
+}
+
+@Composable
+private fun ChinChinQuestionCardEmptyIcon(
+    cardState: ChinChinQuestionCardState,
+    isChecked: Boolean
+) {
+    Box(contentAlignment = Alignment.Center) {
+        if (isChecked) {
+            Image(
+                painter = painterResource(id = R.drawable.checked),
+                contentDescription = "",
+                modifier = Modifier
+                    .width(20.dp)
+                    .height(20.dp),
+                contentScale = ContentScale.Fit
+            )
+        } else {
+            Canvas(
+                modifier = Modifier
+                    .size(20.dp)
+                    .border(color = Gray_400, width = 2.dp, shape = CircleShape), onDraw = {
+                    drawCircle(color = getChinChinCardNumberIconBackgroundColor(cardState))
+                })
+        }
     }
 }
 
@@ -554,10 +584,13 @@ private fun getChinChinCardNumberIconBackgroundColor(cardState: CardState): Colo
             Primary_2
         }
         ChinChinQuestionCardState.REPLY_INCOMPLETE,
-        ChinChinQuestionCardState.SEND_DELETE_MODE,
         ChinChinQuestionCardState.SEND_EDIT_MODE,
         -> {
             Primary_1
+        }
+        ChinChinQuestionCardState.SEND_DELETE_MODE,
+        -> {
+            Secondary_1
         }
         else -> {
             Primary_1
