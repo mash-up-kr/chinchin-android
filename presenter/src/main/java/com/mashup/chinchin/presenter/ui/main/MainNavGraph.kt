@@ -5,20 +5,19 @@ import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.main.HomeScreen
 import com.mashup.chinchin.presenter.main.MoreScreen
 import com.mashup.chinchin.presenter.main.RecommendFriendsScreen
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
-import com.mashup.chinchin.presenter.main.model.FriendUiModel
-import com.mashup.chinchin.presenter.main.model.RecommendFriendUiModel
 
 @Composable
 fun MainNavGraph(
     navController: NavHostController,
-    recommendFriends: List<RecommendFriendUiModel>,
+    recommendFriends: List<FriendUiModel>,
     groups: List<FriendGroupUiModel>,
     showBottomSheet: () -> Unit,
-    onSelectFriend: (friend: RecommendFriendUiModel) -> Unit,
+    onSelectFriend: (friend: FriendUiModel) -> Unit,
     bottomPaddingValue: Dp
 ) {
     NavHost(

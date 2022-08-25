@@ -21,21 +21,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
-import com.mashup.chinchin.presenter.ui.common.ChinChinButton
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.theme.Gray_500
 import com.mashup.chinchin.presenter.ui.theme.Gray_800
-import com.mashup.chinchin.presenter.ui.theme.Primary_1
 
 @Preview(showBackground = true)
 @Composable
 fun FriendProfilePreview() {
     FriendProfile(
-        friendProfileUiModel = FriendProfileUiModel(
-            "https://s3-alpha-sig.figma.com/img/8bbf/4576/60f7ab03c8f19e4de6c019fd6f0769a2?Expires=1658102400&Signature=RxL8HYAoquqxPWHDVN-0nIXbJUGIoAa1QW9KqeL0-2uZMM0iHdVrk9d~4LH2fGvEg4gNl7-VBcWNFe446Xz7bX7e8-qh5-IKzxUoVmjMXQOlMhz8bjepncmfJO0PoyAuVmWOqZaSvbIw1rAG-xP3vDmHXIII~gyG4c8rk5Nf3D8PL4vGEvgI-L73hoAjI4rJDbLnciRj2n52nOu67BAhSytQso9G2V0cytGDhfKEOR-FdexnaI3KWTb1uLGzJb1STkOjJNXVqp9eOegL5KfF3fUpu4uxdXe0EvbWg6ij5nTQlhy1qtRlKe4o1liApZ5USODd0eODBZEunGs9szyfTw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
-            "김매쉬",
-            "12월 31일",
-            "매쉬업 그룹"
+        friendUiModel = FriendUiModel(
+            name = "김매쉬",
+            birthday = "12월 31일",
+            profileUrl = "https://s3-alpha-sig.figma.com/img/8bbf/4576/60f7ab03c8f19e4de6c019fd6f0769a2?Expires=1658102400&Signature=RxL8HYAoquqxPWHDVN-0nIXbJUGIoAa1QW9KqeL0-2uZMM0iHdVrk9d~4LH2fGvEg4gNl7-VBcWNFe446Xz7bX7e8-qh5-IKzxUoVmjMXQOlMhz8bjepncmfJO0PoyAuVmWOqZaSvbIw1rAG-xP3vDmHXIII~gyG4c8rk5Nf3D8PL4vGEvgI-L73hoAjI4rJDbLnciRj2n52nOu67BAhSytQso9G2V0cytGDhfKEOR-FdexnaI3KWTb1uLGzJb1STkOjJNXVqp9eOegL5KfF3fUpu4uxdXe0EvbWg6ij5nTQlhy1qtRlKe4o1liApZ5USODd0eODBZEunGs9szyfTw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+            groupName = "매쉬업 그룹"
         )
     )
 }
@@ -44,7 +42,7 @@ fun FriendProfilePreview() {
 fun FriendProfile(
     onProfileClick: () -> Unit = {},
     onButtonClick: () -> Unit = {},
-    friendProfileUiModel: FriendProfileUiModel
+    friendUiModel: FriendUiModel
 ) {
     Column(
         modifier = Modifier
@@ -72,7 +70,7 @@ fun FriendProfile(
                 )
             } else {
                 AsyncImage(
-                    model = friendProfileUiModel.profileUrl,
+                    model = friendUiModel.profileUrl,
                     contentDescription = "profile",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -96,7 +94,7 @@ fun FriendProfile(
 
         Text(
             modifier = Modifier.padding(top = 2.dp),
-            text = friendProfileUiModel.name,
+            text = friendUiModel.name,
             color = Color.Black,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
@@ -108,7 +106,7 @@ fun FriendProfile(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = friendProfileUiModel.birthday,
+                text = friendUiModel.birthday,
                 fontSize = 12.sp,
                 color = Gray_500,
             )
@@ -121,7 +119,7 @@ fun FriendProfile(
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                text = friendProfileUiModel.groupName,
+                text = friendUiModel.groupName,
                 fontSize = 12.sp,
                 color = Gray_500
             )

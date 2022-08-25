@@ -29,7 +29,7 @@ import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.group_detail.GroupDetailActivity
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
-import com.mashup.chinchin.presenter.main.model.FriendUiModel
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinGrayTextField
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
@@ -291,7 +291,7 @@ fun FriendProfileThumbnailList(friends: List<FriendUiModel>) {
                 val start = (27 * index).dp
                 if (index < 5) {
                     FriendProfileThumbnail(
-                        thumbnailUrl = friend.profileThumbnailUrl,
+                        thumbnailUrl = friend.profileUrl,
                         modifier = Modifier.padding(start = start),
                     )
                 } else {

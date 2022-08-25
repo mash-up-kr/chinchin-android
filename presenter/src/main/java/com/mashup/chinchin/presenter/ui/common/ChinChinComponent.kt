@@ -29,7 +29,7 @@ import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.CardState
 import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
 import com.mashup.chinchin.presenter.common.ChinChinQuestionCardState
-import com.mashup.chinchin.presenter.main.model.FriendUiModel
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.theme.*
 
 @Composable
@@ -531,7 +531,7 @@ fun ChinChinFriendCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = friend.profileThumbnailUrl,
+                model = friend.profileUrl,
                 contentDescription = "profile",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
