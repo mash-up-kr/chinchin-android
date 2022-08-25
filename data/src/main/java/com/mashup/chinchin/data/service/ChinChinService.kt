@@ -3,10 +3,9 @@ package com.mashup.chinchin.data.service
 import com.mashup.chinchin.data.dto.remote.requestbody.CreateNewGroupRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.LoginRequestBody
 import com.mashup.chinchin.data.dto.remote.responsebody.CreateNewGroupResponseBody
+import com.mashup.chinchin.data.dto.remote.responsebody.GetQuestionnaireResponse
 import com.mashup.chinchin.data.dto.remote.responsebody.LoginResponseBody
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ChinChinService {
     @POST("/kakao-login")
@@ -17,4 +16,13 @@ interface ChinChinService {
         @Header("Authorization") jwt: String,
         @Body createNewGroupRequestBody: CreateNewGroupRequestBody,
     ): CreateNewGroupResponseBody
+
+    /**
+     * 질문지를 조회합니다.
+     */
+    @POST("/questionnaire/{questionnaire_id}")
+    suspend fun getQuestionnaire(
+        @Path("questionnaire_id") questionnaireId: Long,
+        @Query("aspect") aspect: String
+    ): List<GetQuestionnaireResponse>
 }

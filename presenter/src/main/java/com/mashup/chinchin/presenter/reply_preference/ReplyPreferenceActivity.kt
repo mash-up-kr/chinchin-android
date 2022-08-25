@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceCompleteActivity
@@ -52,6 +53,7 @@ fun ReplyPreferenceScreen(
     onBackButtonClick: () -> Unit = {},
 ) {
     val context = LocalContext.current
+    val viewModel: ReplyPreferenceViewModel = hiltViewModel()
     val (showSendDialog, setShowSendDialog) = remember { mutableStateOf(false) }
     val (showCancelDialog, setShowCancelDialog) = remember { mutableStateOf(false) }
 
