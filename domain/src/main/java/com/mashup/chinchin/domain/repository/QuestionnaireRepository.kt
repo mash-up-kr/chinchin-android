@@ -15,4 +15,13 @@ interface QuestionnaireRepository {
         questionnaireId: Long,
         aspect: String
     ): List<Question>
+
+    /**
+     * 답변을 완료합니다.
+     * 답변 완료된 질문지를 전송합니다.
+     */
+    suspend fun sendReplyQuestionnaire(
+        questionnaireId: Long,
+        questionnaire: List<Question>
+    ): Boolean
 }
