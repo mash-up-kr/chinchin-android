@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -18,24 +19,23 @@ import com.mashup.chinchin.presenter.common.ChinChinQuestionCardState
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.ui.common.*
 
-//TODO 1,2문제때문 해결하고 Acitivity에 있는 viewModel을 스크린에 넣기가 어려움. 나중에 리뷰 받아서 수정
+//TODO 1,2문제때문에 Acitivity에 있는 viewModel을 스크린에 넣기가 어려움. 나중에 리뷰 받아서 수정
 class EditPreferenceActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val passedExtras: Bundle? = intent.extras
             checkNotNull(passedExtras)
-            var question: ArrayList<QuestionUiModel>? =
+            var passedQuestion: ArrayList<QuestionUiModel>? =
                 passedExtras.getBundle(EXTRA_BUNDLE)?.getParcelableArrayList(EXTRA_QUESTIONS)
             val editPreferenceViewModel: EditPreferenceViewModel = viewModel()
-            question?.let {
-                editPreferenceViewModel.initializeQuestions(it) //TODO 1.요기 초기화 부분이랑
+            passedQuestion?.let {
+                editPreferenceViewModel.initializeQuestions(passedQuestion) //TODO 1.요기 초기화 부분이랑
             }
             val onSendResultDataAndFinishActivity: () -> Unit = {
                 val resultData = Intent().apply {
-                    editPreferenceViewModel.removeCheckedQuestions()
                     //TODO 2.데이터 읽어오는 부분
-                    val questionsArrayList = ArrayList(editPreferenceViewModel.questions.toList())
+                    val questionsArrayList = ArrayList(editPreferenceViewModel.getCheckedQuestionsToRemove())
                     val bundle = Bundle()
                     bundle.putParcelableArrayList(EXTRA_QUESTIONS, questionsArrayList)
                     putExtra(EXTRA_BUNDLE, bundle)
@@ -62,6 +62,7 @@ fun EditPreferenceScreen(
     onClickBackButton: () -> Unit = {},
 ) {
     val editPreferenceViewModel: EditPreferenceViewModel = viewModel()
+    val questions = editPreferenceViewModel.questions.observeAsState().value ?: emptyList()
     val showDialog = remember { mutableStateOf(false) }
 
     if (showDialog.value) {
@@ -92,7 +93,7 @@ fun EditPreferenceScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         EditPreferenceQuestionList(
-            questions = editPreferenceViewModel.questions,
+            questions = questions,
             onClickQuestionCard = onClickQuestionCard,
         ) {
             ChinChinConfirmButton(

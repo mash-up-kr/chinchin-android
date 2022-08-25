@@ -1,8 +1,9 @@
 package com.mashup.chinchin.presenter.send_preference
 
 import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mashup.chinchin.domain.model.Question
@@ -20,36 +21,46 @@ class SendPreferenceViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     //TODO 라이브데이터 또는 Flow로 변경해야함
+    private val _questions = MutableLiveData<List<QuestionUiModel>>(emptyList())
+    val questions: LiveData<List<QuestionUiModel>>
+        get() = _questions
+
     private val friendId = savedStateHandle.get<Long>("EXTRA_FRIEND_ID") ?: 2
 
-    val questions = mutableStateListOf<QuestionUiModel>()
     val isSendSuccess = MutableLiveData(false)
 
-    fun changeQuestions(_questions: List<QuestionUiModel>) {
-        questions.clear()
-        questions.addAll(_questions)
+    fun changeQuestions(newQuestions: List<QuestionUiModel>) {
+        _questions.value = newQuestions
     }
 
     fun addQuestion(question: QuestionUiModel) {
-        questions.add(question)
+        val newQuestion = _questions.value?.toMutableList()
+        newQuestion?.add(question)
+        _questions.value = newQuestion
     }
 
     fun changeQuestionByIndex(index: Int, questionText: String) {
-        questions[index] = questions[index].copy(question = questionText)
+        val newQuestion = _questions.value?.toMutableList()
+        newQuestion?.get(index)
+            ?.let { newQuestion.set(index, it.copy(question = questionText)) }
+        _questions.value = newQuestion
     }
 
     fun changeAnswerByIndex(index: Int, answerText: String) {
-        questions[index] = questions[index].copy(answer = answerText)
+        val newQuestion = _questions.value?.toMutableList()
+        newQuestion?.get(index)
+            ?.let { newQuestion?.set(index, it.copy(answer = answerText)) }
+        _questions.value = newQuestion
     }
 
     fun sendQuestionnaire() {
-        val questionnaire = questions.map {
+        val questionnaire = _questions.value?.map {
             Question(
                 questionId = 0,
                 question = it.question,
                 answer = it.answer
             )
-        }
+        } ?: emptyList()
         viewModelScope.launch {
             val result = sendQuestionnaireUseCase(
                 friendId = friendId,
@@ -92,35 +103,6 @@ class SendPreferenceViewModel @Inject constructor(
            add(privateInformation)
        }.toList()
     }
-
-    //참고) livedata 사용 코드
-    /*  val _questionsLiveData =
-          MutableLiveData<MutableList<QuestionUiModel>>(mutableListOf(QuestionUiModel("dd", "ddd")))
-
-       val questions: LiveData<MutableList<QuestionUiModel>> = _questionsLiveData
-
-       fun changeQuestions(newQuestions: MutableList<QuestionUiModel>) {
-           _questionsLiveData.value = newQuestions
-           Log.i("SendPreferenceViewModel", "changeQuestions: ${_questionsLiveData.value}")
-       }
-
-       fun addQuestion(question: QuestionUiModel) {
-           _questionsLiveData.value?.add(question)
-           Log.i("SendPreferenceViewModel", "addQuestion: ${_questionsLiveData.value}")
-       }
-
-       fun changeQuestionByIndex(index: Int , questionText: String){
-           _questionsLiveData.value?.get(index)
-               ?.let { _questionsLiveData.value?.set(index, it.copy(question = questionText)) }
-           Log.i("SendPreferenceViewModel", "changeQuestionByIndex: ${_questionsLiveData.value}")
-
-       }
-
-       fun changeAnswerByIndex(index: Int , questionText: String){
-           _questionsLiveData.value?.get(index)
-               ?.let { _questionsLiveData.value?.set(index, it.copy(question = questionText)) }
-           Log.i("SendPreferenceViewModel", "changeAnswerByIndex: ${_questionsLiveData.value}")
-       }*/
 
 }
 
