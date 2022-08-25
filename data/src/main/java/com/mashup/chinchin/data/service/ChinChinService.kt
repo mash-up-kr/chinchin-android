@@ -2,6 +2,7 @@ package com.mashup.chinchin.data.service
 
 import com.mashup.chinchin.data.dto.remote.requestbody.CreateNewGroupRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.LoginRequestBody
+import com.mashup.chinchin.data.dto.remote.requestbody.SendReplyQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.responsebody.CreateNewGroupResponseBody
 import com.mashup.chinchin.data.dto.remote.responsebody.GetQuestionnaireResponse
 import com.mashup.chinchin.data.dto.remote.responsebody.LoginResponseBody
@@ -25,4 +26,13 @@ interface ChinChinService {
         @Path("questionnaire_id") questionnaireId: Long,
         @Query("aspect") aspect: String
     ): List<GetQuestionnaireResponse>
+
+    /**
+     * 질문에 대한 답변을 보냅니다.
+     */
+    @PUT("/questionnaire/{questionnaire_id}")
+    suspend fun sendReplyQuestionnaire(
+        @Path("questionnaire_id") questionnaireId: Long,
+        @Body sendReplyQuestionnaireRequestBody: List<SendReplyQuestionnaireRequestBody>
+    ): Boolean
 }
