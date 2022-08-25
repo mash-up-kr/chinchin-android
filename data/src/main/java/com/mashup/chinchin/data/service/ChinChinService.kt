@@ -2,10 +2,12 @@ package com.mashup.chinchin.data.service
 
 import com.mashup.chinchin.data.dto.remote.requestbody.CreateNewGroupRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.LoginRequestBody
+import com.mashup.chinchin.data.dto.remote.requestbody.RecommendedFriendRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.SendReplyQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.responsebody.CreateNewGroupResponseBody
 import com.mashup.chinchin.data.dto.remote.responsebody.GetQuestionnaireResponse
 import com.mashup.chinchin.data.dto.remote.responsebody.LoginResponseBody
+import com.mashup.chinchin.data.dto.remote.responsebody.RecommendedFriendResponseBody
 import retrofit2.http.*
 
 interface ChinChinService {
@@ -35,4 +37,9 @@ interface ChinChinService {
         @Path("questionnaire_id") questionnaireId: Long,
         @Body sendReplyQuestionnaireRequestBody: List<SendReplyQuestionnaireRequestBody>
     ): Boolean
+
+    @GET("/members/recommended-friends")
+    suspend fun getRecommendedFriends(
+        @Body recommendedFriendRequestBody: RecommendedFriendRequestBody
+    ): List<RecommendedFriendResponseBody>
 }

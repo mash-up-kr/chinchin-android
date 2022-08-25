@@ -31,6 +31,7 @@ import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Compan
 import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.main.recommend_friend.RecommendFriendsViewModel
 import com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
@@ -224,6 +225,8 @@ fun RecommendFriendsScreen(
     bottomPaddingValue: Dp = 0.dp,
     onClickMore: () -> Unit,
 ) {
+    val viewModel: RecommendFriendsViewModel = hiltViewModel()
+
     Column(
         modifier = Modifier
             .padding(start = 24.dp, end = 24.dp, bottom = 20.dp)
