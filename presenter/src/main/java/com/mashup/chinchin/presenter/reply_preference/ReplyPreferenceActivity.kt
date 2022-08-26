@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -18,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceCompleteActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.ImageDialog
@@ -27,18 +27,16 @@ import com.mashup.chinchin.presenter.ui.reply_preference.ReplyPreferenceQuestion
 import com.mashup.chinchin.presenter.ui.reply_preference.ReplyPreferenceTitle
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.ui.theme.Gray_600
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ReplyPreferenceActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val list = MutableList(14) {
-            QuestionUiModel("good $it", "답변답변답변")
-        }
-        list.add(0, QuestionUiModel("빈 답변"))
 
         setContent {
             ChinchinTheme {
-                ReplyPreferenceScreen(list) {
+                ReplyPreferenceScreen() {
                     finish()
                 }
             }
@@ -48,12 +46,12 @@ class ReplyPreferenceActivity : ComponentActivity() {
 
 @Composable
 fun ReplyPreferenceScreen(
-    questions: List<QuestionUiModel> = listOf(),
     userName: String = "영은",
     onBackButtonClick: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val viewModel: ReplyPreferenceViewModel = hiltViewModel()
+    val questionnaire = viewModel.questionnaire.observeAsState().value
     val (showSendDialog, setShowSendDialog) = remember { mutableStateOf(false) }
     val (showCancelDialog, setShowCancelDialog) = remember { mutableStateOf(false) }
 
@@ -79,7 +77,7 @@ fun ReplyPreferenceScreen(
             )
 
             ReplyPreferenceQuestionList(
-                questions = questions,
+                questionnaire = questionnaire ?: emptyList(),
                 modifier = Modifier.padding(top = 16.dp),
             )
         }
@@ -112,5 +110,4 @@ fun ReplyPreferenceScreen(
             }
         }
     }
-
 }

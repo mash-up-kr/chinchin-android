@@ -1,8 +1,8 @@
 package com.mashup.chinchin.presenter.reply_preference
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mashup.chinchin.domain.model.Question
 import com.mashup.chinchin.domain.model.QuestionnaireAspectType
 import com.mashup.chinchin.domain.usecase.GetQuestionnareUseCase
 import com.mashup.chinchin.domain.usecase.SendReplyQuestionnaireUseCase
@@ -17,7 +17,9 @@ class ReplyPreferenceViewModel @Inject constructor(
     private val sendReplyQuestionnaireUseCase: SendReplyQuestionnaireUseCase
 ) : ViewModel() {
 
-    private val questionnaireId: Long = 1 // 연동할 때 getExtra해서 가져옵니다.
+    private val questionnaireId: Long = 3 // 연동할 때 getExtra해서 가져옵니다.
+
+    val questionnaire = MutableLiveData<List<QuestionUiModel>>()
 
     init {
         getReplyQuestions(questionnaireId)
@@ -28,9 +30,15 @@ class ReplyPreferenceViewModel @Inject constructor(
      */
     private fun getReplyQuestions(questionnaireId: Long) {
         viewModelScope.launch {
-            getQuestionnareUseCase(
+            val result = getQuestionnareUseCase(
                 questionnaireId = questionnaireId,
                 aspect = QuestionnaireAspectType.Answer.value
+            )
+
+            questionnaire.postValue(
+                result.map {
+                    QuestionUiModel.fromDomainModel(it)
+                }
             )
         }
     }

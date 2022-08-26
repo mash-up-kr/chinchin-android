@@ -86,6 +86,7 @@ class FriendDetailActivity : ComponentActivity() {
             repeat(20) {
                 questionUiModels.add(
                     QuestionUiModel(
+                        questionId = 1,
                         question = "좋아하는 음식은 무엇입니까?",
                         answer = "난 곱창이 세상에서 제일 좋아",
                     )

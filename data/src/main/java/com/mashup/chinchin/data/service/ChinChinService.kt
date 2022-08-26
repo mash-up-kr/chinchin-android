@@ -27,7 +27,7 @@ interface ChinChinService {
     /**
      * 질문지를 조회합니다.
      */
-    @POST("/questionnaire/{questionnaire_id}")
+    @GET("/questionnaire/{questionnaire_id}")
     suspend fun getQuestionnaire(
         @Path("questionnaire_id") questionnaireId: Long,
         @Query("aspect") aspect: String

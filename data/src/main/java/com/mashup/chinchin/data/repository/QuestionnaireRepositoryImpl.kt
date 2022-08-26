@@ -20,7 +20,7 @@ class QuestionnaireRepositoryImpl @Inject constructor(
     }
 
     override suspend fun sendReplyQuestionnaire(
-        listId: Long,
+        questionnaireId: Long,
         questionnaire: List<Question>
     ): Boolean {
         val requestBody = questionnaire.map {
@@ -30,7 +30,7 @@ class QuestionnaireRepositoryImpl @Inject constructor(
             )
         }
         return remoteQuestionnaireDataSource.sendReplyQuestionnaire(
-            listId = listId,
+            questionnaireId = questionnaireId,
             requestBody = requestBody
         )
     }

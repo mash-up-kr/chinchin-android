@@ -86,7 +86,7 @@ fun QuestionCategoryList(
                 val selectedQuestion =
                     selectedCategory.value.keywords.find { it.keyword == keyword }?.question
                 addQuestion(
-                    QuestionUiModel(
+                    QuestionUiModel(questionId = 1,
                         selectedQuestion ?: throw Exception("선택된 키워드가 질문리스트에 존재하지 않습니다.")
                     )
                 )
