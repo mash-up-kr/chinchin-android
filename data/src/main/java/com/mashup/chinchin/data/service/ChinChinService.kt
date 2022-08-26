@@ -16,12 +16,9 @@ interface ChinChinService {
 
     @POST("groups/group")
     suspend fun createNewGroup(
-        @Header("Authorization") jwt: String,
         @Body createNewGroupRequestBody: CreateNewGroupRequestBody,
     ): CreateNewGroupResponseBody
 
     @GET("/groups")
-    suspend fun getGroups(
-        @Header("Authorization") jwt: String,
-    ): List<GetGroupsResponseBody>
+    suspend fun getGroups(): List<GetGroupsResponseBody>
 }

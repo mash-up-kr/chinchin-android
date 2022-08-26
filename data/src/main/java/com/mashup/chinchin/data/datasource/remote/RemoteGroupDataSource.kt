@@ -10,18 +10,12 @@ class RemoteGroupDataSource @Inject constructor(
     private val chinChinService: ChinChinService,
 ) {
     suspend fun createNewGroup(
-        jwt: String,
         createNewGroupRequestBody: CreateNewGroupRequestBody,
     ): CreateNewGroupResponseBody {
         return chinChinService.createNewGroup(
-            jwt = jwt,
             createNewGroupRequestBody = createNewGroupRequestBody,
         )
     }
 
-    suspend fun getGroups(
-        jwt: String,
-    ): List<GetGroupsResponseBody> {
-        return chinChinService.getGroups(jwt)
-    }
+    suspend fun getGroups(): List<GetGroupsResponseBody> = chinChinService.getGroups()
 }
