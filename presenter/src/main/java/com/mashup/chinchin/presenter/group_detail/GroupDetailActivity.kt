@@ -4,7 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +23,7 @@ import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.EXTRA_FRIEND_ID
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
+import com.mashup.chinchin.presenter.group_detail.model.GroupDetailUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
@@ -28,11 +36,11 @@ class GroupDetailActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val group = intent.extras?.get(FRIEND_GROUP) as? FriendGroupUiModel ?: return
+        val groupId = intent.extras?.get(FRIEND_GROUP_ID) ?: return
 
         setContent {
             ChinchinTheme {
-                GroupDetailScreen(group = group) {
+                GroupDetailScreen {
                     finish()
                 }
             }
@@ -40,7 +48,7 @@ class GroupDetailActivity : ComponentActivity() {
     }
 
     companion object {
-        const val FRIEND_GROUP = "FRIEND_GROUP"
+        const val FRIEND_GROUP_ID = "FRIEND_GROUP_ID"
     }
 }
 
@@ -52,15 +60,16 @@ fun GroupDetailPreview() {
 
 @Composable
 fun GroupDetailScreen(
-    group: FriendGroupUiModel = FriendGroupUiModel("test", emptyList()),
     finishActivity: () -> Unit = {}
 ) {
+    /* TODO: 서버 연결 필요 */
+    val groupUiModel = GroupDetailUiModel(0, "test", emptyList())
     val context = LocalContext.current
 
     StatusBarColor()
     Column {
         ChinChinToolbar(
-            title = group.name,
+            title = groupUiModel.groupName,
         ) {
             finishActivity()
         }
@@ -72,7 +81,7 @@ fun GroupDetailScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ChinChinText(text = "전체", highlightText = "${group.friends.size}")
+            ChinChinText(text = "전체", highlightText = "${groupUiModel.friends.size}")
             ChinChinButton(
                 icon = R.drawable.icon_user_more1,
                 buttonText = "친구 추가",
@@ -83,7 +92,7 @@ fun GroupDetailScreen(
                     context.startActivity(intent)
                 })
         }
-        if (group.friends.isEmpty()) {
+        if (groupUiModel.friends.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -100,7 +109,7 @@ fun GroupDetailScreen(
                     }
                     context.startActivity(intent)
                 },
-                friends = group.friends
+                friends = groupUiModel.friends
             )
         }
     }

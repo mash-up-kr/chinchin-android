@@ -15,7 +15,6 @@ import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 fun MainNavGraph(
     navController: NavHostController,
     recommendFriends: List<FriendUiModel>,
-    groups: List<FriendGroupUiModel>,
     showBottomSheet: () -> Unit,
     onSelectFriend: (friend: FriendUiModel) -> Unit,
     bottomPaddingValue: Dp
@@ -25,7 +24,7 @@ fun MainNavGraph(
         startDestination = MainNavScreen.Home.route,
     ) {
         composable(route = MainNavScreen.Home.route) {
-            HomeScreen(bottomPaddingValue = bottomPaddingValue, groups = groups)
+            HomeScreen(bottomPaddingValue = bottomPaddingValue)
         }
         composable(route = MainNavScreen.RecommendFriends.route) {
             RecommendFriendsScreen(

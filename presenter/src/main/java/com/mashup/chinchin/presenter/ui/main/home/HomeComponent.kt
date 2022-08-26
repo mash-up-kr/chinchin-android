@@ -28,8 +28,7 @@ import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.group_detail.GroupDetailActivity
-import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
-import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.main.model.GroupInfoUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinGrayTextField
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
@@ -38,7 +37,7 @@ import com.mashup.chinchin.presenter.ui.theme.*
 
 @Composable
 fun HomeBody(
-    groups: List<FriendGroupUiModel> = listOf(),
+    groups: List<GroupInfoUiModel> = listOf(),
 ) {
     if (groups.isEmpty()) {
         EmptyFriendGroups()
@@ -72,7 +71,7 @@ fun HomeHeader(
     onButtonClick: () -> Unit = {},
     onBellClick: () -> Unit = {},
     onAddGroupClick: (Boolean) -> Unit = {},
-    groups: List<FriendGroupUiModel> = emptyList(),
+    groups: List<GroupInfoUiModel> = emptyList(),
 ) {
     Column {
         Row(
@@ -178,7 +177,7 @@ fun HomeHeader(
 
 @Composable
 fun FriendsGroupList(
-    groups: List<FriendGroupUiModel>,
+    groups: List<GroupInfoUiModel>,
 ) {
     val context = LocalContext.current
 
@@ -187,10 +186,10 @@ fun FriendsGroupList(
     ) {
         items(groups) { group ->
             FriendGroupCard(
-                friendGroup = group,
+                groupInfo = group,
                 modifier = Modifier.clickable {
                     context.startActivity(Intent(context, GroupDetailActivity::class.java).apply {
-                        putExtra("FRIEND_GROUP", group)
+                        putExtra(GroupDetailActivity.FRIEND_GROUP_ID, group.groupId)
                     })
                 }
             )
@@ -198,28 +197,10 @@ fun FriendsGroupList(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun FriendGroupCardPreview() {
-    FriendGroupCard(
-        modifier = Modifier, friendGroup = FriendGroupUiModel(
-            name = "매쉬업 사람들",
-            friends = listOf(
-                FriendUiModel(0, "히지니", "https://picsum.photos/200"),
-                FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
-                FriendUiModel(0, "경무", "https://picsum.photos/200"),
-                FriendUiModel(0, "히지니", "https://picsum.photos/200"),
-                FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
-                FriendUiModel(0, "경무", "https://picsum.photos/200")
-            )
-        )
-    )
-}
-
 @Composable
 fun FriendGroupCard(
     modifier: Modifier,
-    friendGroup: FriendGroupUiModel,
+    groupInfo: GroupInfoUiModel,
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
@@ -232,9 +213,9 @@ fun FriendGroupCard(
                 .padding(0.dp)
                 .fillMaxWidth()
         ) {
-            FriendGroupCardTitle(friendGroup.name)
-            NumberOfFriends(friendGroup.friends.size)
-            FriendProfileThumbnailList(friendGroup.friends)
+            FriendGroupCardTitle(groupInfo.groupName)
+            NumberOfFriends(groupInfo.thumbnailImageUrls.size)
+            FriendProfileThumbnailList(groupInfo.thumbnailImageUrls)
         }
     }
 }
@@ -274,9 +255,9 @@ fun NumberOfFriends(friendsSize: Int) {
 }
 
 @Composable
-fun FriendProfileThumbnailList(friends: List<FriendUiModel>) {
-    val profileMoreCount = if (friends.size > 5) {
-        friends.size - 5
+fun FriendProfileThumbnailList(thumbnailUrls: List<String>) {
+    val profileMoreCount = if (thumbnailUrls.size > 5) {
+        thumbnailUrls.size - 5
     } else {
         0
     }
@@ -287,11 +268,11 @@ fun FriendProfileThumbnailList(friends: List<FriendUiModel>) {
             .padding(horizontal = 18.dp, vertical = 16.dp)
     ) {
         run loop@{
-            friends.forEachIndexed { index, friend ->
+            thumbnailUrls.forEachIndexed { index, thumbnailUrl ->
                 val start = (27 * index).dp
                 if (index < 5) {
                     FriendProfileThumbnail(
-                        thumbnailUrl = friend.profileUrl,
+                        thumbnailUrl = thumbnailUrl,
                         modifier = Modifier.padding(start = start),
                     )
                 } else {

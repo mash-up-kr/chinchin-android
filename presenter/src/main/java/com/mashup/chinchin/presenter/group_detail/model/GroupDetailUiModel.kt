@@ -1,6 +1,10 @@
 package com.mashup.chinchin.presenter.group_detail.model
 
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
+
 data class GroupDetailUiModel(
-    val userName: String,
-    val profileUrl: String,
+    val id: Long,
+    val groupName: String,
+    val friends: List<FriendUiModel>,
 )
+
