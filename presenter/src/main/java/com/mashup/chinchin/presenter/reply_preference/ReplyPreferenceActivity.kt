@@ -2,13 +2,14 @@ package com.mashup.chinchin.presenter.reply_preference
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -52,8 +53,16 @@ fun ReplyPreferenceScreen(
     val context = LocalContext.current
     val viewModel: ReplyPreferenceViewModel = hiltViewModel()
     val questionnaire = viewModel.questionnaire.observeAsState().value
+    val isSendSuccess = viewModel.isSendSuccess.observeAsState().value
     val (showSendDialog, setShowSendDialog) = remember { mutableStateOf(false) }
     val (showCancelDialog, setShowCancelDialog) = remember { mutableStateOf(false) }
+
+    if (isSendSuccess == true) {
+        val intent = Intent(context, SendPreferenceCompleteActivity::class.java)
+        context.startActivity(intent)
+    } else {
+        // TODO: Error Log
+    }
 
     StatusBarColor()
     Column {
@@ -90,8 +99,10 @@ fun ReplyPreferenceScreen(
                 subTitleText = "보낸 취향 질문지 답변은 수정이 불가능해요",
                 onClickConfirm = {
                     setShowSendDialog(false)
-                    val intent = Intent(context, SendPreferenceCompleteActivity::class.java)
-                    context.startActivity(intent)
+                    viewModel.sendReplyQuestionnaire(
+                        questionnaireId = 3,
+                        questions = questionnaire ?: emptyList()
+                    )
                 }) {
                 setShowSendDialog(false)
             }

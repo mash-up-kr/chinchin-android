@@ -22,6 +22,6 @@ class RemoteQuestionnaireDataSource @Inject constructor(
         return chinChinService.sendReplyQuestionnaire(
             questionnaireId = questionnaireId,
             sendReplyQuestionnaireRequestBody = requestBody
-        )
+        ).isSuccess
     }
 }

@@ -3,13 +3,10 @@ package com.mashup.chinchin.data.service
 import com.mashup.chinchin.data.dto.remote.requestbody.CreateNewGroupRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.LoginRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.SendReplyQuestionnaireRequestBody
-import com.mashup.chinchin.data.dto.remote.responsebody.CreateNewGroupResponseBody
-import com.mashup.chinchin.data.dto.remote.responsebody.GetGroupsResponseBody
-import com.mashup.chinchin.data.dto.remote.responsebody.LoginResponseBody
+import com.mashup.chinchin.data.dto.remote.responsebody.*
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import com.mashup.chinchin.data.dto.remote.responsebody.GetQuestionnaireResponse
 import retrofit2.http.*
 
 interface ChinChinService {
@@ -40,5 +37,5 @@ interface ChinChinService {
     suspend fun sendReplyQuestionnaire(
         @Path("questionnaire_id") questionnaireId: Long,
         @Body sendReplyQuestionnaireRequestBody: List<SendReplyQuestionnaireRequestBody>
-    ): Boolean
+    ): SendReplyQuestionnaireResponseBody
 }

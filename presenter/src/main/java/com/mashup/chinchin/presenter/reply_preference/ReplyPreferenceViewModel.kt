@@ -20,6 +20,7 @@ class ReplyPreferenceViewModel @Inject constructor(
     private val questionnaireId: Long = 3 // 연동할 때 getExtra해서 가져옵니다.
 
     val questionnaire = MutableLiveData<List<QuestionUiModel>>()
+    val isSendSuccess = MutableLiveData(false)
 
     init {
         getReplyQuestions(questionnaireId)
@@ -50,10 +51,11 @@ class ReplyPreferenceViewModel @Inject constructor(
         val questionnaire = questions.map { it.toDomainModel() }
 
         viewModelScope.launch {
-            sendReplyQuestionnaireUseCase(
+            val result = sendReplyQuestionnaireUseCase(
                 questionnaireId = questionnaireId,
                 questionnaire = questionnaire
             )
+            isSendSuccess.postValue(result)
         }
     }
 }
