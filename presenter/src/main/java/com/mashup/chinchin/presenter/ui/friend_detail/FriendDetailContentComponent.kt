@@ -51,14 +51,13 @@ fun QuestionSizeText(size: Int) {
 @Composable
 fun QuestionAnswerListPreview() {
     QuestionAnswerListContent(
-        FriendDetailActivity.initFriendAnswerList(),
-        ChinChinAnswerCardState.FRIEND_ANSWER
+        cardState = ChinChinAnswerCardState.FRIEND_ANSWER
     )
 }
 
 @Composable
 fun QuestionAnswerListContent(
-    answers: List<QuestionUiModel>,
+    answers: List<QuestionUiModel> = emptyList(),
     cardState: ChinChinAnswerCardState
 ) {
     Column(
