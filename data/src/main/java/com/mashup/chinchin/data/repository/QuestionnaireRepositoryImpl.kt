@@ -1,6 +1,8 @@
 package com.mashup.chinchin.data.repository
 
 import com.mashup.chinchin.data.datasource.remote.RemoteQuestionnaireDataSource
+import com.mashup.chinchin.data.dto.remote.requestbody.QuestionRequestBody
+import com.mashup.chinchin.data.dto.remote.requestbody.SendQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.SendReplyQuestionnaireRequestBody
 import com.mashup.chinchin.domain.model.Question
 import com.mashup.chinchin.domain.repository.QuestionnaireRepository
@@ -33,5 +35,18 @@ class QuestionnaireRepositoryImpl @Inject constructor(
             questionnaireId = questionnaireId,
             requestBody = requestBody
         )
+    }
+
+    override suspend fun sendQuestionnaire(friendId: Long, questionnaire: List<Question>): Boolean {
+        val requestBody = SendQuestionnaireRequestBody(
+            toFriendId = friendId,
+            questionnaireDetails = questionnaire.map {
+                QuestionRequestBody(
+                    question = it.question,
+                    myAnswer = it.answer
+                )
+            }
+        )
+        return remoteQuestionnaireDataSource.sendQuestionnaire(requestBody)
     }
 }

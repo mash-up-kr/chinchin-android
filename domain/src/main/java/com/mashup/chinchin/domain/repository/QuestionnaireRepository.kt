@@ -24,4 +24,9 @@ interface QuestionnaireRepository {
         questionnaireId: Long,
         questionnaire: List<Question>
     ): Boolean
+
+    /**
+     * 친구에게 질문지를 전송합니다.
+     */
+    suspend fun sendQuestionnaire(friendId: Long, questionnaire: List<Question>): Boolean
 }

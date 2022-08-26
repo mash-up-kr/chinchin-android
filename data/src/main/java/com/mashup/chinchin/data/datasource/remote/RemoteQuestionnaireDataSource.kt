@@ -1,5 +1,6 @@
 package com.mashup.chinchin.data.datasource.remote
 
+import com.mashup.chinchin.data.dto.remote.requestbody.SendQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.SendReplyQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.responsebody.GetQuestionnaireResponse
 import com.mashup.chinchin.data.service.ChinChinService
@@ -23,5 +24,11 @@ class RemoteQuestionnaireDataSource @Inject constructor(
             questionnaireId = questionnaireId,
             sendReplyQuestionnaireRequestBody = requestBody
         ).isSuccess
+    }
+
+    suspend fun sendQuestionnaire(
+        sendQuestionnaireRequestBody: SendQuestionnaireRequestBody
+    ): Boolean {
+        return chinChinService.sendQuestionnaire(sendQuestionnaireRequestBody).isSuccess
     }
 }

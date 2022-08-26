@@ -2,6 +2,7 @@ package com.mashup.chinchin.data.service
 
 import com.mashup.chinchin.data.dto.remote.requestbody.CreateNewGroupRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.LoginRequestBody
+import com.mashup.chinchin.data.dto.remote.requestbody.SendQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.SendReplyQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.responsebody.*
 import retrofit2.http.*
@@ -43,4 +44,12 @@ interface ChinChinService {
     suspend fun getFriendProfile(
         @Path("friendId") friendId: Long
     ): GetFriendProfileResponseBody
+
+    /**
+     * 친구에게 질문지를 전송합니다.
+     */
+    @POST("/questionnaire")
+    suspend fun sendQuestionnaire(
+        @Body sendQuestionnaireRequest: SendQuestionnaireRequestBody
+    ): SendQuestionnaireResponseBody
 }
