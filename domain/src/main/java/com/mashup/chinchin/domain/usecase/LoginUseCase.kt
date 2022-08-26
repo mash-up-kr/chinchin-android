@@ -6,10 +6,12 @@ import javax.inject.Inject
 class LoginUseCase @Inject constructor(
     private val loginRepository: LoginRepository,
 ) {
-    suspend operator fun invoke(accessToken: String): Boolean {
+    suspend operator fun invoke(accessToken: String, refreshToken: String): Boolean {
         val jwt: String = loginRepository.login(accessToken) ?: return false
 
         loginRepository.setJwt(jwt)
+        loginRepository.saveKakaoAccessToken(accessToken)
+        loginRepository.saveKakaoRefreshToken(refreshToken)
         return true
     }
 }

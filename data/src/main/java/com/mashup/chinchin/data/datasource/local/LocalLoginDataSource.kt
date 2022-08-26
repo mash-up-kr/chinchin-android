@@ -16,8 +16,18 @@ class LocalLoginDataSource @Inject constructor(
         preferences.edit().putString(JWT, jwt).apply()
     }
 
+    fun saveKakaoAccessToken(accessToken: String) {
+        preferences.edit().putString(KAKAO_ACCESS_TOKEN, accessToken).apply()
+    }
+
+    fun saveKakaoRefreshToken(refreshToken: String) {
+        preferences.edit().putString(KAKAO_REFRESH_TOKEN, refreshToken).apply()
+    }
+
     companion object {
         const val JWT = "JWT"
+        const val KAKAO_ACCESS_TOKEN = "KAKAO_ACCESS_TOKEN"
+        const val KAKAO_REFRESH_TOKEN = "KAKAO_REFRESH_TOKEN"
         const val LOGIN_PREF = "LOGIN_PREF"
     }
 }

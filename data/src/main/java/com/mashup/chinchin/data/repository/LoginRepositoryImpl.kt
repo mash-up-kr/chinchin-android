@@ -16,6 +16,14 @@ class LoginRepositoryImpl @Inject constructor(
 
     override fun getJwt() = localLoginDataSource.getJwt()
 
+    override fun saveKakaoAccessToken(accessToken: String) {
+        localLoginDataSource.saveKakaoAccessToken(accessToken)
+    }
+
+    override fun saveKakaoRefreshToken(refreshToken: String) {
+        localLoginDataSource.saveKakaoRefreshToken(refreshToken)
+    }
+
     override suspend fun login(accessToken: String): String? {
         return remoteLoginDataSource.login(LoginRequestBody(accessToken)).jwt
     }
