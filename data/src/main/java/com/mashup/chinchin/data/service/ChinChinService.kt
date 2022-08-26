@@ -53,6 +53,9 @@ interface ChinChinService {
         @Body sendQuestionnaireRequest: SendQuestionnaireRequestBody,
     ): SendQuestionnaireResponseBody
 
+    /**
+     * alarm
+     * */
     @GET("/alerts/existence")
     suspend fun isAlarmExist(): IsAlarmResponseBody
 }
