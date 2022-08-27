@@ -2,6 +2,7 @@ package com.mashup.chinchin.data.repository
 
 import com.mashup.chinchin.data.datasource.remote.RemoteFriendDataSource
 import com.mashup.chinchin.data.dto.remote.requestbody.AddFriendRequestBody
+import com.mashup.chinchin.data.dto.remote.requestbody.UpdateFriendRequestBody
 import com.mashup.chinchin.domain.model.Friend
 import com.mashup.chinchin.domain.model.FriendProfile
 import com.mashup.chinchin.domain.repository.FriendRepository
@@ -29,5 +30,18 @@ class FriendRepositoryImpl @Inject constructor(
             )
         }
         return remoteFriendDataSource.addFriend(param).friendId
+    }
+
+    override suspend fun updateFriend(friend: Friend): Long {
+        val param = with(friend) {
+            UpdateFriendRequestBody(
+                name = name ?: "",
+                dateOfBirth = dateOfBirth ?: "",
+                groupId = groupId ?: -1,
+                thumbnailImageUrl = thumbnailImageUrl,
+                kakaoId = kakaoId
+            )
+        }
+        return remoteFriendProfileDataSource.updateFriend(param).friendId
     }
 }

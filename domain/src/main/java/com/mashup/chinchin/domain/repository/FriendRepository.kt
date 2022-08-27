@@ -7,4 +7,5 @@ interface FriendRepository {
     suspend fun getFriendProfile(friendId: Long): FriendProfile
     suspend fun getFriends(): List<Friend>
     suspend fun addFriend(friend: Friend): Long
+    suspend fun updateFriend(friend: Friend): Long
 }

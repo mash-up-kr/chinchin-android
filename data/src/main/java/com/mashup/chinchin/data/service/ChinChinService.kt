@@ -77,4 +77,12 @@ interface ChinChinService {
     suspend fun addFriend(
         @Body addFriendRequestBody: AddFriendRequestBody
     ): AddFriendResponseBody
+
+    /**
+     * 친구 정보를 수정합니다.
+     */
+    @POST("/friend/{friendId}")
+    suspend fun updateFriend(
+        @Body updateFriendRequestBody: UpdateFriendRequestBody
+    ): UpdateFriendResponseBody
 }
