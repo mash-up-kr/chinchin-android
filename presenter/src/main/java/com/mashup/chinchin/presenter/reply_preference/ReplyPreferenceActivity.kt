@@ -2,22 +2,24 @@ package com.mashup.chinchin.presenter.reply_preference
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceCompleteActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.ImageDialog
@@ -26,18 +28,16 @@ import com.mashup.chinchin.presenter.ui.reply_preference.ReplyPreferenceQuestion
 import com.mashup.chinchin.presenter.ui.reply_preference.ReplyPreferenceTitle
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.ui.theme.Gray_600
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ReplyPreferenceActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val list = MutableList(14) {
-            QuestionUiModel("good $it", "답변답변답변")
-        }
-        list.add(0, QuestionUiModel("빈 답변"))
 
         setContent {
             ChinchinTheme {
-                ReplyPreferenceScreen(list) {
+                ReplyPreferenceScreen() {
                     finish()
                 }
             }
@@ -47,13 +47,22 @@ class ReplyPreferenceActivity : ComponentActivity() {
 
 @Composable
 fun ReplyPreferenceScreen(
-    questions: List<QuestionUiModel> = listOf(),
     userName: String = "영은",
     onBackButtonClick: () -> Unit = {},
 ) {
     val context = LocalContext.current
+    val viewModel: ReplyPreferenceViewModel = hiltViewModel()
+    val questionnaire = viewModel.questionnaire.observeAsState().value
+    val isSendSuccess = viewModel.isSendSuccess.observeAsState().value
     val (showSendDialog, setShowSendDialog) = remember { mutableStateOf(false) }
     val (showCancelDialog, setShowCancelDialog) = remember { mutableStateOf(false) }
+
+    if (isSendSuccess == true) {
+        val intent = Intent(context, SendPreferenceCompleteActivity::class.java)
+        context.startActivity(intent)
+    } else {
+        // TODO: Error Log
+    }
 
     StatusBarColor()
     Column {
@@ -77,7 +86,7 @@ fun ReplyPreferenceScreen(
             )
 
             ReplyPreferenceQuestionList(
-                questions = questions,
+                questionnaire = questionnaire ?: emptyList(),
                 modifier = Modifier.padding(top = 16.dp),
             )
         }
@@ -90,8 +99,10 @@ fun ReplyPreferenceScreen(
                 subTitleText = "보낸 취향 질문지 답변은 수정이 불가능해요",
                 onClickConfirm = {
                     setShowSendDialog(false)
-                    val intent = Intent(context, SendPreferenceCompleteActivity::class.java)
-                    context.startActivity(intent)
+                    viewModel.sendReplyQuestionnaire(
+                        questionnaireId = 3,
+                        questions = questionnaire ?: emptyList()
+                    )
                 }) {
                 setShowSendDialog(false)
             }
@@ -110,5 +121,4 @@ fun ReplyPreferenceScreen(
             }
         }
     }
-
 }

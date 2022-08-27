@@ -11,19 +11,19 @@ import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 @Composable
 fun FriendDetailNavGraph(
     navController: NavHostController,
-    answersFromFriend: List<QuestionUiModel>,
-    expectedAnswers: List<QuestionUiModel>,
+    friendAnswers: List<QuestionUiModel>,
+    myAnswers: List<QuestionUiModel>,
     isSavedTempQuestions: Boolean,
 ) {
     NavHost(
         navController = navController,
-        startDestination = FriendDetailNavScreen.ANSWER_FROM_FRIEND.route
+        startDestination = FriendDetailNavScreen.FRIEND_ANSWER.route
     ) {
-        composable(route = FriendDetailNavScreen.ANSWER_FROM_FRIEND.route) {
-            AnswerFromFriendScreen(answersFromFriend)
+        composable(route = FriendDetailNavScreen.FRIEND_ANSWER.route) {
+            AnswerFromFriendScreen(friendAnswers)
         }
-        composable(route = FriendDetailNavScreen.ANSWER_EXPECTED.route) {
-            AnswersExpectedScreen(expectedAnswers, isSavedTempQuestions)
+        composable(route = FriendDetailNavScreen.MY_ANSWER.route) {
+            AnswersExpectedScreen(myAnswers, isSavedTempQuestions)
         }
     }
 }
