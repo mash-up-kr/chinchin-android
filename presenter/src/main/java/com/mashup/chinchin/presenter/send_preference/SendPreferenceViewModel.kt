@@ -59,8 +59,8 @@ class SendPreferenceViewModel @Inject constructor(
         }
     }
 
-    fun getCategoryList(): MutableList<CategoryUiModel> {
-        val categoryList = mutableListOf<CategoryUiModel>()
+    fun getCategoryList(): List<CategoryUiModel> {
+        // TODO: 나중에 LocalDataSource에서 가져올수있도록 수정하면 좋을 것 같아요.
         val preferences = CategoryUiModel(
             category = "취향 키워드",
             keywords = listOf(
@@ -72,7 +72,6 @@ class SendPreferenceViewModel @Inject constructor(
                 KeywordQuestionUiModel(keyword = "좋아하는 술", question = "좋아하는 술은 무엇인가요?"),
             )
         )
-
         val privateInformation = CategoryUiModel(
             category = "개인 정보",
             keywords = listOf(
@@ -87,10 +86,11 @@ class SendPreferenceViewModel @Inject constructor(
                 ),
             )
         )
-        categoryList.add(preferences)
-        categoryList.add(privateInformation)
 
-        return categoryList
+       return mutableListOf<CategoryUiModel>().apply {
+           add(preferences)
+           add(privateInformation)
+       }.toList()
     }
 
     //참고) livedata 사용 코드

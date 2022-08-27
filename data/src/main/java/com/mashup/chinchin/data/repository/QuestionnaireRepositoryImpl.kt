@@ -34,7 +34,7 @@ class QuestionnaireRepositoryImpl @Inject constructor(
         return remoteQuestionnaireDataSource.sendReplyQuestionnaire(
             questionnaireId = questionnaireId,
             requestBody = requestBody
-        )
+        ).isSuccess
     }
 
     override suspend fun sendQuestionnaire(friendId: Long, questionnaire: List<Question>): Boolean {
@@ -47,6 +47,6 @@ class QuestionnaireRepositoryImpl @Inject constructor(
                 )
             }
         )
-        return remoteQuestionnaireDataSource.sendQuestionnaire(requestBody)
+        return remoteQuestionnaireDataSource.sendQuestionnaire(requestBody).isSuccess
     }
 }

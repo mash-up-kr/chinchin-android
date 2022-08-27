@@ -3,6 +3,8 @@ package com.mashup.chinchin.data.datasource.remote
 import com.mashup.chinchin.data.dto.remote.requestbody.SendQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.SendReplyQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.responsebody.GetQuestionnaireResponse
+import com.mashup.chinchin.data.dto.remote.responsebody.SendQuestionnaireResponseBody
+import com.mashup.chinchin.data.dto.remote.responsebody.SendReplyQuestionnaireResponseBody
 import com.mashup.chinchin.data.service.ChinChinService
 import javax.inject.Inject
 
@@ -19,16 +21,16 @@ class RemoteQuestionnaireDataSource @Inject constructor(
     suspend fun sendReplyQuestionnaire(
         questionnaireId: Long,
         requestBody: List<SendReplyQuestionnaireRequestBody>
-    ): Boolean {
+    ): SendReplyQuestionnaireResponseBody {
         return chinChinService.sendReplyQuestionnaire(
             questionnaireId = questionnaireId,
             sendReplyQuestionnaireRequestBody = requestBody
-        ).isSuccess
+        )
     }
 
     suspend fun sendQuestionnaire(
         sendQuestionnaireRequestBody: SendQuestionnaireRequestBody
-    ): Boolean {
-        return chinChinService.sendQuestionnaire(sendQuestionnaireRequestBody).isSuccess
+    ): SendQuestionnaireResponseBody {
+        return chinChinService.sendQuestionnaire(sendQuestionnaireRequestBody)
     }
 }
