@@ -1,9 +1,6 @@
 package com.mashup.chinchin.data.service
 
-import com.mashup.chinchin.data.dto.remote.requestbody.CreateNewGroupRequestBody
-import com.mashup.chinchin.data.dto.remote.requestbody.LoginRequestBody
-import com.mashup.chinchin.data.dto.remote.requestbody.SendQuestionnaireRequestBody
-import com.mashup.chinchin.data.dto.remote.requestbody.SendReplyQuestionnaireRequestBody
+import com.mashup.chinchin.data.dto.remote.requestbody.*
 import com.mashup.chinchin.data.dto.remote.responsebody.*
 import retrofit2.http.*
 
@@ -72,4 +69,12 @@ interface ChinChinService {
      * */
     @GET("/alerts/existence")
     suspend fun isAlarmExist(): IsAlarmResponseBody
+
+    /**
+     * 친구를 추가합니다.
+     */
+    @POST("/friend")
+    suspend fun addFriend(
+        @Body addFriendRequestBody: AddFriendRequestBody
+    ): AddFriendResponseBody
 }
