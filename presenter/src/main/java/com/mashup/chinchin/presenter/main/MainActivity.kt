@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.kakao.sdk.user.UserApiClient
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
 import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.NEW_FRIEND
@@ -54,6 +56,8 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val recommendFriendsViewModel: RecommendFriendsViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -64,6 +68,26 @@ class MainActivity : ComponentActivity() {
                         groups = initGroups(),
                     )
                 }
+            }
+        }
+
+        observeData()
+    }
+
+    private fun observeData() {
+        recommendFriendsViewModel.loginKakao.observe(this) {
+            kakaoLogin()
+        }
+    }
+
+    private fun kakaoLogin() {
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+                recommendFriendsViewModel.handleKakaoCallback(token, error)
+            }
+        } else {
+            UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
+                recommendFriendsViewModel.handleKakaoCallback(token, error)
             }
         }
     }

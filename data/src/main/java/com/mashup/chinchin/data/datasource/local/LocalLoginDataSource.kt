@@ -20,6 +20,10 @@ class LocalLoginDataSource @Inject constructor(
         preferences.edit().putString(KAKAO_ACCESS_TOKEN, accessToken).apply()
     }
 
+    fun getKakaoAccessToken(): String {
+        return preferences.getString(KAKAO_ACCESS_TOKEN, "") ?: ""
+    }
+
     fun saveKakaoRefreshToken(refreshToken: String) {
         preferences.edit().putString(KAKAO_REFRESH_TOKEN, refreshToken).apply()
     }
