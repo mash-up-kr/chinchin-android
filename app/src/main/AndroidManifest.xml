@@ -48,7 +48,7 @@
         <activity android:name="com.mashup.chinchin.presenter.group_detail.GroupDetailActivity" />
         <activity android:name="com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity" />
         <activity android:name="com.mashup.chinchin.presenter.set_group.SetGroupActivity"/>
-        <activity android:name="com.mashup.chinchin.presenter.add_friend.AddFriendActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.friend_information.FriendInformationActivity" />
         <activity android:name="com.mashup.chinchin.presenter.reply_preference.ReplyPreferenceActivity" />
         <activity android:name="com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity" />
         <activity android:name="com.mashup.chinchin.presenter.dialog_test.DialogActivity" />

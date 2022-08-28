@@ -2,7 +2,6 @@ package com.mashup.chinchin.presenter.friend_detail
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -26,9 +25,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.EXTRA_PROFILE_TYPE
-import com.mashup.chinchin.presenter.add_friend.model.FriendProfileType
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_PROFILE_TYPE
+import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
 import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
@@ -129,8 +128,8 @@ fun FriendDetailScreen(
         ) {
             FriendProfile(
                 onProfileClick = {
-                    val intent = Intent(context, AddFriendActivity::class.java).apply {
-                        putExtra(EXTRA_PROFILE_TYPE, FriendProfileType.MODIFY)
+                    val intent = Intent(context, FriendInformationActivity::class.java).apply {
+                        putExtra(EXTRA_PROFILE_TYPE, FriendProfileType.UPDATE)
                     }
                     context.startActivity(intent)
                 },

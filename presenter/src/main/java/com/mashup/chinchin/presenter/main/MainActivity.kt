@@ -12,6 +12,9 @@ import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -26,17 +29,18 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.NEW_FRIEND
-import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.NEW_FRIEND
 import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity
 import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.FRIEND
 import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.main.MainNavBar
 import com.mashup.chinchin.presenter.ui.main.MainNavGraph
 import com.mashup.chinchin.presenter.ui.main.MainNavScreen
@@ -122,7 +126,7 @@ fun MainScreen(
             BottomSheetContent(
                 "친구 추가할까요?", listOf(
                     BottomSheetItemUiModel("신규 친구 추가하기", R.drawable.icon_user_more1) {
-                        context.startActivity(Intent(context, AddFriendActivity::class.java)
+                        context.startActivity(Intent(context, FriendInformationActivity::class.java)
                             .putExtra(NEW_FRIEND, selectedFriend.value)
                         )
                     },
@@ -177,7 +181,7 @@ fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
                 context.startActivity(
                     Intent(
                         context,
-                        AddFriendActivity::class.java
+                        FriendInformationActivity::class.java
                     )
                 )
             },
