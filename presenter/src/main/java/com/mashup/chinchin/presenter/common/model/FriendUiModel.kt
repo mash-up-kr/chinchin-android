@@ -16,8 +16,9 @@ data class FriendUiModel(
     val profileUrl: String? = "",
     val birthday: String = "", // Todo need to chagge dateType
     val groupName: String = "",
-) : Parcelable
-
+    val groupId: Long? = null,
+    val kakaoId: String? = null
+): Parcelable
 
 fun Friend.toUiModel(): FriendUiModel {
     return FriendUiModel(
