@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 
-class EditPreferenceViewModel : ViewModel() {
+class EditPreferenceViewModel(questions: List<QuestionUiModel>) : ViewModel() {
 
     private val _questions = MutableLiveData<List<QuestionUiModel>>(emptyList())
     val questions: LiveData<List<QuestionUiModel>>
         get() = _questions
 
-    fun initializeQuestions(questions: List<QuestionUiModel>) {
+    init {
         _questions.value = questions
     }
 
@@ -26,20 +26,19 @@ class EditPreferenceViewModel : ViewModel() {
 
     fun getCheckedCardCount(): Int {
         val newQuestions = _questions.value?.toMutableList()
-        val checkedCount = newQuestions?.let { it ->
-            it.filter { question -> question.isChecked }.size
-        }
-        return checkedCount ?: 0
+        val checkedCount = newQuestions?.filter { question -> question.isChecked }?.size ?: 0
+        return checkedCount
     }
 
     fun isEmptyCheckedCard(): Boolean =
         getCheckedCardCount() == 0
 
-    fun getCheckedQuestionsToRemove() : List<QuestionUiModel> {
+    fun getRemovedQuestions(): List<QuestionUiModel> {
         val newQuestions = _questions.value?.toMutableList()
         newQuestions?.let {
-            it.removeAll(it.filter { question -> question.isChecked })
-        }
-        return newQuestions?.toList() ?: emptyList()
+           it.removeAll(it.filter { question -> question.isChecked })
+        } ?: emptyList<QuestionUiModel>()
+        val removedQuestion= newQuestions ?: emptyList()
+        return removedQuestion
     }
 }

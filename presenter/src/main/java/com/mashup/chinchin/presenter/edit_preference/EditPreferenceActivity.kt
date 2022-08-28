@@ -2,6 +2,7 @@ package com.mashup.chinchin.presenter.edit_preference
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
@@ -14,43 +15,45 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mashup.chinchin.presenter.common.ChinChinQuestionCardState
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.ui.common.*
 
-//TODO 1,2문제때문에 Acitivity에 있는 viewModel을 스크린에 넣기가 어려움. 나중에 리뷰 받아서 수정
 class EditPreferenceActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            val passedExtras: Bundle? = intent.extras
-            checkNotNull(passedExtras)
-            var passedQuestion: ArrayList<QuestionUiModel>? =
-                passedExtras.getBundle(EXTRA_BUNDLE)?.getParcelableArrayList(EXTRA_QUESTIONS)
-            val editPreferenceViewModel: EditPreferenceViewModel = viewModel()
-            passedQuestion?.let {
-                editPreferenceViewModel.initializeQuestions(passedQuestion) //TODO 1.요기 초기화 부분이랑
+        val passedExtras: Bundle? = intent.extras
+        checkNotNull(passedExtras)
+        val passedQuestions: ArrayList<QuestionUiModel> =
+            passedExtras.getBundle(EXTRA_BUNDLE)?.getParcelableArrayList(EXTRA_QUESTIONS) ?: run {
+                Log.i(TAG, "onCreate: passedQuestion is null")
+                return
             }
-            val onSendResultDataAndFinishActivity: () -> Unit = {
+        val onSendResultDataAndFinishActivity: (List<QuestionUiModel>) -> Unit =
+            { removedQuestions ->
                 val resultData = Intent().apply {
-                    //TODO 2.데이터 읽어오는 부분
-                    val questionsArrayList = ArrayList(editPreferenceViewModel.getCheckedQuestionsToRemove())
+                    val removedQuestions = ArrayList(removedQuestions)
                     val bundle = Bundle()
-                    bundle.putParcelableArrayList(EXTRA_QUESTIONS, questionsArrayList)
+                    bundle.putParcelableArrayList(EXTRA_QUESTIONS, removedQuestions)
                     putExtra(EXTRA_BUNDLE, bundle)
                 }
                 setResult(RESULT_OK, resultData)
                 finish()
             }
+        setContent {
             EditPreferenceScreen(
+                passedQuestions = passedQuestions.toList(),
                 onSendResultDataAndFinishActivity = onSendResultDataAndFinishActivity,
-            ){
+            ) {
                 finish()
             }
         }
     }
     companion object {
+        const val TAG = "EditPreferenceActivity"
         const val EXTRA_QUESTIONS = "EXTRA_QUESTIONS"
         const val EXTRA_BUNDLE = "EXTRA_BUNDLE"
     }
@@ -58,18 +61,25 @@ class EditPreferenceActivity : ComponentActivity() {
 
 @Composable
 fun EditPreferenceScreen(
-    onSendResultDataAndFinishActivity:() -> Unit = {},
+    passedQuestions: List<QuestionUiModel>,
+    onSendResultDataAndFinishActivity: (List<QuestionUiModel>) -> Unit = {},
     onClickBackButton: () -> Unit = {},
 ) {
-    val editPreferenceViewModel: EditPreferenceViewModel = viewModel()
+    val editPreferenceViewModelFactory = object : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T =
+            EditPreferenceViewModel(passedQuestions) as T
+    }
+    val editPreferenceViewModel: EditPreferenceViewModel =
+        viewModel(factory = editPreferenceViewModelFactory)
     val questions = editPreferenceViewModel.questions.observeAsState().value ?: emptyList()
+
     val showDialog = remember { mutableStateOf(false) }
 
     if (showDialog.value) {
         NormalDialog(
             titleText = "질문지를 삭제할까요?",
             onClickSuccess = {
-                onSendResultDataAndFinishActivity()
+                onSendResultDataAndFinishActivity(editPreferenceViewModel.getRemovedQuestions())
             },
             onClickCancel = {
                 showDialog.value = false
