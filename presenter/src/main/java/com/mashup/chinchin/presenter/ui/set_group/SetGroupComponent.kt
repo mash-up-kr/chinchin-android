@@ -1,31 +1,13 @@
 package com.mashup.chinchin.presenter.ui.set_group
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
-import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -36,34 +18,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.mashup.chinchin.presenter.main.model.GroupInfoUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinGrayTextField
-import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
-import com.mashup.chinchin.presenter.ui.theme.Gray_300
-import com.mashup.chinchin.presenter.ui.theme.Gray_500
-import com.mashup.chinchin.presenter.ui.theme.Primary_2
-import com.mashup.chinchin.presenter.ui.theme.White
+import com.mashup.chinchin.presenter.ui.theme.*
 
-@Preview
-@Composable
-fun PreviewSetGroup() {
-    ChinchinTheme {
-        val groups = listOf("지정안함", "그룹1", "그룹2", "그룹3", "그룹4", "그룹5", "그룹6")
-
-        Column {
-            GroupRadioButtons(groups = groups)
-            NewGroupButton()
-        }
-    }
-}
 
 @Composable
 fun GroupRadioButtons(
-    selectedGroup: String = "",
-    onChangeState: (String) -> Unit = {},
-    groups: List<String> = emptyList()// TODO: Group data class 만들어서 변경해야함
+    selectedGroup: GroupInfoUiModel?,
+    onChangeState: (GroupInfoUiModel) -> Unit = {},
+    groups: List<GroupInfoUiModel> = emptyList(),
+    setShowDialog: (Boolean) -> Unit
 ) {
     // FIXME: 로직 추가시 상태값은 최상위에서 관리되도록 변경해야함.
-    val isSelectedItem: (String) -> Boolean = { selectedGroup == it }
+    val isSelectedItem: (GroupInfoUiModel) -> Boolean = { selectedGroup == it }
 
     LazyColumn {
         items(groups) { group ->
@@ -77,16 +45,16 @@ fun GroupRadioButtons(
             )
         }
         item {
-            NewGroupButton()
+            NewGroupButton(setShowDialog)
         }
     }
 }
 
 @Composable
 fun GroupRadioButton(
-    group: String,
-    isSelectedItem: (group: String) -> Boolean = { false },
-    onChangeState: (group: String) -> Unit = {}
+    group: GroupInfoUiModel,
+    isSelectedItem: (group: GroupInfoUiModel) -> Boolean = { false },
+    onChangeState: (group: GroupInfoUiModel) -> Unit = {}
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -108,7 +76,7 @@ fun GroupRadioButton(
             )
         )
         Text(
-            text = group,
+            text = group.groupName,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 12.dp)
@@ -117,8 +85,7 @@ fun GroupRadioButton(
 }
 
 @Composable
-fun NewGroupButton() {
-    val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
+fun NewGroupButton(setShowDialog: (Boolean) -> Unit) {
 
     Column {
         Box(
@@ -145,13 +112,16 @@ fun NewGroupButton() {
                 .padding(horizontal = 24.dp)
         )
 
-        AddGroupDialog(showDialog, setShowDialog)
     }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun AddGroupDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
+fun AddGroupDialog(
+    showDialog: Boolean,
+    setShowDialog: (Boolean) -> Unit,
+    addGroup: (String) -> Unit = {}
+) {
     if (showDialog) {
         Dialog(
             onDismissRequest = {},
@@ -166,14 +136,14 @@ fun AddGroupDialog(showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
                 color = White,
                 shape = RoundedCornerShape(8.dp)
             ) {
-                AddGroupDialogContent(setShowDialog)
+                AddGroupDialogContent(setShowDialog, addGroup)
             }
         }
     }
 }
 
 @Composable
-fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit = {}) {
+fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: (String) -> Unit = {}) {
     var groupName by remember { mutableStateOf("") }
 
     Column(
@@ -226,7 +196,7 @@ fun AddGroupDialogContent(setShowDialog: (Boolean) -> Unit, addGroup: () -> Unit
             Button(
                 onClick = {
                     setShowDialog(false)
-                    addGroup() // TODO: 그룹 추가하기~!!!!
+                    addGroup(groupName)
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = White),
                 modifier = Modifier
