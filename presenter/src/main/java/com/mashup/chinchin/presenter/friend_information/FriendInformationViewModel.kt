@@ -27,9 +27,10 @@ class FriendInformationViewModel @Inject constructor(
         savedStateHandle.get<FriendProfileType>(FriendInformationActivity.EXTRA_PROFILE_TYPE)
             ?: FriendProfileType.ADD
 
-    // 신규 친구 추가 시 친구
-    val newFriend = savedStateHandle.get<FriendUiModel>(FriendInformationActivity.NEW_FRIEND)
+    // 친구 정보가 일부 있거나, 친구를 수정할 때
+    val friend = savedStateHandle.get<FriendUiModel>(FriendInformationActivity.EXTRA_FRIEND)
 
+    // api 결과로 받아오는 friendId
     val friendId = MutableLiveData<Long>()
 
     fun addFriend(friend: FriendUiModel) {

@@ -25,12 +25,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
+import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_FRIEND
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_PROFILE_TYPE
 import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
-import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
-import com.mashup.chinchin.presenter.common.model.FriendUiModel
-import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
@@ -47,7 +47,7 @@ class FriendDetailActivity : ComponentActivity() {
 
         setContent {
             ChinchinTheme {
-                FriendDetailScreen{
+                FriendDetailScreen {
                     finish()
                 }
             }
@@ -80,7 +80,7 @@ fun FriendDetailScreen(
     val currentDestination = FriendDetailNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
     // viewModel data
-    val friendProfile = viewModel.friendProfile.observeAsState().value
+    val friendProfile = viewModel.friendProfile.observeAsState().value ?: return
 
     // screen data
     val screens = listOf(
@@ -113,8 +113,8 @@ fun FriendDetailScreen(
         Column {
             FriendDetailNavGraph(
                 navController = naveController,
-                friendAnswers = friendProfile?.friendAnswers ?: emptyList(),
-                myAnswers = friendProfile?.myAnswers ?: emptyList(),
+                friendAnswers = friendProfile.friendAnswers,
+                myAnswers = friendProfile.myAnswers,
                 isSavedTempQuestions = isSavedTempQuestions
             )
         }
@@ -130,7 +130,9 @@ fun FriendDetailScreen(
                 onProfileClick = {
                     val intent = Intent(context, FriendInformationActivity::class.java).apply {
                         putExtra(EXTRA_PROFILE_TYPE, FriendProfileType.UPDATE)
+                        putExtra(EXTRA_FRIEND, friendProfile.profile.toFriendUiModel())
                     }
+                    finishActivity()
                     context.startActivity(intent)
                 },
                 onButtonClick = {
@@ -139,7 +141,7 @@ fun FriendDetailScreen(
                     }
                     context.startActivity(intent)
                 },
-                friendUiModel = friendProfile?.profile?.toFriendUiModel() ?: FriendUiModel()
+                profileUiModel = friendProfile.profile
             )
             FriendDetailNavBar(
                 screens = screens,
@@ -150,7 +152,7 @@ fun FriendDetailScreen(
                     launchSingleTop = true
                 }
             }
-            QuestionSizeText(friendProfile?.friendAnswers?.size ?: 0)
+            QuestionSizeText(friendProfile.friendAnswers.size)
         }
     }
     ChinChinToolbar(title = "") {

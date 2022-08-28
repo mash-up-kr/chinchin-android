@@ -30,7 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
-import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.NEW_FRIEND
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_FRIEND
 import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity
 import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.FRIEND
 import com.mashup.chinchin.presenter.main.home.HomeViewModel
@@ -127,7 +127,7 @@ fun MainScreen(
                 "친구 추가할까요?", listOf(
                     BottomSheetItemUiModel("신규 친구 추가하기", R.drawable.icon_user_more1) {
                         context.startActivity(Intent(context, FriendInformationActivity::class.java)
-                            .putExtra(NEW_FRIEND, selectedFriend.value)
+                            .putExtra(EXTRA_FRIEND, selectedFriend.value)
                         )
                     },
                     BottomSheetItemUiModel("기존 친구에 연결하기", R.drawable.icon_connect) {

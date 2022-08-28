@@ -2,6 +2,7 @@ package com.mashup.chinchin.presenter.friend_information
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -42,7 +43,7 @@ class FriendInformationActivity : ComponentActivity() {
 
     companion object {
         const val EXTRA_PROFILE_TYPE = "EXTRA_PROFILE_TYPE"
-        const val NEW_FRIEND = "NEW_FRIEND"
+        const val EXTRA_FRIEND = "FRIEND"
     }
 }
 
@@ -61,13 +62,16 @@ fun FriendInformationScreen(
     val viewModel: FriendInformationViewModel = hiltViewModel()
 
     // compose state
-    var friendName by rememberSaveable { mutableStateOf(viewModel.newFriend?.name ?: "") }
-    var birthday by rememberSaveable { mutableStateOf("") }
-    var selectedGroup: GroupInfoUiModel? by remember {
-        mutableStateOf(null)
-    }
+    var friendName by rememberSaveable { mutableStateOf(viewModel.friend?.name ?: "") }
+    var birthday by rememberSaveable { mutableStateOf(viewModel.friend?.birthday ?: "") }
+    var groupName by rememberSaveable { mutableStateOf(viewModel.friend?.groupName ?: "") }
+    var selectedGroupId by rememberSaveable { mutableStateOf(viewModel.friend?.groupId) }
+//    var selectedGroup: GroupInfoUiModel? by remember {
+//        mutableStateOf(null)
+//    }
     val isEnable =
-        friendName.isNotEmpty() && birthday.isNotEmpty() && selectedGroup?.groupName?.isNotEmpty() == true
+        friendName.isNotEmpty() && birthday.isNotEmpty() && selectedGroupId != null
+    // 저장완료된 친구 id
     val friendId = viewModel.friendId.observeAsState()
 
     StatusBarColor()
@@ -94,8 +98,11 @@ fun FriendInformationScreen(
                     onNameValueChanged = { friendName = it },
                     birthday = birthday,
                     onBirthValueChanged = { birthday = it },
-                    groupName = selectedGroup?.groupName ?: "",
-                    onGroupValueChanged = { selectedGroup = it },
+                    groupName = groupName,
+                    onGroupValueChanged = {
+                        selectedGroupId = it.groupId
+                        groupName = it.groupName
+                    },
                 )
             }
 
@@ -107,8 +114,8 @@ fun FriendInformationScreen(
                     val friend = FriendUiModel(
                         name = friendName,
                         birthday = birthday,
-                        groupName = selectedGroup?.groupName ?: "",
-                        groupId = selectedGroup?.groupId,
+                        groupName = groupName,
+                        groupId = selectedGroupId,
                     )
                     when (viewModel.profileType) {
                         FriendProfileType.ADD -> viewModel.addFriend(friend)
