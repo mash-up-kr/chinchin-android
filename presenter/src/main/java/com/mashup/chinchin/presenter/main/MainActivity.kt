@@ -250,6 +250,7 @@ fun RecommendFriendsScreen(
     onClickMore: () -> Unit,
 ) {
     val viewModel: RecommendFriendsViewModel = hiltViewModel()
+    viewModel.getRecommendedFriends()
 
     Column(
         modifier = Modifier

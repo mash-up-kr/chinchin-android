@@ -24,11 +24,14 @@ class RecommendFriendsViewModel @Inject constructor(
     val loginKakao: LiveData<Unit>
         get() = _loginKakao
 
-    private fun getRecommendedFriends() {
+    fun getRecommendedFriends() {
         invalidKakaoToken()
 
         viewModelScope.launch {
-            getRecommendedFriendsUseCase()
+            val result = getRecommendedFriendsUseCase()
+            for (i in result) {
+                Log.d("good", i.profileNickname?: "good")
+            }
         }
     }
 

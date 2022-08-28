@@ -21,7 +21,7 @@ interface ChinChinService {
         @Body createNewGroupRequestBody: CreateNewGroupRequestBody,
     ): CreateNewGroupResponseBody
 
-    @GET("/members/recommended-friends")
+    @POST("/get/members/recommended-friends")
     suspend fun getRecommendedFriends(
         @Body recommendedFriendRequestBody: RecommendedFriendRequestBody
     ): List<RecommendedFriendResponseBody>
