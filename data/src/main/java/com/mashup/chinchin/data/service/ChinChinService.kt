@@ -25,7 +25,7 @@ interface ChinChinService {
     @GET("/questionnaire/{questionnaire_id}")
     suspend fun getQuestionnaire(
         @Path("questionnaire_id") questionnaireId: Long,
-        @Query("aspect") aspect: String
+        @Query("aspect") aspect: String,
     ): List<GetQuestionnaireResponse>
 
     /**
@@ -34,7 +34,7 @@ interface ChinChinService {
     @PUT("/questionnaire/{questionnaire_id}")
     suspend fun sendReplyQuestionnaire(
         @Path("questionnaire_id") questionnaireId: Long,
-        @Body sendReplyQuestionnaireRequestBody: List<SendReplyQuestionnaireRequestBody>
+        @Body sendReplyQuestionnaireRequestBody: List<SendReplyQuestionnaireRequestBody>,
     ): SendReplyQuestionnaireResponseBody
 
     /**
@@ -42,7 +42,7 @@ interface ChinChinService {
      */
     @GET("/questionnaire/profile/{friendId}")
     suspend fun getFriendProfile(
-        @Path("friendId") friendId: Long
+        @Path("friendId") friendId: Long,
     ): GetFriendProfileResponseBody
 
     /**
@@ -50,6 +50,12 @@ interface ChinChinService {
      */
     @POST("/questionnaire")
     suspend fun sendQuestionnaire(
-        @Body sendQuestionnaireRequest: SendQuestionnaireRequestBody
+        @Body sendQuestionnaireRequest: SendQuestionnaireRequestBody,
     ): SendQuestionnaireResponseBody
+
+    /**
+     * alarm
+     * */
+    @GET("/alerts/existence")
+    suspend fun isAlarmExist(): IsAlarmResponseBody
 }

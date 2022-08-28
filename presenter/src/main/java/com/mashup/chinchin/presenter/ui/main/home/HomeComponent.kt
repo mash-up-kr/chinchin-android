@@ -69,6 +69,7 @@ fun HomePreview() {
 @Composable
 fun HomeHeader(
     onButtonClick: () -> Unit = {},
+    isAlarmExist: Boolean = false,
     onBellClick: () -> Unit = {},
     onAddGroupClick: (Boolean) -> Unit = {},
     groups: List<GroupInfoUiModel> = emptyList(),
@@ -85,7 +86,6 @@ fun HomeHeader(
                 modifier = Modifier.padding(top = 16.dp),
             )
 
-            //TODO BOX 점 알림 있을 때만 보이도록 수정해야함?
             Box {
                 IconButton(
                     onClick = { },
@@ -99,13 +99,16 @@ fun HomeHeader(
                         contentDescription = "",
                     )
                 }
-                Canvas(modifier = Modifier
-                    .size(9.dp)
-                    .align(Alignment.TopEnd),
-                    onDraw = {
-                        drawCircle(color = Primary_2)
-                    },
-                )
+                if (isAlarmExist) {
+                    Canvas(
+                        modifier = Modifier
+                            .size(9.dp)
+                            .align(Alignment.TopEnd),
+                        onDraw = {
+                            drawCircle(color = Primary_2)
+                        },
+                    )
+                }
             }
         }
 

@@ -178,6 +178,7 @@ fun MainScreen(
 fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
     val viewModel: HomeViewModel = hiltViewModel()
     viewModel.getGroups()
+    viewModel.checkAlarmExist()
 
     val context = LocalContext.current
     val groups = viewModel.groups.observeAsState().value ?: FriendGroupUiModel(emptyList())
@@ -202,7 +203,8 @@ fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
                     )
                 )
             },
-            groups = groups.groups
+            groups = groups.groups,
+            isAlarmExist = viewModel.isExistAlarm.observeAsState().value ?: false
         )
         HomeBody(groups = groups.groups)
         AddGroupDialog(
