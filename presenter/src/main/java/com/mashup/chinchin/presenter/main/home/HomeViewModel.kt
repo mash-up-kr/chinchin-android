@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mashup.chinchin.domain.model.Groups
 import com.mashup.chinchin.domain.usecase.CreateNewGroupUseCase
 import com.mashup.chinchin.domain.usecase.GetGroupsUseCase
 import com.mashup.chinchin.domain.usecase.IsAlarmExistUseCase
