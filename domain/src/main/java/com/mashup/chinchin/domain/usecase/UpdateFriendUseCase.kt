@@ -11,6 +11,7 @@ class UpdateFriendUseCase @Inject constructor(
     }
 }
 
+// TODO: 더 좋은 방법이 있는지 강구할 필요가 있다..!
 data class UpdateFriendParams(
     val name: String,
     val dateOfBirth: String,

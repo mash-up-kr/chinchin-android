@@ -24,5 +24,7 @@ fun Friend.toUiModel(): FriendUiModel {
         id = id,
         name = name,
         profileUrl = thumbnailImageUrl,
+        birthday = null,
+        group = null
     )
 }
