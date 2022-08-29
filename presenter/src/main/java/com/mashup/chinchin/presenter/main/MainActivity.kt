@@ -26,17 +26,17 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.NEW_FRIEND
-import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_FRIEND
 import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity
 import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.FRIEND
 import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity
-import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.main.MainNavBar
 import com.mashup.chinchin.presenter.ui.main.MainNavGraph
 import com.mashup.chinchin.presenter.ui.main.MainNavScreen
@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
 
     private fun initRecommendFriends(): List<FriendUiModel> {
         return List(25) {
-            FriendUiModel(0, "안경무 $it", "https://picsum.photos/200")
+            FriendUiModel(0, "안경무 $it", "https://picsum.photos/200", null) // 수정 후 삭제 부탁합니다.
         }
     }
 }
@@ -80,22 +80,26 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(
     screens: List<MainNavScreen> = MainNavScreen.values().toList(),
     recommendFriends: List<FriendUiModel> = listOf(),
-    groups: List<FriendGroupUiModel> = listOf(),
 ) {
+
+    // basic state
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    // bottom nav controller state
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
-    val selectedFriend = remember { mutableStateOf(FriendUiModel(0, "", "")) }
+    // state
+    val selectedFriend: MutableState<FriendUiModel?> = remember { mutableStateOf(null) }
     val onSelectFriend: (friend: FriendUiModel) -> Unit = { friend ->
         selectedFriend.value = friend
     }
-    val coroutineScope = rememberCoroutineScope()
 
+    // bottom sheet state
     val modalBottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-
     val showBottomSheet: () -> Unit = {
         coroutineScope.launch {
             modalBottomSheetState.show()
@@ -122,8 +126,8 @@ fun MainScreen(
             BottomSheetContent(
                 "친구 추가할까요?", listOf(
                     BottomSheetItemUiModel("신규 친구 추가하기", R.drawable.icon_user_more1) {
-                        context.startActivity(Intent(context, AddFriendActivity::class.java)
-                            .putExtra(NEW_FRIEND, selectedFriend.value)
+                        context.startActivity(Intent(context, FriendInformationActivity::class.java)
+                            .putExtra(EXTRA_FRIEND, selectedFriend.value)
                         )
                     },
                     BottomSheetItemUiModel("기존 친구에 연결하기", R.drawable.icon_connect) {
@@ -177,7 +181,7 @@ fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
                 context.startActivity(
                     Intent(
                         context,
-                        AddFriendActivity::class.java
+                        FriendInformationActivity::class.java
                     )
                 )
             },

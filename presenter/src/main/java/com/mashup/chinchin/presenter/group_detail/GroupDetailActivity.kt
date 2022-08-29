@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.EXTRA_FRIEND_ID
 import com.mashup.chinchin.presenter.group_detail.GroupDetailActivity.Companion.TAG
@@ -35,6 +35,7 @@ class GroupDetailActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             ChinchinTheme {
                 GroupDetailScreen {
@@ -99,7 +100,7 @@ fun GroupDetailScreen(
                 icon = R.drawable.icon_user_more1,
                 buttonText = "친구 추가",
                 onButtonClick = {
-                    val intent = Intent(context, AddFriendActivity::class.java).apply {
+                    val intent = Intent(context, FriendInformationActivity::class.java).apply {
                         // TODO: 그룹 이름 넘기기
                     }
                     context.startActivity(intent)

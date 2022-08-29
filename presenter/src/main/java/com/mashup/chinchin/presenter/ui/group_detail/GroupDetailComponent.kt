@@ -55,7 +55,7 @@ fun GroupDetailItemPreview() {
             .fillMaxWidth()
             .height(78.dp)
             .padding(horizontal = 24.dp),
-        friend = FriendUiModel(0, "김매쉬", ""),
+        friend = null,
         onClickCard = {}
     )
 }

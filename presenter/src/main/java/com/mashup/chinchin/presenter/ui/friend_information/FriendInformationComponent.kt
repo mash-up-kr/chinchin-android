@@ -1,4 +1,4 @@
-package com.mashup.chinchin.presenter.ui.add_friend
+package com.mashup.chinchin.presenter.ui.friend_information
 
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -7,28 +7,24 @@ import android.widget.DatePicker
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
+import com.mashup.chinchin.presenter.main.model.GroupInfoUiModel
 import com.mashup.chinchin.presenter.set_group.SetGroupActivity
-import com.mashup.chinchin.presenter.set_group.SetGroupActivity.Companion.EXTRA_GROUP_NAME
+import com.mashup.chinchin.presenter.set_group.SetGroupActivity.Companion.EXTRA_GROUP
 import com.mashup.chinchin.presenter.ui.common.ChinChinGrayTextField
 import com.mashup.chinchin.presenter.ui.common.ChinChinTitleAndTextFieldButton
 import com.mashup.chinchin.presenter.ui.theme.*
 import java.util.*
 
 @Composable
-fun AddFriendTitles() {
+fun FriendInformationTitles() {
     Column {
         Text(
             text = "친구의 인적사항 및 그룹을 지정해주세요",
@@ -46,13 +42,13 @@ fun AddFriendTitles() {
 }
 
 @Composable
-fun AddFriendContents(
+fun FriendInformationContents(
     friendName: String,
     birthday: String,
     groupName: String,
     onNameValueChanged: (String) -> Unit,
     onBirthValueChanged: (String) -> Unit,
-    onGroupValueChanged: (String) -> Unit,
+    onGroupValueChanged: (GroupInfoUiModel) -> Unit,
 ) {
     val context = LocalContext.current
     val dialog = BirthdayDatePickerDialog(
@@ -66,7 +62,7 @@ fun AddFriendContents(
                 return@rememberLauncherForActivityResult
             }
             //GET TEXT ARRAY FROM VOICE INTENT
-            val result = it.data?.getStringExtra(EXTRA_GROUP_NAME)
+            val result = it.data?.getParcelableExtra<GroupInfoUiModel>(EXTRA_GROUP)
 
             if (result != null) {
                 onGroupValueChanged(result)

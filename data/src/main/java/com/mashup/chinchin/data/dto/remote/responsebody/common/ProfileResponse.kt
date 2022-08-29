@@ -21,7 +21,8 @@ data class ProfileResponse(
             dateOfBirth = dateOfBirth,
             isMember = isMember,
             thumbnailImageUrl = thumbnailImageUrl,
-            kakaoId = kakaoId
+            kakaoId = kakaoId,
+            groupName = "" // FIXME 은정이가 추가해줄예정
         )
     }
 }

@@ -2,10 +2,12 @@ package com.mashup.chinchin.presenter.friend_detail.model
 
 import com.mashup.chinchin.domain.model.Profile
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.common.model.GroupUiModel
 
 data class ProfileUiModel(
     val id: Long,
     val groupId: Long,
+    val groupName: String,
     val name: String,
     val dateOfBirth: String,
     val isMember: Boolean,
@@ -15,10 +17,13 @@ data class ProfileUiModel(
     fun toFriendUiModel(): FriendUiModel {
         return FriendUiModel(
             id = id,
-            groupName = groupId.toString(), // FIXME: GroupName으로 변경될 예정입니다.
+            group = GroupUiModel(
+                groupId = groupId,
+                groupName = groupName
+            ),
             name = name,
             birthday = dateOfBirth,
-            profileUrl = thumbnailImageUrl
+            profileUrl = thumbnailImageUrl,
         )
     }
 
@@ -31,7 +36,8 @@ data class ProfileUiModel(
                     name = name,
                     dateOfBirth = dateOfBirth,
                     isMember = isMember,
-                    thumbnailImageUrl = thumbnailImageUrl
+                    thumbnailImageUrl = thumbnailImageUrl,
+                    groupName = groupName
                 )
             }
         }

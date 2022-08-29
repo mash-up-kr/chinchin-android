@@ -217,7 +217,7 @@ fun FriendGroupCard(
                 .fillMaxWidth()
         ) {
             FriendGroupCardTitle(groupInfo.groupName)
-            NumberOfFriends(groupInfo.thumbnailImageUrls.size)
+            NumberOfFriends(groupInfo.groupMemberCount)
             FriendProfileThumbnailList(groupInfo.thumbnailImageUrls)
         }
     }

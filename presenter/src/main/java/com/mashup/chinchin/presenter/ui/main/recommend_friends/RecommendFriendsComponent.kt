@@ -163,7 +163,7 @@ fun RecommendFriendItem(
 
 @Composable
 fun RecommendFriendInfo(
-    recommendFriend: FriendUiModel,
+    recommendFriend: FriendUiModel?,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -171,7 +171,7 @@ fun RecommendFriendInfo(
         modifier = modifier,
     ) {
         AsyncImage(
-            model = recommendFriend.profileUrl,
+            model = recommendFriend?.profileUrl,
             contentDescription = "",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -180,7 +180,7 @@ fun RecommendFriendInfo(
         )
 
         Text(
-            text = recommendFriend.name,
+            text = recommendFriend?.name ?: "",
             fontSize = 14.sp,
             modifier = Modifier.padding(start = 12.dp),
         )
