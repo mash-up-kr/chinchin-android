@@ -137,7 +137,7 @@ fun EditPreferenceQuestionList(
             contentPadding = PaddingValues(
                 top = 16.dp,
                 bottom = 16.dp
-            ), //TODO lazyColumn bottomPadding 규격 정해지면 변경 해야함
+            ),
             modifier = Modifier.weight(1f)
         ) {
             itemsIndexed(questions) { index, question ->
