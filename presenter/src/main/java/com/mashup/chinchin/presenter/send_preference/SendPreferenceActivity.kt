@@ -28,16 +28,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.CategoryUiModel
-import com.mashup.chinchin.presenter.common.model.KeywordQuestionUiModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.edit_preference.EditPreferenceActivity
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_BUNDLE
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_QUESTIONS
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.ImageDialog
+import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
-import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.send_questions.QuestionCategoryList
 import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionList
 import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionTitle
@@ -121,10 +120,6 @@ fun SendPreferenceScreen(
         sheetContent = {
             BottomSheetContent(
                 "다음 단계를 선택해주세요", listOf(
-                    BottomSheetItemUiModel("임시 저장하고 나가기", R.drawable.ic_exit) {
-                        closeBottomSheet()
-                        setShowSaveDialog(true)
-                    },
                     BottomSheetItemUiModel("친구에게 질문 보내기", R.drawable.ic_send) {
                         closeBottomSheet()
                         setShowSendDialog(true)
@@ -233,7 +228,7 @@ fun CreateQuestionSheetScreen(
         ChinChinToolbar(
             title = "취향 질문 보내기",
             isActiveConfirmButton = true,
-            isAbleConfirmButton = true, //TODO 활성화 기준 정해야함
+            isAbleConfirmButton = questions.isNotEmpty(),
             onConfirmButtonClick = onConfirmButtonClick
         ) {
             onBackButtonClick()
