@@ -27,6 +27,11 @@ interface ChinChinService {
         @Path("groupId") groupId: Long,
     ): GetFriendsInGroupResponseBody
 
+    /**
+     * 모든 친구들을 조회합니다.
+     */
+    @GET("/friend")
+    suspend fun getFriends(): GetFriendsResponseBody
 
     /**
      * 질문지를 조회합니다.
