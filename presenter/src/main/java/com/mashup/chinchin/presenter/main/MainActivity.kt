@@ -233,7 +233,8 @@ fun RecommendFriendsScreen(
 ) {
     val viewModel: RecommendFriendsViewModel = hiltViewModel()
     viewModel.initAgreedKakaoFriendsPermission()
-    viewModel.getRecommendedFriends(LocalContext.current)
+    val context = LocalContext.current
+    viewModel.getRecommendedFriends()
 
     val recommendFriends = viewModel.recommendFriends.observeAsState().value ?: emptyList()
 
@@ -248,7 +249,9 @@ fun RecommendFriendsScreen(
         val isAgreedKakaoPermission = viewModel.isAgreedKakaoFriendsPermission.observeAsState().value ?: false
 
         if (isAgreedKakaoPermission.not()) {
-            RecommendFriendsPermissionBody()
+            RecommendFriendsPermissionBody(
+                onButtonClick = { viewModel.checkKakaoFriendsPermission(context) }
+            )
         } else {
             if (recommendFriends.isEmpty()) {
                 RecommendFriendsEmptyBody()

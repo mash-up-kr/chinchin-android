@@ -24,6 +24,8 @@ class LoginRepositoryImpl @Inject constructor(
         return localLoginDataSource.getKakaoAccessToken()
     }
 
+    /* TODO: 과연 refreshToken을 저장하는게 의미가 있는 행위일지 다시 생각해보자.
+    *   kakaoSDK가 토큰을 관리해주고 있다. */
     override fun saveKakaoRefreshToken(refreshToken: String) {
         localLoginDataSource.saveKakaoRefreshToken(refreshToken)
     }

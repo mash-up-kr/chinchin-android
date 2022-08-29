@@ -44,7 +44,7 @@ fun RecommendFriendsHeader(recommendFriendCount: Int) {
 }
 
 @Composable
-fun RecommendFriendsPermissionBody() {
+fun RecommendFriendsPermissionBody(onButtonClick: () -> Unit) {
     Box {
         Column(
             modifier = Modifier
@@ -79,7 +79,7 @@ fun RecommendFriendsPermissionBody() {
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.Bottom
         ) {
-            RequestPermissionButton()
+            RequestPermissionButton(onButtonClick = onButtonClick)
         }
     }
 }
@@ -91,7 +91,7 @@ fun RequestPermissionButton(onButtonClick: () -> Unit = {}) {
         isEnable = true,
         buttonText = "권한 동의하고 친구 찾기"
     ) {
-        onButtonClick
+        onButtonClick()
     }
 }
 

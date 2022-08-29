@@ -43,12 +43,14 @@ class RecommendFriendsViewModel @Inject constructor(
         _isAgreedKakaoFriendsPermission.value = getKakaoFriendsPermissionUseCase()
     }
 
-    fun getRecommendedFriends(context: Context) {
+    fun getRecommendedFriends() {
         invalidKakaoToken()
 
-        /* TODO: 권한 동의가 안됐다면 권한 동의 페이지로,
-        *   권한 동의가 되어있다면 추천 친구 불러오는 함수 실행 */
-        checkKakaoFriendsPermission(context)
+        if (_isAgreedKakaoFriendsPermission.value == true) {
+            viewModelScope.launch {
+                _recommendFriends.value = getRecommendedFriendsUseCase().map { it.toUiModel() }
+            }
+        }
     }
 
     /** 현재 accessToken이 만료되고 refresh 토큰이 살아있다면 갱신한다.
@@ -72,7 +74,7 @@ class RecommendFriendsViewModel @Inject constructor(
     /**
      * 카카오에 친구목록 불러오는 권한 있는지 체크하는 함수
      * */
-    private fun checkKakaoFriendsPermission(context: Context) {
+    fun checkKakaoFriendsPermission(context: Context) {
         val scopes = mutableListOf(KAKAO_FRIENDS_PERMISSION_ID)
 
         UserApiClient.instance.scopes(scopes) { scopeInfo, error->
@@ -85,18 +87,19 @@ class RecommendFriendsViewModel @Inject constructor(
                     scopeInfo.scopes?.get(0)?.id == KAKAO_FRIENDS_PERMISSION_ID &&
                     scopeInfo.scopes?.get(0)?.agreed == true
                 ) {
-                    setKakaoFriendsPermissionUseCase(true)
-                    _isAgreedKakaoFriendsPermission.value = true
-                    viewModelScope.launch {
-                        _recommendFriends.value = getRecommendedFriendsUseCase().map { it.toUiModel() }
-                    }
+                    setAgreeKakaoFriendsPermission(true)
+                    getRecommendedFriends()
                 } else {
-                    setKakaoFriendsPermissionUseCase(false)
-                    _isAgreedKakaoFriendsPermission.value = false
+                    setAgreeKakaoFriendsPermission(false)
                     requestGetKakaoFriendsPermission(context)
                 }
             }
         }
+    }
+
+    private fun setAgreeKakaoFriendsPermission(isAgree: Boolean) {
+        setKakaoFriendsPermissionUseCase(isAgree)
+        _isAgreedKakaoFriendsPermission.value = isAgree
     }
 
     /* TODO: 삭제 예정 코드
@@ -113,14 +116,14 @@ class RecommendFriendsViewModel @Inject constructor(
         }
     }
 
+    /* TODO: context 관련 정리하자 */
     /** kakao에 친구목록 불러오는 권한 요청 */
     private fun requestGetKakaoFriendsPermission(context: Context) {
         UserApiClient.instance.me { user, error ->
             if (error != null) {
                 Log.e(TAG, "사용자 정보 요청 실패", error)
-            }
-            else if (user != null) {
-                val scopes = mutableListOf<String>(KAKAO_FRIENDS_PERMISSION_ID)
+            } else if (user != null) {
+                val scopes = mutableListOf(KAKAO_FRIENDS_PERMISSION_ID)
 
                 if (scopes.isNotEmpty()) {
                     Log.d(TAG, "사용자에게 추가 동의를 받아야 합니다.")
@@ -131,13 +134,15 @@ class RecommendFriendsViewModel @Inject constructor(
                             Log.e(TAG, "사용자 추가 동의 실패", error)
                         } else {
                             Log.d(TAG, "allowed scopes: ${token!!.scopes}")
+                            if (token.scopes?.contains("friends") == true) {
+                                setAgreeKakaoFriendsPermission(true)
+                            }
 
                             // 사용자 정보 재요청
                             UserApiClient.instance.me { user, error ->
                                 if (error != null) {
                                     Log.e(TAG, "사용자 정보 요청 실패", error)
-                                }
-                                else if (user != null) {
+                                } else if (user != null) {
                                     Log.i(TAG, "사용자 정보 요청 성공")
                                 }
                             }
