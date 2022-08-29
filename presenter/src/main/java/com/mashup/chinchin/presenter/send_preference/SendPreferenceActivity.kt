@@ -199,10 +199,8 @@ fun CreateQuestionSheetScreen(
     categoryList: List<CategoryUiModel>,
     onBackButtonClick: () -> Unit = {},
 ) {
-    //TODO 아래 주석 코드가 동작안됨 확인필요!! 도와주세요~
-    //val questions by sendPreferenceViewModel._questionsLiveData.observeAsState()
     val sendPreferenceViewModel: SendPreferenceViewModel = viewModel()
-    val questions = sendPreferenceViewModel.questions
+    val questions = sendPreferenceViewModel.questions.observeAsState().value ?: emptyList()
     val startForResult =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -211,12 +209,12 @@ fun CreateQuestionSheetScreen(
                 val questions = passedExtras.getBundle(EXTRA_BUNDLE)
                     ?.getParcelableArrayList<QuestionUiModel>(EXTRA_QUESTIONS)
                 questions?.let {
-                    sendPreferenceViewModel.changeQuestions(questions.toList())
+                    sendPreferenceViewModel.changeQuestions(questions)
                 }
             }
         }
     val context = LocalContext.current
-    val questionsArrayList = ArrayList(questions.toList())
+    val questionsArrayList = ArrayList(questions)
 
     val onClickEditButton: () -> Unit = {
         Intent(context, EditPreferenceActivity::class.java).apply {

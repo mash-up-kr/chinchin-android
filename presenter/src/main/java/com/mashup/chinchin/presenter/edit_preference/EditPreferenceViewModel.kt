@@ -1,31 +1,44 @@
 package com.mashup.chinchin.presenter.edit_preference
 
-import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 
-class EditPreferenceViewModel : ViewModel() {
-    //TODO 라이브 데이터로 변경해야함
-    val questions = mutableStateListOf<QuestionUiModel>()
+class EditPreferenceViewModel(questions: List<QuestionUiModel>) : ViewModel() {
 
-    fun initializeQuestions( _questions :List<QuestionUiModel>){
-        questions.clear()
-        questions.addAll(_questions)
+    private val _questions = MutableLiveData<List<QuestionUiModel>>(emptyList())
+    val questions: LiveData<List<QuestionUiModel>>
+        get() = _questions
+
+    init {
+        _questions.value = questions
     }
 
-    fun updateCheckedState(index: Int){
-        val toggleCheckedState = !questions[index].isChecked
-        questions[index] = questions[index].copy(isChecked = toggleCheckedState)
+    fun updateCheckedState(index: Int) {
+        val newQuestions = _questions.value?.toMutableList()
+        newQuestions?.let {
+            val toggleCheckedState = !it[index].isChecked
+            it[index] = it[index].copy(isChecked = toggleCheckedState)
+        }
+        _questions.value = newQuestions
     }
 
     fun getCheckedCardCount(): Int {
-        return questions.filter{it.isChecked}.size
+        val newQuestions = _questions.value?.toMutableList()
+        val checkedCount = newQuestions?.filter { question -> question.isChecked }?.size ?: 0
+        return checkedCount
     }
 
     fun isEmptyCheckedCard(): Boolean =
         getCheckedCardCount() == 0
 
-    fun removeCheckedQuestions(){
-        questions.removeAll(questions.filter{it.isChecked})
+    fun getRemovedQuestions(): List<QuestionUiModel> {
+        val newQuestions = _questions.value?.toMutableList()
+        newQuestions?.let {
+           it.removeAll(it.filter { question -> question.isChecked })
+        } ?: emptyList<QuestionUiModel>()
+        val removedQuestion= newQuestions ?: emptyList()
+        return removedQuestion
     }
 }
