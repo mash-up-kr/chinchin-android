@@ -1,6 +1,7 @@
 package com.mashup.chinchin.domain.repository
 
 import com.mashup.chinchin.domain.model.Question
+import com.mashup.chinchin.domain.model.ReplyQuestionnaire
 
 interface QuestionnaireRepository {
     /**
@@ -14,7 +15,7 @@ interface QuestionnaireRepository {
     suspend fun getQuestionnaire(
         questionnaireId: Long,
         aspect: String
-    ): List<Question>
+    ): ReplyQuestionnaire
 
     /**
      * 답변을 완료합니다.

@@ -2,7 +2,6 @@ package com.mashup.chinchin.presenter.reply_preference
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -37,7 +36,7 @@ class ReplyPreferenceActivity : ComponentActivity() {
 
         setContent {
             ChinchinTheme {
-                ReplyPreferenceScreen() {
+                ReplyPreferenceScreen {
                     finish()
                 }
             }
@@ -47,13 +46,18 @@ class ReplyPreferenceActivity : ComponentActivity() {
 
 @Composable
 fun ReplyPreferenceScreen(
-    userName: String = "영은",
     onBackButtonClick: () -> Unit = {},
 ) {
+    // basic state
     val context = LocalContext.current
     val viewModel: ReplyPreferenceViewModel = hiltViewModel()
+
+    // viewModel state
+    val friendName = viewModel.fromFriendName.observeAsState().value
     val questionnaire = viewModel.questionnaire.observeAsState().value
     val isSendSuccess = viewModel.isSendSuccess.observeAsState().value
+
+    // dialog state
     val (showSendDialog, setShowSendDialog) = remember { mutableStateOf(false) }
     val (showCancelDialog, setShowCancelDialog) = remember { mutableStateOf(false) }
 
@@ -77,7 +81,9 @@ fun ReplyPreferenceScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-            ReplyPreferenceTitle(userName)
+            friendName?.let {
+                ReplyPreferenceTitle(friendName)
+            }
             Text(
                 text = "친구가 쓴 예상답변을 눌러서 수정해보세요",
                 color = Gray_600,

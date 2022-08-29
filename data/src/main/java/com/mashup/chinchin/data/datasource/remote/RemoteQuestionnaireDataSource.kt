@@ -14,7 +14,7 @@ class RemoteQuestionnaireDataSource @Inject constructor(
     suspend fun getQuestionnaire(
         questionnaireId: Long,
         aspect: String
-    ): List<GetQuestionnaireResponse> {
+    ): GetQuestionnaireResponse {
         return chinChinService.getQuestionnaire(questionnaireId = questionnaireId, aspect)
     }
 
