@@ -20,7 +20,7 @@ class GroupRepositoryImpl @Inject constructor(
         return Groups(remoteGroupDataSource.getGroups().map { it.toDomainModel() })
     }
 
-    override suspend fun getGroupDetail(groupId: Long): GroupDetail {
-        return remoteGroupDataSource.getGroupDetail(groupId).toDomainModel()
+    override suspend fun getFriendsInGroup(groupId: Long): GroupDetail {
+        return remoteGroupDataSource.getFriendsInGroup(groupId).toDomainModel()
     }
 }

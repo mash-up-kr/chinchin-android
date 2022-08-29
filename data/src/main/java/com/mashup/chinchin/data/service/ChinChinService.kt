@@ -2,14 +2,10 @@ package com.mashup.chinchin.data.service
 
 import com.mashup.chinchin.data.dto.remote.requestbody.CreateNewGroupRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.LoginRequestBody
-import com.mashup.chinchin.data.dto.remote.responsebody.CreateNewGroupResponseBody
-import com.mashup.chinchin.data.dto.remote.responsebody.GetGroupDetailResponseBody
-import com.mashup.chinchin.data.dto.remote.responsebody.GetGroupsResponseBody
-import com.mashup.chinchin.data.dto.remote.responsebody.LoginResponseBody
-import retrofit2.http.*
 import com.mashup.chinchin.data.dto.remote.requestbody.SendQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.SendReplyQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.responsebody.*
+import retrofit2.http.*
 
 interface ChinChinService {
     @POST("/kakao-login")
@@ -27,9 +23,9 @@ interface ChinChinService {
      * 그룹내 친구 목록을 조회합니다.
      */
     @GET("/friend/{groupId}")
-    suspend fun getGroupDetail(
+    suspend fun getFriendsInGroup(
         @Path("groupId") groupId: Long,
-    ): GetGroupDetailResponseBody
+    ): GetFriendsInGroupResponseBody
 
 
     /**

@@ -1,8 +1,10 @@
 package com.mashup.chinchin.presenter.group_detail
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -33,11 +35,9 @@ class GroupDetailActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val groupId = intent.extras?.getLong(FRIEND_GROUP_ID) ?: return
-
         setContent {
             ChinchinTheme {
-                GroupDetailScreen(groupId) {
+                GroupDetailScreen {
                     finish()
                 }
             }
@@ -50,25 +50,34 @@ class GroupDetailActivity : ComponentActivity() {
     }
 }
 
+private fun showToast(context: Context) {
+    Toast.makeText(context, "잘못된 그룹 아이디 입니다", Toast.LENGTH_LONG).show()
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GroupDetailPreview() {
-    GroupDetailScreen(1)
+    GroupDetailScreen()
 }
 
 @Composable
 fun GroupDetailScreen(
-    groupId: Long,
     finishActivity: () -> Unit = {}
 ) {
-    /* TODO: 서버 연결 필요 */
+    val context = LocalContext.current
     val viewModel: GroupDetailViewModel = hiltViewModel()
-    viewModel.getGroupDetail(groupId)
+    viewModel.groupId?.let {
+        viewModel.getGroupDetail(it)
+    } ?: run {
+        Log.i(TAG, "GroupId is null")
+        showToast(context)
+        finishActivity()
+    }
+
     val groupUiModel = viewModel.groupDetail.observeAsState().value ?: run {
         Log.i(TAG, "GroupDetailScreen: groupUiModel is null")
         return
     }
-    val context = LocalContext.current
 
     StatusBarColor()
     Column {

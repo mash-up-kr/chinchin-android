@@ -8,5 +8,5 @@ class GetGroupDetailUseCase @Inject constructor(
     private val groupRepository: GroupRepository,
 ) {
     suspend operator fun invoke(groupId: Long): GroupDetail =
-        groupRepository.getGroupDetail(groupId)
+        groupRepository.getFriendsInGroup(groupId)
 }

@@ -6,5 +6,5 @@ import com.mashup.chinchin.domain.model.Groups
 interface GroupRepository {
     suspend fun createNewGroup(groupName: String): Boolean
     suspend fun getGroups(): Groups
-    suspend fun getGroupDetail(groupId: Long): GroupDetail
+    suspend fun getFriendsInGroup(groupId: Long): GroupDetail
 }

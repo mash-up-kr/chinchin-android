@@ -1,6 +1,7 @@
 package com.mashup.chinchin.presenter.common.model
 
 import android.os.Parcelable
+import com.mashup.chinchin.domain.model.Friend
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -15,4 +16,13 @@ data class FriendUiModel(
     val profileUrl: String = "",
     val birthday: String = "", // Todo need to chagge dateType
     val groupName: String = "",
-): Parcelable
+) : Parcelable
+
+
+fun Friend.toUiModel(): FriendUiModel {
+    return FriendUiModel(
+        id = id,
+        name = name,
+        profileUrl = thumbnailImageUrl,
+    )
+}

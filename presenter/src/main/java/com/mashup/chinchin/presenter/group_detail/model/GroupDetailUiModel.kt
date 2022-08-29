@@ -1,8 +1,8 @@
 package com.mashup.chinchin.presenter.group_detail.model
 
-import com.mashup.chinchin.domain.model.Friends
 import com.mashup.chinchin.domain.model.GroupDetail
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.common.model.toUiModel
 
 data class GroupDetailUiModel(
     val id: Long,
@@ -18,10 +18,3 @@ fun GroupDetail.toUiModel(): GroupDetailUiModel {
     )
 }
 
-fun Friends.toUiModel(): FriendUiModel {
-    return FriendUiModel(
-        id = id,
-        name = name,
-        profileUrl = thumbnailImageUrl,
-    )
-}
