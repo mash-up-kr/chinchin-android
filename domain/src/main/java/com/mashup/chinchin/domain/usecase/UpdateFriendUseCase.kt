@@ -1,13 +1,13 @@
 package com.mashup.chinchin.domain.usecase
 
-import com.mashup.chinchin.domain.repository.FriendProfileRepository
+import com.mashup.chinchin.domain.repository.FriendRepository
 import javax.inject.Inject
 
 class UpdateFriendUseCase @Inject constructor(
-    private val friendProfileRepository: FriendProfileRepository
+    private val friendRepository: FriendRepository
 ) {
     suspend operator fun invoke(friend: UpdateFriendParams): Long {
-        return friendProfileRepository.updateFriend(friend)
+        return friendRepository.updateFriend(friend)
     }
 }
 

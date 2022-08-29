@@ -1,5 +1,6 @@
 package com.mashup.chinchin.domain.repository
 
+import com.mashup.chinchin.domain.model.Friend
 import com.mashup.chinchin.domain.model.FriendProfile
 import com.mashup.chinchin.domain.usecase.AddFriendParams
 import com.mashup.chinchin.domain.usecase.UpdateFriendParams

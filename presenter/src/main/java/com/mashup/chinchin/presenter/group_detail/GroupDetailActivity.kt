@@ -35,7 +35,6 @@ class GroupDetailActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val groupId = intent.extras?.get(FRIEND_GROUP_ID) ?: return
 
         setContent {
             ChinchinTheme {
