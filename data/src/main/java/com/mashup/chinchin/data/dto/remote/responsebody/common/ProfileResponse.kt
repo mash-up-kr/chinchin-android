@@ -10,8 +10,8 @@ data class ProfileResponse(
     @SerializedName("name") val name: String,
     @SerializedName("dateOfBirth") val dateOfBirth: String,
     @SerializedName("isMember") val isMember: Boolean,
-    @SerializedName("thumbnailImageUrl") val thumbnailImageUrl: String,
-    @SerializedName("kakaoId") val kakaoId: String,
+    @SerializedName("thumbnailImageUrl") val thumbnailImageUrl: String?,
+    @SerializedName("kakaoId") val kakaoId: String?,
 ) : DomainMapper<Profile> {
     override fun toDomainModel(): Profile {
         return Profile(

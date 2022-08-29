@@ -1,7 +1,9 @@
 package com.mashup.chinchin.domain.repository
 
+import com.mashup.chinchin.domain.model.Friend
 import com.mashup.chinchin.domain.model.FriendProfile
 
-interface FriendProfileRepository {
+interface FriendRepository {
     suspend fun getFriendProfile(friendId: Long): FriendProfile
+    suspend fun getFriends(): List<Friend>
 }

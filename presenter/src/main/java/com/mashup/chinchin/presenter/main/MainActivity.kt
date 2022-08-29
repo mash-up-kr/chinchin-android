@@ -30,7 +30,7 @@ import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
 import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.NEW_FRIEND
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity
-import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.OLD_FRIEND
+import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.FRIEND
 import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity
@@ -128,7 +128,7 @@ fun MainScreen(
                     },
                     BottomSheetItemUiModel("기존 친구에 연결하기", R.drawable.icon_connect) {
                         context.startActivity(Intent(context, ConnectFriendActivity::class.java).apply {
-                            putExtra(OLD_FRIEND, selectedFriend.value)
+                            putExtra(FRIEND, selectedFriend.value)
                         })
                     },
                     BottomSheetItemUiModel("취소", R.drawable.ic_x) {

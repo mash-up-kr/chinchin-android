@@ -8,6 +8,6 @@ data class Profile (
     val name: String,
     val dateOfBirth: String,
     val isMember: Boolean,
-    val thumbnailImageUrl: String,
-    val kakaoId: String,
+    val thumbnailImageUrl: String?,
+    val kakaoId: String?,
 ): DomainModel

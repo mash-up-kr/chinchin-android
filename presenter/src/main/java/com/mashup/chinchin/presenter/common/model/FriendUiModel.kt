@@ -13,7 +13,7 @@ import kotlinx.parcelize.Parcelize
 data class FriendUiModel(
     val id: Long = -1,
     val name: String = "",
-    val profileUrl: String = "",
+    val profileUrl: String? = "",
     val birthday: String = "", // Todo need to chagge dateType
     val groupName: String = "",
 ) : Parcelable

@@ -9,7 +9,7 @@ data class ProfileUiModel(
     val name: String,
     val dateOfBirth: String,
     val isMember: Boolean,
-    val thumbnailImageUrl: String,
+    val thumbnailImageUrl: String?,
 ) {
     // FriendUiModel에 isMember값 추가하고 통일해야할듯. 지금 여긴 없어서 임시용으로 만들어놨어요.
     fun toFriendUiModel(): FriendUiModel {
