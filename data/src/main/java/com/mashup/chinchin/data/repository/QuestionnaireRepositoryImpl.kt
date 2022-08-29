@@ -5,6 +5,7 @@ import com.mashup.chinchin.data.dto.remote.requestbody.QuestionRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.SendQuestionnaireRequestBody
 import com.mashup.chinchin.data.dto.remote.requestbody.SendReplyQuestionnaireRequestBody
 import com.mashup.chinchin.domain.model.Question
+import com.mashup.chinchin.domain.model.ReplyQuestionnaire
 import com.mashup.chinchin.domain.repository.QuestionnaireRepository
 import javax.inject.Inject
 
@@ -14,11 +15,11 @@ class QuestionnaireRepositoryImpl @Inject constructor(
     override suspend fun getQuestionnaire(
         questionnaireId: Long,
         aspect: String
-    ): List<Question> {
+    ): ReplyQuestionnaire {
         return remoteQuestionnaireDataSource.getQuestionnaire(
             questionnaireId = questionnaireId,
             aspect = aspect
-        ).map { it.toDomainModel() }
+        ).toDomainModel()
     }
 
     override suspend fun sendReplyQuestionnaire(

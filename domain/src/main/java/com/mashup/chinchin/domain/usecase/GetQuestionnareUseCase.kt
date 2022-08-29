@@ -1,6 +1,6 @@
 package com.mashup.chinchin.domain.usecase
 
-import com.mashup.chinchin.domain.model.Question
+import com.mashup.chinchin.domain.model.ReplyQuestionnaire
 import com.mashup.chinchin.domain.repository.QuestionnaireRepository
 import javax.inject.Inject
 
@@ -10,7 +10,7 @@ class GetQuestionnareUseCase @Inject constructor(
     suspend operator fun invoke(
         questionnaireId: Long,
         aspect: String
-    ): List<Question> {
+    ): ReplyQuestionnaire {
         return questionnaireRepository.getQuestionnaire(
             questionnaireId = questionnaireId,
             aspect = aspect

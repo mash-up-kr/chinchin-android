@@ -35,7 +35,7 @@ interface ChinChinService {
     suspend fun getQuestionnaire(
         @Path("questionnaire_id") questionnaireId: Long,
         @Query("aspect") aspect: String,
-    ): List<GetQuestionnaireResponse>
+    ): GetQuestionnaireResponse
 
     /**
      * 질문에 대한 답변을 보냅니다.
