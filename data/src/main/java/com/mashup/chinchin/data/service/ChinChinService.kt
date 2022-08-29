@@ -20,6 +20,15 @@ interface ChinChinService {
     suspend fun getGroups(): List<GetGroupsResponseBody>
 
     /**
+     * 그룹내 친구 목록을 조회합니다.
+     */
+    @GET("/friend/{groupId}")
+    suspend fun getFriendsInGroup(
+        @Path("groupId") groupId: Long,
+    ): GetFriendsInGroupResponseBody
+
+
+    /**
      * 질문지를 조회합니다.
      */
     @GET("/questionnaire/{questionnaire_id}")

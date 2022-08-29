@@ -10,3 +10,9 @@ data class GroupInfo(
     val groupMemberCount: Int,
     val thumbnailImageUrls: List<String>,
 )
+
+data class GroupDetail(
+    val groupId: Long,
+    val groupName: String,
+    val friendInfo: List<Friend>,
+)
