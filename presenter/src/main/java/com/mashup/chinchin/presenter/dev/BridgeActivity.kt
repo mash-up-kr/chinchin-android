@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
-import com.mashup.chinchin.presenter.dialog_test.DialogActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.group_detail.GroupDetailActivity
 import com.mashup.chinchin.presenter.login.LoginActivity
@@ -41,7 +40,6 @@ class BridgeActivity : ComponentActivity() {
                             SetGroupActivity::class.java,
                             FriendInformationActivity::class.java,
                             ReplyPreferenceActivity::class.java,
-                            DialogActivity::class.java,
                             SendPreferenceActivity::class.java,
                             SendPreferenceCompleteActivity::class.java,
                         )

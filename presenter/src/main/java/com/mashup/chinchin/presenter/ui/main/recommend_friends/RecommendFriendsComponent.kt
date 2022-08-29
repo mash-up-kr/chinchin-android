@@ -97,13 +97,13 @@ fun RequestPermissionButton(onButtonClick: () -> Unit = {}) {
 
 @Composable
 fun RecommendFriendsListBody(
-    recommendFriendsList: List<FriendUiModel>,
+    recommendFriends: List<FriendUiModel>,
     showBottomSheet: () -> Unit,
     onSelectFriend: (friend: FriendUiModel) -> Unit,
     onClickMore: () -> Unit,
 ) {
     LazyColumn {
-        itemsIndexed(recommendFriendsList) { index, recommendFriend ->
+        itemsIndexed(recommendFriends) { index, recommendFriend ->
             if (index == 0) {
                 Divider(color = Color(0xFFD9D9D9), thickness = 0.5.dp)
             }

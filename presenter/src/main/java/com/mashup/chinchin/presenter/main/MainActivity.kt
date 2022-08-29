@@ -65,9 +65,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ChinchinTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    MainScreen(
-                        recommendFriends = initRecommendFriends(),
-                    )
+                    MainScreen()
                 }
             }
         }
@@ -92,19 +90,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    private fun initRecommendFriends(): List<FriendUiModel> {
-        return List(25) {
-            FriendUiModel(0, "안경무 $it", group = null, birthday = null, profileUrl = "https://picsum.photos/200") // 수정 후 삭제 부탁합니다.
-        }
-    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(
     screens: List<MainNavScreen> = MainNavScreen.values().toList(),
-    recommendFriends: List<FriendUiModel> = listOf(),
 ) {
 
     // basic state
@@ -182,7 +173,6 @@ fun MainScreen(
         ) { paddingValues ->
             MainNavGraph(
                 navController = navController,
-                recommendFriends = recommendFriends,
                 showBottomSheet,
                 onSelectFriend,
                 bottomPaddingValue = paddingValues.calculateBottomPadding() + bottomPaddingAlphaDp
@@ -236,7 +226,6 @@ fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
 
 @Composable
 fun RecommendFriendsScreen(
-    recommendFriendsList: List<FriendUiModel> = listOf(),
     showBottomSheet: () -> Unit,
     onSelectFriend: (friend: FriendUiModel) -> Unit,
     bottomPaddingValue: Dp = 0.dp,
@@ -245,12 +234,14 @@ fun RecommendFriendsScreen(
     val viewModel: RecommendFriendsViewModel = hiltViewModel()
     viewModel.getRecommendedFriends(LocalContext.current)
 
+    val recommendFriends = viewModel.recommendFriends.observeAsState().value ?: emptyList()
+
     Column(
         modifier = Modifier
             .padding(start = 24.dp, end = 24.dp, bottom = 20.dp)
             .padding(bottom = bottomPaddingValue)
     ) {
-        RecommendFriendsHeader(recommendFriendsList.size)
+        RecommendFriendsHeader(recommendFriends.size)
         Spacer(modifier = Modifier.height(7.dp))
 
         /* TODO: 퍼미션 체크를 기준으로 변경하자 */
@@ -259,11 +250,11 @@ fun RecommendFriendsScreen(
         if (isAgreedKakaoPermission) {
             RecommendFriendsPermissionBody()
         } else {
-            if (recommendFriendsList.isEmpty()) {
+            if (recommendFriends.isEmpty()) {
                 RecommendFriendsEmptyBody()
             } else {
                 RecommendFriendsListBody(
-                    recommendFriendsList = recommendFriendsList,
+                    recommendFriends = recommendFriends,
                     showBottomSheet = showBottomSheet,
                     onSelectFriend = onSelectFriend,
                     onClickMore = onClickMore,
