@@ -28,6 +28,15 @@ class LoginRepositoryImpl @Inject constructor(
         localLoginDataSource.saveKakaoRefreshToken(refreshToken)
     }
 
+    override fun setKakaoFriendsPermission(isAgree: Boolean) {
+        localLoginDataSource.setKakaoFriendsPermission(isAgree)
+    }
+
+    override fun getKakaoFriendsPermission(): Boolean {
+        return localLoginDataSource.getKakaoFriendsPermission()
+    }
+
+
     override suspend fun login(accessToken: String): String? {
         return remoteLoginDataSource.login(LoginRequestBody(accessToken)).jwt
     }

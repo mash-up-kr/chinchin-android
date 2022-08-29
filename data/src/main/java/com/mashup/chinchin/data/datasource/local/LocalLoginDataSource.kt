@@ -28,10 +28,19 @@ class LocalLoginDataSource @Inject constructor(
         preferences.edit().putString(KAKAO_REFRESH_TOKEN, refreshToken).apply()
     }
 
+    fun setKakaoFriendsPermission(isAgree: Boolean) {
+        preferences.edit().putBoolean(KAKAO_FRIENDS_PERMISSION, isAgree).apply()
+    }
+
+    fun getKakaoFriendsPermission(): Boolean {
+        return preferences.getBoolean(KAKAO_FRIENDS_PERMISSION, false)
+    }
+
     companion object {
         const val JWT = "JWT"
         const val KAKAO_ACCESS_TOKEN = "KAKAO_ACCESS_TOKEN"
         const val KAKAO_REFRESH_TOKEN = "KAKAO_REFRESH_TOKEN"
+        const val KAKAO_FRIENDS_PERMISSION = "KAKAO_FRIENDS_PERMISSION"
         const val LOGIN_PREF = "LOGIN_PREF"
     }
 }

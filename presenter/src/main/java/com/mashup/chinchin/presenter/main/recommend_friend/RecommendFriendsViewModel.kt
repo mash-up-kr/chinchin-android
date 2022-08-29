@@ -10,7 +10,9 @@ import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.mashup.chinchin.domain.usecase.GetKakaoFriendsPermissionUseCase
 import com.mashup.chinchin.domain.usecase.GetRecommendedFriendsUseCase
+import com.mashup.chinchin.domain.usecase.SetKakaoFriendsPermissionUseCase
 import com.mashup.chinchin.domain.usecase.SetKakaoTokenUseCase
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.common.model.toUiModel
@@ -22,6 +24,8 @@ import javax.inject.Inject
 class RecommendFriendsViewModel @Inject constructor(
     private val getRecommendedFriendsUseCase: GetRecommendedFriendsUseCase,
     private val setKakaoTokenUseCase: SetKakaoTokenUseCase,
+    private val getKakaoFriendsPermissionUseCase: GetKakaoFriendsPermissionUseCase,
+    private val setKakaoFriendsPermissionUseCase: SetKakaoFriendsPermissionUseCase,
 ): ViewModel() {
     private val _loginKakao = MutableLiveData<Unit>()
     val loginKakao: LiveData<Unit>
@@ -30,6 +34,14 @@ class RecommendFriendsViewModel @Inject constructor(
     private val _recommendFriends = MutableLiveData<List<FriendUiModel>>()
     val recommendFriends: LiveData<List<FriendUiModel>>
         get() = _recommendFriends
+
+    private val _isAgreedKakaoFriendsPermission = MutableLiveData<Boolean>(false)
+    val isAgreedKakaoFriendsPermission: LiveData<Boolean>
+        get() = _isAgreedKakaoFriendsPermission
+
+    fun initAgreedKakaoFriendsPermission() {
+        _isAgreedKakaoFriendsPermission.value = getKakaoFriendsPermissionUseCase()
+    }
 
     fun getRecommendedFriends(context: Context) {
         invalidKakaoToken()
@@ -73,10 +85,14 @@ class RecommendFriendsViewModel @Inject constructor(
                     scopeInfo.scopes?.get(0)?.id == KAKAO_FRIENDS_PERMISSION_ID &&
                     scopeInfo.scopes?.get(0)?.agreed == true
                 ) {
+                    setKakaoFriendsPermissionUseCase(true)
+                    _isAgreedKakaoFriendsPermission.value = true
                     viewModelScope.launch {
                         _recommendFriends.value = getRecommendedFriendsUseCase().map { it.toUiModel() }
                     }
                 } else {
+                    setKakaoFriendsPermissionUseCase(false)
+                    _isAgreedKakaoFriendsPermission.value = false
                     requestGetKakaoFriendsPermission(context)
                 }
             }

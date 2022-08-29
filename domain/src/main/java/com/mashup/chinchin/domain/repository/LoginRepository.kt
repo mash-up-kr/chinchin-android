@@ -6,5 +6,7 @@ interface LoginRepository {
     fun saveKakaoAccessToken(accessToken: String)
     fun getKakaoAccessToken(): String
     fun saveKakaoRefreshToken(refreshToken: String)
+    fun setKakaoFriendsPermission(isAgree: Boolean)
+    fun getKakaoFriendsPermission(): Boolean
     suspend fun login(accessToken: String): String?
 }
