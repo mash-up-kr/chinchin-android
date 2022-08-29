@@ -49,6 +49,8 @@ fun SetGroupScreen() {
     val onChangeState: (GroupInfoUiModel) -> Unit = { selectedGroup = it }
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
 
+    // 초기 데이터
+    viewModel.getGroups()
 
     StatusBarColor()
     Column {

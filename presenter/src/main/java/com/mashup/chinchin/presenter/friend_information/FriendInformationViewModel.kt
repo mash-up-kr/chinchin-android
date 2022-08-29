@@ -1,15 +1,13 @@
 package com.mashup.chinchin.presenter.friend_information
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.mashup.chinchin.domain.usecase.AddFriendParams
 import com.mashup.chinchin.domain.usecase.AddFriendUseCase
 import com.mashup.chinchin.domain.usecase.UpdateFriendParams
 import com.mashup.chinchin.domain.usecase.UpdateFriendUseCase
 import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -34,7 +32,9 @@ class FriendInformationViewModel @Inject constructor(
     val friend = savedStateHandle.get<FriendUiModel>(FriendInformationActivity.EXTRA_FRIEND)
 
     // api 결과로 받아오는 friendId
-    val friendId = MutableLiveData<Long>()
+    private val _friendId = MutableLiveData<Long>()
+    val friendId: LiveData<Long>
+        get() = _friendId
 
     fun addFriend(friend: FriendUiModel) {
         viewModelScope.launch {
@@ -47,7 +47,7 @@ class FriendInformationViewModel @Inject constructor(
             )
             val result = addFriendUseCase(param)
 
-            friendId.postValue(result)
+            _friendId.postValue(result)
         }
     }
 
@@ -62,7 +62,7 @@ class FriendInformationViewModel @Inject constructor(
             )
             val result = updateFriendUseCase(param)
 
-            friendId.postValue(result)
+            _friendId.postValue(result)
         }
     }
 }

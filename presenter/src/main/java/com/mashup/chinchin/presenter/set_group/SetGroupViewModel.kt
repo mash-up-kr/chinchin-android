@@ -22,17 +22,13 @@ class SetGroupViewModel @Inject constructor(
     val groups: LiveData<FriendGroupUiModel>
         get() = _groups
 
-    init {
-        getGroups()
-    }
-
     fun createNewGroup(groupName: String) {
         viewModelScope.launch {
             createNewGroupUseCase.invoke(groupName)
         }
     }
 
-    private fun getGroups() {
+    fun getGroups() {
         viewModelScope.launch {
             _groups.value = GetGroupsUseCase().toUiModel()
         }

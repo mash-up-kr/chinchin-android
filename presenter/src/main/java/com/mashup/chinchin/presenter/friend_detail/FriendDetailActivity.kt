@@ -27,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
+import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_FRIEND
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_PROFILE_TYPE
@@ -80,7 +81,11 @@ fun FriendDetailScreen(
     val currentDestination = FriendDetailNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
     // viewModel data
-    val friendProfile = viewModel.friendProfile.observeAsState().value ?: return
+    val friendProfile: FriendProfileUiModel =
+        viewModel.friendProfile.observeAsState().value ?: run {
+            finishActivity()
+            return
+        }
 
     // screen data
     val screens = listOf(
