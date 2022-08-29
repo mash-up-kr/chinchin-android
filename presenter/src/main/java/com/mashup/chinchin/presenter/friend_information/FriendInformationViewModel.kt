@@ -4,12 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mashup.chinchin.domain.usecase.AddFriendParams
 import com.mashup.chinchin.domain.usecase.AddFriendUseCase
+import com.mashup.chinchin.domain.usecase.UpdateFriendParams
 import com.mashup.chinchin.domain.usecase.UpdateFriendUseCase
 import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +38,14 @@ class FriendInformationViewModel @Inject constructor(
 
     fun addFriend(friend: FriendUiModel) {
         viewModelScope.launch {
-            val result = addFriendUseCase(friend.toDomainModel())
+            val param = AddFriendParams(
+                name = friend.name ?: throw Exception("name shouldn't be null"),
+                groupId = friend.group?.groupId ?: throw Exception("groupId shouldn't be null"),
+                dateOfBirth = friend.birthday ?: throw Exception("birthday shouldn't be null"),
+                thumbnailImageUrl = friend.profileUrl,
+                kakaoId = friend.kakaoId
+            )
+            val result = addFriendUseCase(param)
 
             friendId.postValue(result)
         }
@@ -43,7 +53,14 @@ class FriendInformationViewModel @Inject constructor(
 
     fun updateFriend(friend: FriendUiModel) {
         viewModelScope.launch {
-            val result = updateFriendUseCase(friend.toDomainModel())
+            val param = UpdateFriendParams(
+                name = friend.name ?: throw Exception("name shouldn't be null"),
+                groupId = friend.group?.groupId ?: throw Exception("groupId shouldn't be null"),
+                dateOfBirth = friend.birthday ?: throw Exception("birthday shouldn't be null"),
+                thumbnailImageUrl = friend.profileUrl,
+                kakaoId = friend.kakaoId
+            )
+            val result = updateFriendUseCase(param)
 
             friendId.postValue(result)
         }

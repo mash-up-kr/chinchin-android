@@ -2,6 +2,7 @@ package com.mashup.chinchin.presenter.friend_detail.model
 
 import com.mashup.chinchin.domain.model.Profile
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.common.model.GroupUiModel
 
 data class ProfileUiModel(
     val id: Long,
@@ -16,11 +17,13 @@ data class ProfileUiModel(
     fun toFriendUiModel(): FriendUiModel {
         return FriendUiModel(
             id = id,
-            groupName = groupName,
+            group = GroupUiModel(
+                groupId = groupId,
+                groupName = groupName
+            ),
             name = name,
             birthday = dateOfBirth,
             profileUrl = thumbnailImageUrl,
-            groupId = groupId
         )
     }
 

@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -15,9 +16,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.EXTRA_FRIEND_ID
-import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.NormalDialog
@@ -57,7 +58,7 @@ fun ConnectFriendScreen(
     val friends = viewModel.friends.observeAsState().value ?: emptyList()
     val (searchText, onSearchTextChanged) = remember { mutableStateOf("") }
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
-    val selectedFriend = remember { mutableStateOf(FriendUiModel()) }
+    val selectedFriend: MutableState<FriendUiModel?> = remember { mutableStateOf(null) }
 
     viewModel.getFriends()
 
@@ -89,18 +90,19 @@ fun ConnectFriendScreen(
     }
 
     if (showDialog) {
-        NormalDialog(
-            titleText = "${selectedFriend.value.name}에게 연결할까요?",
-            onClickSuccess = {
-                // TODO: 친구 상세로 넘어가도록
-                val intent = Intent(context, FriendDetailActivity::class.java).apply {
-                    putExtra(EXTRA_FRIEND_ID, selectedFriend.value.id)
-                }
-                context.startActivity(intent)
-                setShowDialog(false)
-            },
-            onClickCancel = { setShowDialog(false) }
-        )
+        selectedFriend.value?.let {
+            NormalDialog(
+                titleText = "${it.name}에게 연결할까요?",
+                onClickSuccess = {
+                    val intent = Intent(context, FriendDetailActivity::class.java).apply {
+                        putExtra(EXTRA_FRIEND_ID, it.id)
+                    }
+                    context.startActivity(intent)
+                    setShowDialog(false)
+                },
+                onClickCancel = { setShowDialog(false) }
+            )
+        }
     }
 }
 

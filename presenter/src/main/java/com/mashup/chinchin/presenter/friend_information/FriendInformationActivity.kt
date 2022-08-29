@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.common.model.GroupUiModel
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.EXTRA_FRIEND_ID
 import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
@@ -64,11 +65,9 @@ fun FriendInformationScreen(
     // compose state
     var friendName by rememberSaveable { mutableStateOf(viewModel.friend?.name ?: "") }
     var birthday by rememberSaveable { mutableStateOf(viewModel.friend?.birthday ?: "") }
-    var groupName by rememberSaveable { mutableStateOf(viewModel.friend?.groupName ?: "") }
-    var selectedGroupId by rememberSaveable { mutableStateOf(viewModel.friend?.groupId) }
-//    var selectedGroup: GroupInfoUiModel? by remember {
-//        mutableStateOf(null)
-//    }
+    var groupName by rememberSaveable { mutableStateOf(viewModel.friend?.group?.groupName ?: "") }
+    var selectedGroupId by rememberSaveable { mutableStateOf(viewModel.friend?.group?.groupId) }
+
     val isEnable =
         friendName.isNotEmpty() && birthday.isNotEmpty() && selectedGroupId != null
     // 저장완료된 친구 id
@@ -114,8 +113,10 @@ fun FriendInformationScreen(
                     val friend = FriendUiModel(
                         name = friendName,
                         birthday = birthday,
-                        groupName = groupName,
-                        groupId = selectedGroupId,
+                        group = GroupUiModel(
+                            groupName = groupName,
+                            groupId = selectedGroupId
+                        ),
                     )
                     when (viewModel.profileType) {
                         FriendProfileType.ADD -> viewModel.addFriend(friend)

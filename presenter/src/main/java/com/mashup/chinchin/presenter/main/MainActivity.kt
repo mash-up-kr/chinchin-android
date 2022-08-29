@@ -12,9 +12,6 @@ import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -37,7 +34,6 @@ import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity
-import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
@@ -74,7 +70,7 @@ class MainActivity : ComponentActivity() {
 
     private fun initRecommendFriends(): List<FriendUiModel> {
         return List(25) {
-            FriendUiModel(0, "안경무 $it", "https://picsum.photos/200")
+            FriendUiModel(0, "안경무 $it", "https://picsum.photos/200", null) // 수정 후 삭제 부탁합니다.
         }
     }
 }
@@ -84,22 +80,26 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(
     screens: List<MainNavScreen> = MainNavScreen.values().toList(),
     recommendFriends: List<FriendUiModel> = listOf(),
-    groups: List<FriendGroupUiModel> = listOf(),
 ) {
+
+    // basic state
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    // bottom nav controller state
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
-    val selectedFriend = remember { mutableStateOf(FriendUiModel(0, "", "")) }
+    // state
+    val selectedFriend: MutableState<FriendUiModel?> = remember { mutableStateOf(null) }
     val onSelectFriend: (friend: FriendUiModel) -> Unit = { friend ->
         selectedFriend.value = friend
     }
-    val coroutineScope = rememberCoroutineScope()
 
+    // bottom sheet state
     val modalBottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-
     val showBottomSheet: () -> Unit = {
         coroutineScope.launch {
             modalBottomSheetState.show()
