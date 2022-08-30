@@ -19,7 +19,7 @@ val Background = Color(0xFFDBDBDB)
 
 val Gray_800 = Color(0xFF212121)
 val Gray_700 = Color(0xFF424242)
-val Gray_600 = Color(0xFF6E7191)
+val Gray_600 = Color(0xFF616161)
 val Gray_500 = Color(0xFF757575)
 val Gray_400 = Color(0xFFAFAFAF)
 val Gray_300 = Color(0xFFE0E0E0)
