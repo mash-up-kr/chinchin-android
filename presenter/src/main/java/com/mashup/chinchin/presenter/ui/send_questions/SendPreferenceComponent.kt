@@ -225,7 +225,8 @@ fun EmptyAddQuestion() {
     ) {
         Image(
             painter = painterResource(id = R.drawable.img_empty_addquestion),
-            contentDescription = ""
+            contentDescription = "",
+            modifier = Modifier.size(200.dp)
         )
     }
 }

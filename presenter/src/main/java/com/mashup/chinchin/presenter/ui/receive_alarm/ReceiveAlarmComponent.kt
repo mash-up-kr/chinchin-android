@@ -78,6 +78,7 @@ fun EmptyRequestAlarm() {
     Image(
         painter = painterResource(id = R.drawable.img_empty_basic),
         contentDescription = "",
+        modifier = Modifier.size(200.dp)
     )
 }
 
@@ -152,6 +153,8 @@ fun ReceiveAlarmItemProfileBox(profileUrl: String, alarmType: AlarmType) {
                 .size(50.dp)
                 .clip(CircleShape)
                 .align(Alignment.TopStart),
+            error = painterResource(R.drawable.profile_default_image),
+            placeholder = painterResource(R.drawable.profile_default_image),
         )
         Box(
             modifier = Modifier

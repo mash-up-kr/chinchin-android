@@ -1,10 +1,7 @@
 package com.mashup.chinchin.presenter.ui.group_detail
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -44,6 +41,7 @@ fun EmptyGroupDetail() {
     Image(
         painter = painterResource(id = R.drawable.img_empty_addfriend),
         contentDescription = "",
+        modifier = Modifier.size(200.dp)
     )
 }
 

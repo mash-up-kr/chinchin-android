@@ -64,6 +64,8 @@ class SendPreferenceActivity : ComponentActivity() {
     companion object{
         const val EXTRA_QUESTIONS = "EXTRA_QUESTIONS"
         const val EXTRA_BUNDLE = "EXTRA_BUNDLE"
+        const val EXTRA_FRIEND_ID = "EXTRA_FRIEND_ID"
+        const val EXTRA_FRIEND_NAME = "EXTRA_FRIEND_NAME"
     }
 }
 
@@ -138,14 +140,15 @@ fun SendPreferenceScreen(
     ) {
         CreateQuestionSheetScreen(
             categoryList = categories,
-            onConfirmButtonClick = showBottomSheet
+            onConfirmButtonClick = showBottomSheet,
+            viewModel = viewModel
         ) {
             setShowCancelDialog(true)
         }
     }
     if (showSendDialog) {
         ImageDialog(
-            drawableId = R.drawable.img_congrats,
+            drawableId = R.drawable.img_plane,
             titleText = "취향 질문지를 \n" +
                     "친구에게 전송할까요?",
             confirmText = "네, 전송할래요",
@@ -194,9 +197,9 @@ fun SendPreferenceScreen(
 
 @Composable
 fun CreateQuestionSheetScreen(
-    userName: String = "윤혜",
     onConfirmButtonClick: () -> Unit = {},
     categoryList: List<CategoryUiModel>,
+    viewModel: SendPreferenceViewModel,
     onBackButtonClick: () -> Unit = {},
 ) {
     val sendPreferenceViewModel: SendPreferenceViewModel = viewModel()
@@ -237,9 +240,9 @@ fun CreateQuestionSheetScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-            SendPreferenceQuestionTitle(userName)
+            SendPreferenceQuestionTitle(viewModel.friendName)
             Text(
-                text = "아래 카테고리들을 선택해 질문을 구성할 수 있습니다.",
+                text = "아래 카테고리들을 선택해 질문을 구성할 수 있어요.",
                 color = Gray_600,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(top = 8.dp),
