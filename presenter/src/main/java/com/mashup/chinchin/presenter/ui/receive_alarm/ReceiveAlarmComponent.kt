@@ -78,6 +78,7 @@ fun EmptyRequestAlarm() {
     Image(
         painter = painterResource(id = R.drawable.img_empty_basic),
         contentDescription = "",
+        modifier = Modifier.size(200.dp)
     )
 }
 

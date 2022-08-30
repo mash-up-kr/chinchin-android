@@ -131,6 +131,7 @@ fun RecommendFriendsEmptyBody() {
         Image(
             painter = painterResource(id = R.drawable.img_empty_findfriend),
             contentDescription = "",
+            modifier = Modifier.size(200.dp)
         )
     }
 }

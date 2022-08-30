@@ -145,7 +145,7 @@ fun SendPreferenceScreen(
     }
     if (showSendDialog) {
         ImageDialog(
-            drawableId = R.drawable.img_congrats,
+            drawableId = R.drawable.img_plane,
             titleText = "취향 질문지를 \n" +
                     "친구에게 전송할까요?",
             confirmText = "네, 전송할래요",

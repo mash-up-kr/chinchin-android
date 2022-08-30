@@ -52,7 +52,7 @@ fun EmptyFriendGroups() {
         Image(
             painter = painterResource(id = R.drawable.img_empty_group),
             contentDescription = "",
-            modifier = Modifier.padding(top = 52.dp)
+            modifier = Modifier.padding(top = 90.dp).size(200.dp)
         )
     }
 }
@@ -153,7 +153,8 @@ fun HomeHeader(
                 painter = painterResource(id = R.drawable.img_giftbox),
                 contentDescription = "",
                 modifier = Modifier
-                    .size(126.dp)
+                    .height(140.dp)
+                    .width(120.dp)
                     .padding(end = 4.dp),
             )
         }
