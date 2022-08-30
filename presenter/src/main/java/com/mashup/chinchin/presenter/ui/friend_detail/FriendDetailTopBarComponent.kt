@@ -47,8 +47,10 @@ fun FriendProfilePreview() {
 fun FriendProfile(
     onProfileClick: () -> Unit = {},
     onButtonClick: () -> Unit = {},
-    profileUiModel: ProfileUiModel
+    profileUiModel: ProfileUiModel?
 ) {
+    if (profileUiModel == null) return
+    
     Column(
         modifier = Modifier
             .fillMaxWidth()

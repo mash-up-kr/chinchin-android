@@ -1,6 +1,5 @@
 package com.mashup.chinchin.presenter.send_preference
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +10,8 @@ import com.mashup.chinchin.domain.usecase.SendQuestionnaireUseCase
 import com.mashup.chinchin.presenter.common.model.CategoryUiModel
 import com.mashup.chinchin.presenter.common.model.KeywordQuestionUiModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_FRIEND_ID
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_FRIEND_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +26,8 @@ class SendPreferenceViewModel @Inject constructor(
     val questions: LiveData<List<QuestionUiModel>>
         get() = _questions
 
-    private val friendId = savedStateHandle.get<Long>("EXTRA_FRIEND_ID") ?: 2
+    private val friendId = savedStateHandle.get<Long>(EXTRA_FRIEND_ID) ?: 2
+    val friendName = savedStateHandle.get<String>(EXTRA_FRIEND_NAME) ?: ""
 
     val isSendSuccess = MutableLiveData(false)
 

@@ -1,9 +1,6 @@
 package com.mashup.chinchin.presenter.friend_detail
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.mashup.chinchin.domain.usecase.GetFriendProfileUseCase
 import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +14,9 @@ class FriendDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val friendId = savedStateHandle.get<Long>("EXTRA_FRIEND_ID") ?: 2
-    val friendProfile = MutableLiveData<FriendProfileUiModel>()
+    private val _friendProfile = MutableLiveData<FriendProfileUiModel>()
+    val friendProfile: LiveData<FriendProfileUiModel>
+        get() = _friendProfile
 
     init {
         getFriendProfile(friendId)
@@ -27,7 +26,7 @@ class FriendDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val result = getFriendProfileUseCase(friendId = friendId)
 
-            friendProfile.postValue(
+            _friendProfile.postValue(
                 FriendProfileUiModel.fromDomainModel(result)
             )
         }

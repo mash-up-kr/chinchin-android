@@ -33,6 +33,8 @@ import com.mashup.chinchin.presenter.friend_information.FriendInformationActivit
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_PROFILE_TYPE
 import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_FRIEND_ID
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_FRIEND_NAME
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.friend_detail.*
@@ -81,11 +83,8 @@ fun FriendDetailScreen(
     val currentDestination = FriendDetailNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
     // viewModel data
-    val friendProfile: FriendProfileUiModel =
-        viewModel.friendProfile.observeAsState().value ?: run {
-            finishActivity()
-            return
-        }
+    val friendProfile: FriendProfileUiModel? =
+        viewModel.friendProfile.observeAsState().value
 
     // screen data
     val screens = listOf(
@@ -118,8 +117,8 @@ fun FriendDetailScreen(
         Column {
             FriendDetailNavGraph(
                 navController = naveController,
-                friendAnswers = friendProfile.friendAnswers,
-                myAnswers = friendProfile.myAnswers,
+                friendAnswers = friendProfile?.friendAnswers ?: emptyList(),
+                myAnswers = friendProfile?.myAnswers ?: emptyList(),
                 isSavedTempQuestions = isSavedTempQuestions
             )
         }
@@ -135,18 +134,23 @@ fun FriendDetailScreen(
                 onProfileClick = {
                     val intent = Intent(context, FriendInformationActivity::class.java).apply {
                         putExtra(EXTRA_PROFILE_TYPE, FriendProfileType.UPDATE)
-                        putExtra(EXTRA_FRIEND, friendProfile.profile.toFriendUiModel())
+                        friendProfile?.profile?.let {
+                            putExtra(EXTRA_FRIEND, it.toFriendUiModel())
+                        }
                     }
                     finishActivity()
                     context.startActivity(intent)
                 },
                 onButtonClick = {
                     val intent = Intent(context, SendPreferenceActivity::class.java).apply {
-                        // TODO: friend 보내기. 이름 필요.
+                        friendProfile?.let {
+                            putExtra(EXTRA_FRIEND_ID, it.profile.id)
+                            putExtra(EXTRA_FRIEND_NAME, it.profile.name)
+                        }
                     }
                     context.startActivity(intent)
                 },
-                profileUiModel = friendProfile.profile
+                profileUiModel = friendProfile?.profile
             )
             FriendDetailNavBar(
                 screens = screens,
@@ -157,7 +161,7 @@ fun FriendDetailScreen(
                     launchSingleTop = true
                 }
             }
-            QuestionSizeText(friendProfile.friendAnswers.size)
+            QuestionSizeText(friendProfile?.friendAnswers?.size ?: 0)
         }
     }
     ChinChinToolbar(title = "") {
