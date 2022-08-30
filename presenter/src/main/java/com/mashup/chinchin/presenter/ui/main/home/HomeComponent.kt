@@ -52,7 +52,9 @@ fun EmptyFriendGroups() {
         Image(
             painter = painterResource(id = R.drawable.img_empty_group),
             contentDescription = "",
-            modifier = Modifier.padding(top = 90.dp).size(200.dp)
+            modifier = Modifier
+                .padding(top = 90.dp)
+                .size(200.dp)
         )
     }
 }
@@ -219,7 +221,7 @@ fun FriendGroupCard(
         ) {
             FriendGroupCardTitle(groupInfo.groupName)
             NumberOfFriends(groupInfo.groupMemberCount)
-            FriendProfileThumbnailList(groupInfo.thumbnailImageUrls)
+            FriendProfileThumbnailList(groupInfo.groupMemberCount, groupInfo.thumbnailImageUrls)
         }
     }
 }
@@ -259,32 +261,35 @@ fun NumberOfFriends(friendsSize: Int) {
 }
 
 @Composable
-fun FriendProfileThumbnailList(thumbnailUrls: List<String>) {
-    val profileMoreCount = if (thumbnailUrls.size > 5) {
-        thumbnailUrls.size - 5
+fun FriendProfileThumbnailList(groupCount: Int, thumbnailUrls: List<String?>) {
+    val profileMoreCount = if (groupCount > 5) {
+        groupCount - 5
     } else {
         0
     }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 18.dp, vertical = 16.dp)
-    ) {
-        run loop@{
-            thumbnailUrls.forEachIndexed { index, thumbnailUrl ->
-                val start = (27 * index).dp
-                if (index < 5) {
-                    FriendProfileThumbnail(
-                        thumbnailUrl = thumbnailUrl,
-                        modifier = Modifier.padding(start = start),
-                    )
-                } else {
-                    FriendProfileThumbnailMore(
-                        moreSize = profileMoreCount,
-                        Modifier.padding(start = start),
-                    )
-                    return@forEachIndexed
+    if (groupCount == 0) {
+        FriendZeroThumbnail()
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 18.dp, vertical = 16.dp)
+        ) {
+            run loop@{
+                thumbnailUrls.forEachIndexed { index, thumbnailUrl ->
+                    val start = (27 * index).dp
+                    if (index < 5) {
+                        FriendProfileThumbnail(
+                            thumbnailUrl = thumbnailUrl,
+                            modifier = Modifier.padding(start = start),
+                        )
+                    } else {
+                        FriendProfileThumbnailWhiteCircle(
+                            size = profileMoreCount,
+                            Modifier.padding(start = start),
+                        )
+                        return@forEachIndexed
+                    }
                 }
             }
         }
@@ -292,15 +297,29 @@ fun FriendProfileThumbnailList(thumbnailUrls: List<String>) {
 }
 
 @Composable
-fun FriendProfileThumbnailMore(moreSize: Int, modifier: Modifier = Modifier) {
+fun FriendZeroThumbnail() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 18.dp, vertical = 16.dp)
+    ) {
+        FriendProfileThumbnailWhiteCircle(
+            size = 0,
+        )
+    }
+}
+
+@Composable
+fun FriendProfileThumbnailWhiteCircle(size: Int, modifier: Modifier = Modifier) {
     Card(
         shape = CircleShape,
         modifier = modifier
             .height(36.dp)
             .width(36.dp),
+        elevation = 0.dp
     ) {
         Text(
-            text = "+${moreSize}",
+            text = if (size > 0) "+${size}" else "$size",
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.wrapContentSize(Alignment.Center)
@@ -309,7 +328,7 @@ fun FriendProfileThumbnailMore(moreSize: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FriendProfileThumbnail(thumbnailUrl: String, modifier: Modifier = Modifier) {
+fun FriendProfileThumbnail(thumbnailUrl: String?, modifier: Modifier = Modifier) {
     AsyncImage(
         model = thumbnailUrl,
         contentDescription = "friendProfile",
@@ -317,7 +336,9 @@ fun FriendProfileThumbnail(thumbnailUrl: String, modifier: Modifier = Modifier) 
         modifier = modifier
             .size(36.dp)
             .clip(CircleShape)
-            .border(2.dp, Secondary_1, CircleShape)
+            .border(2.dp, Secondary_1, CircleShape),
+        error = painterResource(R.drawable.profile_default_image),
+        placeholder = painterResource(R.drawable.profile_default_image),
     )
 }
 

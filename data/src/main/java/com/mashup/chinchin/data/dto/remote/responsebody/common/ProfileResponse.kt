@@ -7,6 +7,7 @@ import com.mashup.chinchin.domain.model.Profile
 data class ProfileResponse(
     @SerializedName("id") val id: Long,
     @SerializedName("groupId") val groupId: Long,
+    @SerializedName("groupName") val groupName: String,
     @SerializedName("name") val name: String,
     @SerializedName("dateOfBirth") val dateOfBirth: String,
     @SerializedName("isMember") val isMember: Boolean,
@@ -22,7 +23,7 @@ data class ProfileResponse(
             isMember = isMember,
             thumbnailImageUrl = thumbnailImageUrl,
             kakaoId = kakaoId,
-            groupName = "" // FIXME 은정이가 추가해줄예정
+            groupName = groupName
         )
     }
 }
