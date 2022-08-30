@@ -3,6 +3,7 @@ package com.mashup.chinchin.presenter.ui.common
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -17,8 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -270,6 +273,12 @@ fun ChinChinActingButton(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun ChinChinQuestionCardPreview() {
+    ChinChinQuestionCard(index = 1, question = "싫어하는 노래는?", answer = "발라드")
+}
+
 /**
  * 질문 카드
  */
@@ -283,6 +292,7 @@ fun ChinChinQuestionCard(
     onAnswerChanged: ((Int, String) -> Unit) = { _, _ -> },
     cardState: ChinChinQuestionCardState = ChinChinQuestionCardState.SEND_EDIT_MODE,
     isChecked: Boolean = false,
+    onUpdateCheckState: (Int) -> Unit = {},
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
@@ -290,10 +300,13 @@ fun ChinChinQuestionCard(
         backgroundColor = getChinChinCardBackgroundColor(cardState),
         modifier = modifier
     ) {
-        Column {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        ) {
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 14.dp)
                     .padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -318,7 +331,9 @@ fun ChinChinQuestionCard(
                                 .fillMaxWidth(),
                         )
                     }
-                    else -> {
+                    ChinChinQuestionCardState.SEND_DELETE_MODE,
+                    ChinChinQuestionCardState.REPLY_INCOMPLETE,
+                    ChinChinQuestionCardState.REPLY_COMPLETE -> {
                         Text(
                             text = question,
                             color = Gray_700,
@@ -337,11 +352,11 @@ fun ChinChinQuestionCard(
                 elevation = 0.dp,
                 backgroundColor = White,
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 8.dp, bottom = 16.dp)
+                    .padding(top = 12.dp)
             ) {
                 when (cardState) {
-                    ChinChinQuestionCardState.SEND_EDIT_MODE -> {
+                    ChinChinQuestionCardState.SEND_EDIT_MODE,
+                    ChinChinQuestionCardState.REPLY_INCOMPLETE -> {
                         BasicTextField(
                             value = answer,
                             onValueChange = { onAnswerChanged.invoke(index, it) },
@@ -365,7 +380,8 @@ fun ChinChinQuestionCard(
                             },
                         )
                     }
-                    else -> {
+                    ChinChinQuestionCardState.SEND_DELETE_MODE,
+                    ChinChinQuestionCardState.REPLY_COMPLETE -> {
                         Text(
                             text = answer,
                             color = Gray_800,
@@ -376,6 +392,14 @@ fun ChinChinQuestionCard(
                         )
                     }
                 }
+            }
+            if (cardState == ChinChinQuestionCardState.REPLY_COMPLETE
+                || cardState == ChinChinQuestionCardState.REPLY_INCOMPLETE
+            ) {
+                ChinChinReplyCompleteCheckBox(isChecked, index, onUpdateCheckState)
+            }
+            else{
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
@@ -419,6 +443,40 @@ private fun ChinChinQuestionCardEmptyIcon(
                     drawCircle(color = getChinChinCardNumberIconBackgroundColor(cardState))
                 })
         }
+    }
+}
+
+@Composable
+fun ChinChinReplyCompleteCheckBox(
+    isChecked: Boolean,
+    index: Int,
+    onUpdateCheckState: (Int) -> Unit,
+) {
+    Row(
+        Modifier
+            .toggleable(
+                value = isChecked,
+                role = Role.Checkbox,
+                onValueChange = {
+                    onUpdateCheckState(index)
+                }
+            )
+            .padding(top = 12.dp, bottom = 16.dp)
+            .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = isChecked, onCheckedChange = null,
+            colors = CheckboxDefaults.colors(
+                checkedColor = Primary_2,
+                uncheckedColor = Gray_400,
+            )
+        )
+        Text(
+            text = "답변 완료",
+            modifier = Modifier.padding(start = 4.dp),
+            color = Gray_500,
+            fontSize = 12.sp
+        )
     }
 }
 

@@ -57,7 +57,8 @@ fun ReplyPreferenceTitle(userName: String) {
 @Composable
 fun ReplyPreferenceQuestionList(
     modifier: Modifier = Modifier,
-    questionnaire: List<QuestionUiModel>
+    questionnaire: List<QuestionUiModel>,
+    onUpdateCheckState: (Int) -> Unit = {},
 ) {
     Column(modifier = modifier) {
         ChinChinText(
@@ -76,7 +77,9 @@ fun ReplyPreferenceQuestionList(
                     cardState = when (question.isChecked) {
                         true -> ChinChinQuestionCardState.REPLY_COMPLETE
                         false -> ChinChinQuestionCardState.REPLY_INCOMPLETE
-                    }
+                    },
+                    isChecked = question.isChecked,
+                    onUpdateCheckState = onUpdateCheckState
                 )
             }
         }

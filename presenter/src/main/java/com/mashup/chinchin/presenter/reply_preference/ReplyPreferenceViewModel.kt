@@ -66,4 +66,18 @@ class ReplyPreferenceViewModel @Inject constructor(
             isSendSuccess.postValue(result)
         }
     }
+
+    fun updateCheckedState(index: Int) {
+        val newQuestions = _questionnaire.value?.toMutableList()
+        newQuestions?.let {
+            val toggleCheckedState = !it[index].isChecked
+            it[index] = it[index].copy(isChecked = toggleCheckedState)
+        }
+        _questionnaire.value = newQuestions
+    }
+
+    fun areCompletedReplies(): Boolean {
+        return _questionnaire.value?.filter { it.isChecked }?.size == _questionnaire.value?.size
+    }
+
 }
