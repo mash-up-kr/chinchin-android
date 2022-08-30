@@ -14,15 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mashup.chinchin.presenter.receive_alarm.model.AlarmType
-import com.mashup.chinchin.presenter.receive_alarm.model.RequestAlarmUiModel
+import com.mashup.chinchin.presenter.receive_alarm.model.ReceiveAlarmUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.receive_alarm.EmptyRequestAlarm
 import com.mashup.chinchin.presenter.ui.receive_alarm.RequestAlarmList
 import com.mashup.chinchin.presenter.ui.receive_alarm.RequestCountText
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ReceiveAlarmActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ fun ReceiveAlarmScreen(
 ) {
     val viewModel: ReceiveAlarmViewModel = hiltViewModel()
     viewModel.getAlarms()
-    val requestAlarmUiModels: List<RequestAlarmUiModel> = viewModel.alarms.observeAsState().value ?: emptyList()
+    val receiveAlarmUiModels: List<ReceiveAlarmUiModel> = viewModel.alarms.observeAsState().value ?: emptyList()
 
     StatusBarColor()
     Column {
@@ -58,8 +59,8 @@ fun ReceiveAlarmScreen(
             finishActivity()
         }
 
-        RequestCountText(requestAlarmUiModels.size)
-        if (requestAlarmUiModels.isEmpty()) {
+        RequestCountText(receiveAlarmUiModels.size)
+        if (receiveAlarmUiModels.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -68,7 +69,7 @@ fun ReceiveAlarmScreen(
                 EmptyRequestAlarm()
             }
         } else {
-            RequestAlarmList(requestAlarmUiModels, modifier = Modifier.padding(top = 7.dp))
+            RequestAlarmList(receiveAlarmUiModels, modifier = Modifier.padding(top = 7.dp))
         }
     }
 }
