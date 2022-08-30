@@ -537,6 +537,9 @@ fun ChinChinFriendCard(
                 modifier = Modifier
                     .size(54.dp)
                     .clip(CircleShape),
+
+                error = painterResource(R.drawable.profile_default_image),
+                placeholder = painterResource(R.drawable.profile_default_image),
             )
             Box(
                 modifier = Modifier

@@ -177,7 +177,9 @@ fun RecommendFriendInfo(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(54.dp)
-                .clip(CircleShape)
+                .clip(CircleShape),
+            error = painterResource(R.drawable.profile_default_image),
+            placeholder = painterResource(R.drawable.profile_default_image),
         )
 
         Text(

@@ -82,7 +82,8 @@ fun FriendProfile(
                         .clip(CircleShape)
                         .background(Color.Gray)
                         .align(Alignment.Center),
-                    placeholder = painterResource(id = R.drawable.profile_default_image)
+                    placeholder = painterResource(id = R.drawable.profile_default_image),
+                    error = painterResource(R.drawable.profile_default_image),
                 )
             }
             Image(
