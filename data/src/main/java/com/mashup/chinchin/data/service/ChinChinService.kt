@@ -84,6 +84,7 @@ interface ChinChinService {
      */
     @POST("/friend/{friendId}")
     suspend fun updateFriend(
+        @Path("friendId") friendId: Long,
         @Body updateFriendRequestBody: UpdateFriendRequestBody
     ): UpdateFriendResponseBody
 

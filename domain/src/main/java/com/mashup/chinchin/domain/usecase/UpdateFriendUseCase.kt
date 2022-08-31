@@ -6,8 +6,8 @@ import javax.inject.Inject
 class UpdateFriendUseCase @Inject constructor(
     private val friendRepository: FriendRepository
 ) {
-    suspend operator fun invoke(friend: UpdateFriendParams): Long {
-        return friendRepository.updateFriend(friend)
+    suspend operator fun invoke(friendId: Long, friend: UpdateFriendParams): Long {
+        return friendRepository.updateFriend(friendId, friend)
     }
 }
 
