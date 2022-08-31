@@ -75,6 +75,8 @@ fun EditPreferenceScreen(
 
     val showDialog = remember { mutableStateOf(false) }
 
+    StatusBarColor()
+
     if (showDialog.value) {
         NormalDialog(
             titleText = "질문지를 삭제할까요?",
