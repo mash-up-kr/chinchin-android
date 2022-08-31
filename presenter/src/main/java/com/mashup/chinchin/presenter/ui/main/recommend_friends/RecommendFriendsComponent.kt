@@ -152,9 +152,6 @@ fun RecommendFriendItem(
         ChinChinButton(
             icon = R.drawable.icon_plus,
             buttonText = "친구 추가",
-            modifier = Modifier
-                .width(91.dp)
-                .height(36.dp)
         ) {
             showBottomSheet.invoke()
             onSelectFriend.invoke(recommendFriend)
