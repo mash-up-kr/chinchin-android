@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.receive_alarm.model.AlarmType
-import com.mashup.chinchin.presenter.receive_alarm.model.RequestAlarmUiModel
+import com.mashup.chinchin.presenter.receive_alarm.model.ReceiveAlarmUiModel
 import com.mashup.chinchin.presenter.ui.theme.*
 import com.mashup.chinchin.presenter.ui.theme.Black
 import com.mashup.chinchin.presenter.ui.theme.Primary_2
@@ -52,19 +52,19 @@ fun RequestCountText(requestCount: Int) {
 }
 
 @Composable
-fun RequestAlarmList(requestAlarmUiModels: List<RequestAlarmUiModel>, modifier: Modifier = Modifier) {
+fun RequestAlarmList(receiveAlarmUiModels: List<ReceiveAlarmUiModel>, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {
-        items(requestAlarmUiModels) { requestAlarm ->
+        items(receiveAlarmUiModels) { receiveAlarm ->
             ReceiveAlarmItem(
-                userName = requestAlarm.requestUserName,
-                profileUrl = requestAlarm.requestUserProfileUrl,
+                userName = receiveAlarm.friendName,
+                profileUrl = receiveAlarm.friendProfileUrl,
                 modifier = Modifier.padding(horizontal = 24.dp),
-                date = requestAlarm.requestDate,
-                alarmType = requestAlarm.alarmType,
+                date = receiveAlarm.alarmDate,
+                alarmType = receiveAlarm.alarmType,
             )
         }
         item {

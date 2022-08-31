@@ -88,7 +88,7 @@ fun HomeHeader(
 
             Box {
                 IconButton(
-                    onClick = { },
+                    onClick = { onBellClick() },
                     modifier = Modifier
                         .padding(top = 5.dp, end = 5.dp)
                         .size(24.dp)
