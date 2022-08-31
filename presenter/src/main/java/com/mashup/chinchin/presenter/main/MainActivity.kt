@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.kakao.sdk.user.UserApiClient
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_FRIEND
@@ -33,6 +35,7 @@ import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Compan
 import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.main.recommend_friend.RecommendFriendsViewModel
 import com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
@@ -55,6 +58,8 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val recommendFriendsViewModel: RecommendFriendsViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -64,6 +69,26 @@ class MainActivity : ComponentActivity() {
                         recommendFriends = initRecommendFriends(),
                     )
                 }
+            }
+        }
+
+        observeData()
+    }
+
+    private fun observeData() {
+        recommendFriendsViewModel.loginKakao.observe(this) {
+            kakaoLogin()
+        }
+    }
+
+    private fun kakaoLogin() {
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+                recommendFriendsViewModel.handleKakaoCallback(token, error)
+            }
+        } else {
+            UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
+                recommendFriendsViewModel.handleKakaoCallback(token, error)
             }
         }
     }
@@ -216,6 +241,9 @@ fun RecommendFriendsScreen(
     bottomPaddingValue: Dp = 0.dp,
     onClickMore: () -> Unit,
 ) {
+    val viewModel: RecommendFriendsViewModel = hiltViewModel()
+    viewModel.getRecommendedFriends(LocalContext.current)
+
     Column(
         modifier = Modifier
             .padding(start = 24.dp, end = 24.dp, bottom = 20.dp)

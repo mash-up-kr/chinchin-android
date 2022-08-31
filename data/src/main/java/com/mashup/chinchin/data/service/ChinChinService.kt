@@ -86,4 +86,9 @@ interface ChinChinService {
     suspend fun updateFriend(
         @Body updateFriendRequestBody: UpdateFriendRequestBody
     ): UpdateFriendResponseBody
+
+    @POST("/get/members/recommended-friends")
+    suspend fun getRecommendedFriends(
+        @Body recommendedFriendRequestBody: RecommendedFriendRequestBody
+    ): List<RecommendedFriendResponseBody>
 }

@@ -45,7 +45,10 @@ class LoginViewModel @Inject constructor(
 
     private fun sendUserToken(token: OAuthToken) {
         viewModelScope.launch {
-            val result = loginUseCase.invoke(token.accessToken)
+            val result = loginUseCase.invoke(
+                accessToken = token.accessToken,
+                refreshToken = token.refreshToken,
+            )
             _isLoginSuccess.value = result
         }
     }
