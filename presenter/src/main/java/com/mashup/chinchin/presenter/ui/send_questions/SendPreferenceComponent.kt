@@ -87,7 +87,7 @@ fun QuestionCategoryList(
                     selectedCategory.value.keywords.find { it.keyword == keyword }?.question
                 addQuestion(
                     QuestionUiModel(
-                        selectedQuestion ?: throw Exception("선택된 키워드가 질문리스트에 존재하지 않습니다.")
+                        question = selectedQuestion ?: throw Exception("선택된 키워드가 질문리스트에 존재하지 않습니다.")
                     )
                 )
             }
@@ -225,7 +225,8 @@ fun EmptyAddQuestion() {
     ) {
         Image(
             painter = painterResource(id = R.drawable.img_empty_addquestion),
-            contentDescription = ""
+            contentDescription = "",
+            modifier = Modifier.size(200.dp)
         )
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.CategoryUiModel
@@ -41,8 +43,10 @@ import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionLis
 import com.mashup.chinchin.presenter.ui.send_questions.SendPreferenceQuestionTitle
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.ui.theme.Gray_600
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SendPreferenceActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,64 +54,41 @@ class SendPreferenceActivity : ComponentActivity() {
         setContent {
             ChinchinTheme {
                 SendPreferenceScreen(
-                    getCategoryList = { getCategoryList() },
                     finish = { finish() }
                 )
             }
         }
     }
 
-    private fun getCategoryList(): MutableList<CategoryUiModel> {
-        val categoryList = mutableListOf<CategoryUiModel>()
-        val preferences = CategoryUiModel(
-            category = "취향 키워드",
-            keywords = listOf(
-                KeywordQuestionUiModel(keyword = "좋아하는 음식", question = "좋아하는 음식은 무엇인가요?"),
-                KeywordQuestionUiModel(keyword = "싫어하는 음식", question = "싫어하는 음식은 무엇인가요?"),
-                KeywordQuestionUiModel(keyword = "좋아하는 향", question = "좋아하는 향은 무엇인가요?"),
-                KeywordQuestionUiModel(keyword = "좋아하는 옷 브랜드", question = "좋아하는 옷 브랜드는 무엇인가요?"),
-                KeywordQuestionUiModel(keyword = "좋아하는 꽃", question = "좋아하는 꽃은 무엇인가요?"),
-                KeywordQuestionUiModel(keyword = "좋아하는 술", question = "좋아하는 술은 무엇인가요?"),
-            )
-        )
 
-        val privateInformation = CategoryUiModel(
-            category = "개인 정보",
-            keywords = listOf(
-                KeywordQuestionUiModel(keyword = "MBTI", question = "MBTI는 무엇인가요?"),
-                KeywordQuestionUiModel(keyword = "못 먹는 음식", question = "못 먹는 음식은 무엇인가요?"),
-                KeywordQuestionUiModel(keyword = "옷 사이즈", question = "옷 사이즈는 무엇인가요?"),
-                KeywordQuestionUiModel(keyword = "신발 사이즈", question = "신발 사이즈는 어떻게 되나요?"),
-                KeywordQuestionUiModel(keyword = "활동 지역", question = "주로 활동하는 지역은 어디인가요?"),
-                KeywordQuestionUiModel(
-                    keyword = "최애 영화",
-                    question = "지금까지 봤던 영화 중 가장 좋았던 영화는 어떤거야?"
-                ),
-            )
-        )
-        categoryList.add(preferences)
-        categoryList.add(privateInformation)
-
-        return categoryList
-    }
     companion object{
         const val EXTRA_QUESTIONS = "EXTRA_QUESTIONS"
         const val EXTRA_BUNDLE = "EXTRA_BUNDLE"
+        const val EXTRA_FRIEND_ID = "EXTRA_FRIEND_ID"
+        const val EXTRA_FRIEND_NAME = "EXTRA_FRIEND_NAME"
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SendPreferenceScreen(
-    getCategoryList: () -> List<CategoryUiModel>,
     finish: () -> Unit,
 ) {
+    // basic data
     val context = LocalContext.current
+    val viewModel: SendPreferenceViewModel = hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
+
+    // viewModel data
+    val categories = viewModel.getCategoryList()
+    val isSendSuccess = viewModel.isSendSuccess.observeAsState().value
+
+    // state data
     val (showSendDialog, setShowSendDialog) = remember { mutableStateOf(false) }
     val (showSaveDialog, setShowSaveDialog) = remember { mutableStateOf(false) }
     val (showCancelDialog, setShowCancelDialog) = remember { mutableStateOf(false) }
 
+    // bottomsheet data
     val modalBottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
@@ -121,6 +102,13 @@ fun SendPreferenceScreen(
         coroutineScope.launch {
             modalBottomSheetState.hide()
         }
+    }
+
+    if (isSendSuccess == true) {
+        val intent = Intent(context, SendPreferenceCompleteActivity::class.java)
+        context.startActivity(intent)
+    } else {
+        // TODO: Error Log
     }
 
     BackHandler(enabled = modalBottomSheetState.isVisible) {
@@ -151,23 +139,23 @@ fun SendPreferenceScreen(
         sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
     ) {
         CreateQuestionSheetScreen(
-            categoryList = getCategoryList(),
-            onConfirmButtonClick = showBottomSheet
+            categoryList = categories,
+            onConfirmButtonClick = showBottomSheet,
+            viewModel = viewModel
         ) {
             setShowCancelDialog(true)
         }
     }
     if (showSendDialog) {
         ImageDialog(
-            drawableId = R.drawable.img_congrats,
+            drawableId = R.drawable.img_plane,
             titleText = "취향 질문지를 \n" +
                     "친구에게 전송할까요?",
             confirmText = "네, 전송할래요",
             cancelText = "아니요",
             subTitleText = "보낸 취향 질문은 수정이 불가능해요",
             onClickConfirm = {
-                val intent = Intent(context, SendPreferenceCompleteActivity::class.java)
-                context.startActivity(intent)
+                viewModel.sendQuestionnaire()
                 setShowSendDialog(false)
             },
             onClickCancel = { setShowSendDialog(false) }
@@ -209,15 +197,13 @@ fun SendPreferenceScreen(
 
 @Composable
 fun CreateQuestionSheetScreen(
-    userName: String = "윤혜",
     onConfirmButtonClick: () -> Unit = {},
     categoryList: List<CategoryUiModel>,
+    viewModel: SendPreferenceViewModel,
     onBackButtonClick: () -> Unit = {},
 ) {
-    //TODO 아래 주석 코드가 동작안됨 확인필요!! 도와주세요~
-    //val questions by sendPreferenceViewModel._questionsLiveData.observeAsState()
     val sendPreferenceViewModel: SendPreferenceViewModel = viewModel()
-    val questions = sendPreferenceViewModel.questions
+    val questions = sendPreferenceViewModel.questions.observeAsState().value ?: emptyList()
     val startForResult =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -226,12 +212,12 @@ fun CreateQuestionSheetScreen(
                 val questions = passedExtras.getBundle(EXTRA_BUNDLE)
                     ?.getParcelableArrayList<QuestionUiModel>(EXTRA_QUESTIONS)
                 questions?.let {
-                    sendPreferenceViewModel.changeQuestions(questions.toList())
+                    sendPreferenceViewModel.changeQuestions(questions)
                 }
             }
         }
     val context = LocalContext.current
-    val questionsArrayList = ArrayList(questions.toList())
+    val questionsArrayList = ArrayList(questions)
 
     val onClickEditButton: () -> Unit = {
         Intent(context, EditPreferenceActivity::class.java).apply {
@@ -254,9 +240,9 @@ fun CreateQuestionSheetScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-            SendPreferenceQuestionTitle(userName)
+            SendPreferenceQuestionTitle(viewModel.friendName)
             Text(
-                text = "아래 카테고리들을 선택해 질문을 구성할 수 있습니다.",
+                text = "아래 카테고리들을 선택해 질문을 구성할 수 있어요.",
                 color = Gray_600,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(top = 8.dp),

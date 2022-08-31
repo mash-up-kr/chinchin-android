@@ -73,7 +73,7 @@ class RecommendFriendsViewModel @Inject constructor(
                         val result = getRecommendedFriendsUseCase()
                         println("good" + result.size)
                         for (i in result) {
-                            Log.d("good", i.profileNickname?: "good")
+                            Log.d("good", i.name)
                         }
                     }
                 } else {

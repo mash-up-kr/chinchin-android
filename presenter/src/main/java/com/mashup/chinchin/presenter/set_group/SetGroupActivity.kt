@@ -6,58 +6,69 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.mashup.chinchin.presenter.main.model.GroupInfoUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
+import com.mashup.chinchin.presenter.ui.set_group.AddGroupDialog
 import com.mashup.chinchin.presenter.ui.set_group.GroupRadioButtons
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SetGroupActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             ChinchinTheme {
-                val groups = listOf("지정안함", "그룹1", "그룹2", "그룹3", "그룹4", "그룹5", "그룹6")
-                val selectedGroup: MutableState<String> = remember { mutableStateOf("") }
-
-                SetGroupScreen(selectedGroup, groups) {
-                    val intent = Intent().apply {
-                        putExtra(EXTRA_GROUP_NAME, selectedGroup.value)
-                    }
-                    setResult(Activity.RESULT_OK, intent)
-                    finish()
-                }
-
+                SetGroupScreen()
             }
         }
     }
 
     companion object {
-        const val EXTRA_GROUP_NAME = "EXTRA_GROUP_NAME"
+        const val EXTRA_GROUP = "EXTRA_GROUP"
     }
 }
 
 @Composable
-fun SetGroupScreen(
-    selectedGroup: MutableState<String>,
-    groups: List<String>,
-    finishActivityWithResult: () -> Unit = {}
-) {
-    val onChangeState: (String) -> Unit = { selectedGroup.value = it }
+fun SetGroupScreen() {
+    // basic
+    val viewModel: SetGroupViewModel = hiltViewModel()
+    val activity = (LocalContext.current as? Activity)
+
+    // compose state
+    val groups = viewModel.groups.observeAsState()
+    var selectedGroup: GroupInfoUiModel? by remember {
+        mutableStateOf(groups.value?.groups?.get(0))
+    }
+    val onChangeState: (GroupInfoUiModel) -> Unit = { selectedGroup = it }
+    val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
+
+    // 초기 데이터
+    viewModel.getGroups()
 
     StatusBarColor()
     Column {
         ChinChinToolbar(title = "그룹 지정") {
-            finishActivityWithResult()
+            val intent = Intent().apply {
+                putExtra(SetGroupActivity.EXTRA_GROUP, selectedGroup)
+            }
+            activity?.setResult(Activity.RESULT_OK, intent)
+            activity?.finish()
         }
         GroupRadioButtons(
-            selectedGroup = selectedGroup.value,
+            selectedGroup = selectedGroup,
             onChangeState = onChangeState,
-            groups = groups
+            groups = viewModel.groups.value?.groups ?: emptyList(),
+            setShowDialog = setShowDialog
         )
+    }
+    AddGroupDialog(showDialog, setShowDialog) { groupName ->
+        viewModel.createNewGroup(groupName)
     }
 }

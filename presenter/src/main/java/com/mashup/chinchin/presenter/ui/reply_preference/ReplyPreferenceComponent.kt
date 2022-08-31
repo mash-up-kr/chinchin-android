@@ -55,23 +55,27 @@ fun ReplyPreferenceTitle(userName: String) {
 }
 
 @Composable
-fun ReplyPreferenceQuestionList(modifier: Modifier = Modifier, questions: List<QuestionUiModel>) {
+fun ReplyPreferenceQuestionList(
+    modifier: Modifier = Modifier,
+    questionnaire: List<QuestionUiModel>
+) {
     Column(modifier = modifier) {
-        ChinChinText(text = "총 질문", highlightText = "${questions.size}")
+        ChinChinText(
+            text = "총 질문",
+            highlightText = "${questionnaire.size}"
+        )
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.padding(top = 8.dp),
         ) {
-            itemsIndexed(questions) { index, question ->
+            itemsIndexed(questionnaire) { index, question ->
                 ChinChinQuestionCard(
                     index = index,
                     question = question.question,
                     answer = question.answer,
-                    /* TODO: 카드 타입 테스트입니다 정상 로직으로 교체 예정.. */
-                    cardState = when (index % 3) {
-                        0 -> ChinChinQuestionCardState.SEND_EDIT_MODE
-                        1 -> ChinChinQuestionCardState.SEND_DELETE_MODE
-                        else -> ChinChinQuestionCardState.REPLY_COMPLETE
+                    cardState = when (question.isChecked) {
+                        true -> ChinChinQuestionCardState.REPLY_COMPLETE
+                        false -> ChinChinQuestionCardState.REPLY_INCOMPLETE
                     }
                 )
             }

@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
+import com.mashup.chinchin.presenter.friend_detail.model.ProfileUiModel
 import com.mashup.chinchin.presenter.ui.theme.Gray_500
 import com.mashup.chinchin.presenter.ui.theme.Gray_800
 
@@ -29,11 +31,14 @@ import com.mashup.chinchin.presenter.ui.theme.Gray_800
 @Composable
 fun FriendProfilePreview() {
     FriendProfile(
-        friendUiModel = FriendUiModel(
+        profileUiModel = ProfileUiModel(
             name = "김매쉬",
-            birthday = "12월 31일",
-            profileUrl = "https://s3-alpha-sig.figma.com/img/8bbf/4576/60f7ab03c8f19e4de6c019fd6f0769a2?Expires=1658102400&Signature=RxL8HYAoquqxPWHDVN-0nIXbJUGIoAa1QW9KqeL0-2uZMM0iHdVrk9d~4LH2fGvEg4gNl7-VBcWNFe446Xz7bX7e8-qh5-IKzxUoVmjMXQOlMhz8bjepncmfJO0PoyAuVmWOqZaSvbIw1rAG-xP3vDmHXIII~gyG4c8rk5Nf3D8PL4vGEvgI-L73hoAjI4rJDbLnciRj2n52nOu67BAhSytQso9G2V0cytGDhfKEOR-FdexnaI3KWTb1uLGzJb1STkOjJNXVqp9eOegL5KfF3fUpu4uxdXe0EvbWg6ij5nTQlhy1qtRlKe4o1liApZ5USODd0eODBZEunGs9szyfTw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
-            groupName = "매쉬업 그룹"
+            dateOfBirth = "12월 31일",
+            thumbnailImageUrl = "https://s3-alpha-sig.figma.com/img/8bbf/4576/60f7ab03c8f19e4de6c019fd6f0769a2?Expires=1658102400&Signature=RxL8HYAoquqxPWHDVN-0nIXbJUGIoAa1QW9KqeL0-2uZMM0iHdVrk9d~4LH2fGvEg4gNl7-VBcWNFe446Xz7bX7e8-qh5-IKzxUoVmjMXQOlMhz8bjepncmfJO0PoyAuVmWOqZaSvbIw1rAG-xP3vDmHXIII~gyG4c8rk5Nf3D8PL4vGEvgI-L73hoAjI4rJDbLnciRj2n52nOu67BAhSytQso9G2V0cytGDhfKEOR-FdexnaI3KWTb1uLGzJb1STkOjJNXVqp9eOegL5KfF3fUpu4uxdXe0EvbWg6ij5nTQlhy1qtRlKe4o1liApZ5USODd0eODBZEunGs9szyfTw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+            groupName = "매쉬업 그룹",
+            isMember = true,
+            groupId = 1,
+            id = 0
         )
     )
 }
@@ -42,8 +47,10 @@ fun FriendProfilePreview() {
 fun FriendProfile(
     onProfileClick: () -> Unit = {},
     onButtonClick: () -> Unit = {},
-    friendUiModel: FriendUiModel
+    profileUiModel: ProfileUiModel?
 ) {
+    if (profileUiModel == null) return
+    
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -55,9 +62,7 @@ fun FriendProfile(
                 onProfileClick()
             }
         ) {
-            val isGuest = true // TODO: 미가입자일 경우
-
-            if (isGuest) {
+            if (profileUiModel.isMember) {
                 Image(
                     modifier = Modifier
                         .padding(horizontal = 11.dp)
@@ -70,7 +75,7 @@ fun FriendProfile(
                 )
             } else {
                 AsyncImage(
-                    model = friendUiModel.profileUrl,
+                    model = profileUiModel.thumbnailImageUrl,
                     contentDescription = "profile",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -79,7 +84,8 @@ fun FriendProfile(
                         .clip(CircleShape)
                         .background(Color.Gray)
                         .align(Alignment.Center),
-                    placeholder = painterResource(id = R.drawable.profile_default_image)
+                    placeholder = painterResource(id = R.drawable.profile_default_image),
+                    error = painterResource(R.drawable.profile_default_image),
                 )
             }
             Image(
@@ -94,7 +100,7 @@ fun FriendProfile(
 
         Text(
             modifier = Modifier.padding(top = 2.dp),
-            text = friendUiModel.name,
+            text = profileUiModel.name,
             color = Color.Black,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
@@ -106,7 +112,7 @@ fun FriendProfile(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = friendUiModel.birthday,
+                text = profileUiModel.dateOfBirth,
                 fontSize = 12.sp,
                 color = Gray_500,
             )
@@ -119,7 +125,7 @@ fun FriendProfile(
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                text = friendUiModel.groupName,
+                text = profileUiModel.groupName,
                 fontSize = 12.sp,
                 color = Gray_500
             )

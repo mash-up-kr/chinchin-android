@@ -21,11 +21,12 @@ import androidx.compose.ui.unit.sp
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
-import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
-import com.mashup.chinchin.presenter.ui.common.ChinChinActingButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinAnswerCard
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
-import com.mashup.chinchin.presenter.ui.theme.*
+import com.mashup.chinchin.presenter.ui.theme.Black
+import com.mashup.chinchin.presenter.ui.theme.Gray_300
+import com.mashup.chinchin.presenter.ui.theme.Gray_500
+import com.mashup.chinchin.presenter.ui.theme.White
 
 @Preview(showBackground = true)
 @Composable
@@ -51,14 +52,13 @@ fun QuestionSizeText(size: Int) {
 @Composable
 fun QuestionAnswerListPreview() {
     QuestionAnswerListContent(
-        FriendDetailActivity.initFriendAnswerList(),
-        ChinChinAnswerCardState.FRIEND_ANSWER
+        cardState = ChinChinAnswerCardState.FRIEND_ANSWER
     )
 }
 
 @Composable
 fun QuestionAnswerListContent(
-    answers: List<QuestionUiModel>,
+    answers: List<QuestionUiModel> = emptyList(),
     cardState: ChinChinAnswerCardState
 ) {
     Column(
@@ -92,10 +92,15 @@ fun EmptyQuestionContentPreview() {
 fun EmptyQuestionContent() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize().padding(top = 380.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 380.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Image(painter = painterResource(id = R.drawable.img_pencil), contentDescription = "")
+        Image(
+            painter = painterResource(id = R.drawable.img_pencil), contentDescription = "",
+            modifier = Modifier.size(200.dp)
+        )
     }
 }
 

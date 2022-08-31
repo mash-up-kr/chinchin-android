@@ -12,10 +12,8 @@ data class RecommendedFriendResponseBody(
     override fun toDomainModel(): Friend {
         return Friend(
             id = id,
-            profileNickname = profileNickname,
-            profileThumbnailImage = profileThumbnailImage,
-            birth = null,
-            groupName = null
+            name = profileNickname,
+            thumbnailImageUrl = profileThumbnailImage,
         )
     }
 }

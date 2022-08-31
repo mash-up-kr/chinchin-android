@@ -10,7 +10,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -26,10 +28,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kakao.sdk.user.UserApiClient
 import com.mashup.chinchin.presenter.R
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity
-import com.mashup.chinchin.presenter.add_friend.AddFriendActivity.Companion.NEW_FRIEND
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
+import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_FRIEND
 import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity
-import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.OLD_FRIEND
+import com.mashup.chinchin.presenter.connect_friend.ConnectFriendActivity.Companion.FRIEND
 import com.mashup.chinchin.presenter.main.home.HomeViewModel
 import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
@@ -65,7 +67,6 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     MainScreen(
                         recommendFriends = initRecommendFriends(),
-                        groups = initGroups(),
                     )
                 }
             }
@@ -92,25 +93,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun initGroups(): List<FriendGroupUiModel> {
-        return List(1) {
-            FriendGroupUiModel(
-                name = "매쉬업 사람들",
-                friends = listOf(
-                    FriendUiModel(0, "히지니", "https://picsum.photos/200"),
-                    FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
-                    FriendUiModel(0, "경무", "https://picsum.photos/200"),
-                    FriendUiModel(0, "히지니", "https://picsum.photos/200"),
-                    FriendUiModel(0, "혜찌니", "https://picsum.photos/200"),
-                    FriendUiModel(0, "경무", "https://picsum.photos/200")
-                )
-            )
-        }
-    }
-
     private fun initRecommendFriends(): List<FriendUiModel> {
         return List(25) {
-            FriendUiModel(0, "안경무 $it", "https://picsum.photos/200")
+            FriendUiModel(0, "안경무 $it", "https://picsum.photos/200", null) // 수정 후 삭제 부탁합니다.
         }
     }
 }
@@ -120,22 +105,26 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(
     screens: List<MainNavScreen> = MainNavScreen.values().toList(),
     recommendFriends: List<FriendUiModel> = listOf(),
-    groups: List<FriendGroupUiModel> = listOf(),
 ) {
+
+    // basic state
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    // bottom nav controller state
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = MainNavScreen.fromRoute(navBackStackEntry?.destination?.route)
 
-    val selectedFriend = remember { mutableStateOf(FriendUiModel(0, "", "")) }
+    // state
+    val selectedFriend: MutableState<FriendUiModel?> = remember { mutableStateOf(null) }
     val onSelectFriend: (friend: FriendUiModel) -> Unit = { friend ->
         selectedFriend.value = friend
     }
-    val coroutineScope = rememberCoroutineScope()
 
+    // bottom sheet state
     val modalBottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-
     val showBottomSheet: () -> Unit = {
         coroutineScope.launch {
             modalBottomSheetState.show()
@@ -162,13 +151,13 @@ fun MainScreen(
             BottomSheetContent(
                 "친구 추가할까요?", listOf(
                     BottomSheetItemUiModel("신규 친구 추가하기", R.drawable.icon_user_more1) {
-                        context.startActivity(Intent(context, AddFriendActivity::class.java)
-                            .putExtra(NEW_FRIEND, selectedFriend.value)
+                        context.startActivity(Intent(context, FriendInformationActivity::class.java)
+                            .putExtra(EXTRA_FRIEND, selectedFriend.value)
                         )
                     },
                     BottomSheetItemUiModel("기존 친구에 연결하기", R.drawable.icon_connect) {
                         context.startActivity(Intent(context, ConnectFriendActivity::class.java).apply {
-                            putExtra(OLD_FRIEND, selectedFriend.value)
+                            putExtra(FRIEND, selectedFriend.value)
                         })
                     },
                     BottomSheetItemUiModel("취소", R.drawable.ic_x) {
@@ -193,7 +182,6 @@ fun MainScreen(
             MainNavGraph(
                 navController = navController,
                 recommendFriends = recommendFriends,
-                groups = groups,
                 showBottomSheet,
                 onSelectFriend,
                 bottomPaddingValue = paddingValues.calculateBottomPadding()
@@ -203,10 +191,13 @@ fun MainScreen(
 }
 
 @Composable
-fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) {
+fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
     val viewModel: HomeViewModel = hiltViewModel()
+    viewModel.getGroups()
+    viewModel.checkAlarmExist()
+
     val context = LocalContext.current
-    val groups = remember { groups.toMutableStateList() }
+    val groups = viewModel.groups.observeAsState().value ?: FriendGroupUiModel(emptyList())
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = bottomPaddingValue)) {
@@ -215,7 +206,7 @@ fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) 
                 context.startActivity(
                     Intent(
                         context,
-                        AddFriendActivity::class.java
+                        FriendInformationActivity::class.java
                     )
                 )
             },
@@ -228,9 +219,10 @@ fun HomeScreen(groups: List<FriendGroupUiModel>, bottomPaddingValue: Dp = 0.dp) 
                     )
                 )
             },
-            groups = groups
+            groups = groups.groups,
+            isAlarmExist = viewModel.isExistAlarm.observeAsState().value ?: false
         )
-        HomeBody(groups = groups)
+        HomeBody(groups = groups.groups)
         AddGroupDialog(
             showDialog = showDialog,
             setShowDialog = setShowDialog,

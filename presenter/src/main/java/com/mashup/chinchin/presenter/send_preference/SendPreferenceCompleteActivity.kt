@@ -91,12 +91,12 @@ fun SendPreferenceCompleteScreen(
             )
 
             Image(
-                painter = painterResource(id = R.drawable.send_complete),
+                painter = painterResource(id = R.drawable.img_letter),
                 contentDescription = "",
                 modifier = Modifier
                     .padding(top = 60.dp)
-                    .width(270.dp)
-                    .height(244.dp)
+                    .width(312.dp)
+                    .height(312.dp)
             )
         }
 

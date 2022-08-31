@@ -515,7 +515,7 @@ fun ChinChinGrayTextField(
 @Composable
 fun ChinChinFriendCard(
     modifier: Modifier = Modifier,
-    friend: FriendUiModel,
+    friend: FriendUiModel?,
     onClickCard: () -> Unit = {},
 ) {
     Card(
@@ -531,12 +531,15 @@ fun ChinChinFriendCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = friend.profileUrl,
+                model = friend?.profileUrl,
                 contentDescription = "profile",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(54.dp)
                     .clip(CircleShape),
+
+                error = painterResource(R.drawable.profile_default_image),
+                placeholder = painterResource(R.drawable.profile_default_image),
             )
             Box(
                 modifier = Modifier
@@ -545,7 +548,7 @@ fun ChinChinFriendCard(
                 contentAlignment = Alignment.CenterStart,
             ) {
                 Text(
-                    text = friend.name,
+                    text = friend?.name ?: "",
                     fontWeight = FontWeight.Bold,
                     color = Black,
                     fontSize = 16.sp,

@@ -7,9 +7,9 @@
     <application
         android:name=".application.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_chinchin"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_chinchin"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chinchin">
         <activity
@@ -48,7 +48,7 @@
         <activity android:name="com.mashup.chinchin.presenter.group_detail.GroupDetailActivity" />
         <activity android:name="com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity" />
         <activity android:name="com.mashup.chinchin.presenter.set_group.SetGroupActivity"/>
-        <activity android:name="com.mashup.chinchin.presenter.add_friend.AddFriendActivity" />
+        <activity android:name="com.mashup.chinchin.presenter.friend_information.FriendInformationActivity" />
         <activity android:name="com.mashup.chinchin.presenter.reply_preference.ReplyPreferenceActivity" />
         <activity android:name="com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity" />
         <activity android:name="com.mashup.chinchin.presenter.dialog_test.DialogActivity" />

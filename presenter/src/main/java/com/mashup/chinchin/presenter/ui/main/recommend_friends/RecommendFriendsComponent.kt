@@ -131,6 +131,7 @@ fun RecommendFriendsEmptyBody() {
         Image(
             painter = painterResource(id = R.drawable.img_empty_findfriend),
             contentDescription = "",
+            modifier = Modifier.size(200.dp)
         )
     }
 }
@@ -163,7 +164,7 @@ fun RecommendFriendItem(
 
 @Composable
 fun RecommendFriendInfo(
-    recommendFriend: FriendUiModel,
+    recommendFriend: FriendUiModel?,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -171,16 +172,18 @@ fun RecommendFriendInfo(
         modifier = modifier,
     ) {
         AsyncImage(
-            model = recommendFriend.profileUrl,
+            model = recommendFriend?.profileUrl,
             contentDescription = "",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(54.dp)
-                .clip(CircleShape)
+                .clip(CircleShape),
+            error = painterResource(R.drawable.profile_default_image),
+            placeholder = painterResource(R.drawable.profile_default_image),
         )
 
         Text(
-            text = recommendFriend.name,
+            text = recommendFriend?.name ?: "",
             fontSize = 14.sp,
             modifier = Modifier.padding(start = 12.dp),
         )

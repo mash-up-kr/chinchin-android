@@ -1,6 +1,7 @@
 package com.mashup.chinchin.presenter.common.model
 
 import android.os.Parcelable
+import com.mashup.chinchin.domain.model.Friend
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -10,9 +11,20 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class FriendUiModel(
-    val id: Long = -1,
-    val name: String = "",
-    val profileUrl: String = "",
-    val birthday: String = "", // Todo need to chagge dateType
-    val groupName: String = "",
-): Parcelable
+    val id: Long? = null, // 친구 등록 전엔 id가 없습니다.
+    val name: String?,
+    val birthday: String?,
+    val group: GroupUiModel?,
+    val profileUrl: String? = null, // 친구 프로필은 nullable합니다.
+    val kakaoId: String? = null // 미등록 친구일 경우에도 nullable합니다.
+) : Parcelable
+
+fun Friend.toUiModel(): FriendUiModel {
+    return FriendUiModel(
+        id = id,
+        name = name,
+        profileUrl = thumbnailImageUrl,
+        birthday = null,
+        group = null
+    )
+}

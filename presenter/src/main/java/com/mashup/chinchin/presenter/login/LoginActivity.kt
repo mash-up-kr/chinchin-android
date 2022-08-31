@@ -23,8 +23,7 @@ import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.login.IntroductionImage
 import com.mashup.chinchin.presenter.ui.login.IntroductionText
 import com.mashup.chinchin.presenter.ui.login.KakaoLoginButton
-import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
-import com.mashup.chinchin.presenter.ui.theme.Secondary_1
+import com.mashup.chinchin.presenter.ui.theme.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -75,33 +74,46 @@ class LoginActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
 private fun LoginScreen(kakaoLogin: () -> Unit = {}) {
     StatusBarColor()
-    Box(
-        modifier = Modifier.background(Secondary_1)
+    Column(
+        modifier = Modifier
+            .padding(top = 80.dp)
+            .fillMaxSize()
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxHeight()
                 .fillMaxWidth()
-                .padding(vertical = 153.dp),
+                .wrapContentHeight()
         ) {
-            Image(painter = painterResource(id = R.drawable.login_logo), contentDescription = "")
-            IntroductionText()
-            Spacer(modifier = Modifier.height(34.dp))
-            IntroductionImage()
+            Image(
+                painter = painterResource(id = R.drawable.logo), contentDescription = "",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .width(149.dp)
+                    .height(83.dp)
+                    .padding(bottom = 10.dp)
+            )
+            IntroductionText(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 43.dp)
+            )
         }
-
-        Column(
-            verticalArrangement = Arrangement.Bottom,
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(bottom = 32.dp)
+        Box(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            KakaoLoginButton {
+            IntroductionImage(
+                modifier = Modifier.fillMaxWidth()
+            )
+            KakaoLoginButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 24.dp, end = 24.dp, bottom = 80.dp)
+                    .align(alignment = Alignment.BottomCenter)
+            ) {
                 kakaoLogin()
             }
         }

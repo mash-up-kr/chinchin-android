@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -15,9 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.EXTRA_FRIEND_ID
-import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinText
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.NormalDialog
@@ -25,45 +26,41 @@ import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.connect_friend.ConnectFriendSearchBar
 import com.mashup.chinchin.presenter.ui.connect_friend.TotalFriendList
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ConnectFriendActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // FIXME: ViewModel 추가 되면 이관
-        val oldFriend = intent.extras?.get(OLD_FRIEND) as? FriendUiModel ?: return
-
         setContent {
             ChinchinTheme {
-                Surface(
-                    color = MaterialTheme.colors.background
-                ) {
-                    ConnectFriendScreen(
-                        totalFriends = List(25) {
-                            FriendUiModel(0, "안경무 $it", "goood")
-                        }
-                    ) {
-                        finish()
-                    }
+                ConnectFriendScreen {
+                    finish()
                 }
             }
         }
     }
 
     companion object {
-        const val OLD_FRIEND = "OLD_FRIEND"
+        const val FRIEND = "FRIEND"
     }
 }
 
 @Composable
 fun ConnectFriendScreen(
-    totalFriends: List<FriendUiModel> = emptyList(),
     finishActivity: () -> Unit = {},
 ) {
+    // basic data
     val context = LocalContext.current
+    val viewModel: ConnectFriendViewModel = hiltViewModel()
+
+    // current page state
+    val friends = viewModel.friends.observeAsState().value ?: emptyList()
     val (searchText, onSearchTextChanged) = remember { mutableStateOf("") }
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
-    val selectedFriend = remember { mutableStateOf(FriendUiModel()) }
+    val selectedFriend: MutableState<FriendUiModel?> = remember { mutableStateOf(null) }
+
+    viewModel.getFriends()
 
     StatusBarColor()
     Column {
@@ -83,28 +80,29 @@ fun ConnectFriendScreen(
                 .padding(start = 24.dp, end = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ChinChinText(text = "전체", highlightText = "${totalFriends.size}")
+            ChinChinText(text = "전체", highlightText = "${friends.size}")
         }
         Spacer(modifier = Modifier.height(16.dp))
-        TotalFriendList(friends = totalFriends, onClickCard = {
+        TotalFriendList(friends = friends, onClickCard = {
             selectedFriend.value = it
             setShowDialog(true)
         })
     }
 
     if (showDialog) {
-        NormalDialog(
-            titleText = "${selectedFriend.value.name}에게 연결할까요?",
-            onClickSuccess = {
-                // TODO: 친구 상세로 넘어가도록
-                val intent = Intent(context, FriendDetailActivity::class.java).apply {
-                    putExtra(EXTRA_FRIEND_ID, selectedFriend.value.id)
-                }
-                context.startActivity(intent)
-                setShowDialog(false)
-            },
-            onClickCancel = { setShowDialog(false) }
-        )
+        selectedFriend.value?.let {
+            NormalDialog(
+                titleText = "${it.name}에게 연결할까요?",
+                onClickSuccess = {
+                    val intent = Intent(context, FriendDetailActivity::class.java).apply {
+                        putExtra(EXTRA_FRIEND_ID, it.id)
+                    }
+                    context.startActivity(intent)
+                    setShowDialog(false)
+                },
+                onClickCancel = { setShowDialog(false) }
+            )
+        }
     }
 }
 
