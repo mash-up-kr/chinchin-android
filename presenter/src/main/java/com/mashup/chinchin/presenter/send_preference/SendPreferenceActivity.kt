@@ -59,7 +59,6 @@ class SendPreferenceActivity : ComponentActivity() {
         }
     }
 
-
     companion object{
         const val EXTRA_QUESTIONS = "EXTRA_QUESTIONS"
         const val EXTRA_BUNDLE = "EXTRA_BUNDLE"
@@ -228,7 +227,7 @@ fun CreateQuestionSheetScreen(
         ChinChinToolbar(
             title = "취향 질문 보내기",
             isActiveConfirmButton = true,
-            isAbleConfirmButton = questions.isNotEmpty(),
+            isAbleConfirmButton = sendPreferenceViewModel.areAnsweredQuestions(),
             onConfirmButtonClick = onConfirmButtonClick
         ) {
             onBackButtonClick()
