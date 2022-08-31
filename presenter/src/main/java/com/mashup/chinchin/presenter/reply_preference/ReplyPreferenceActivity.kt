@@ -72,7 +72,7 @@ fun ReplyPreferenceScreen(
     Column {
         ChinChinToolbar(
             title = "취향 질문 답변하기",
-            isActiveConfirmButton = true, //TODO 질문 다 답변했으면 true해야함
+            isActiveConfirmButton = true,
             isAbleConfirmButton = viewModel.areCompletedReplies(),
             onConfirmButtonClick = { setShowSendDialog(true) },
             confirmDrawableId = R.drawable.ic_send
