@@ -95,7 +95,7 @@ class MainActivity : ComponentActivity() {
 
     private fun initRecommendFriends(): List<FriendUiModel> {
         return List(25) {
-            FriendUiModel(0, "안경무 $it", "https://picsum.photos/200", null) // 수정 후 삭제 부탁합니다.
+            FriendUiModel(0, "안경무 $it", group = null, birthday = null, profileUrl = "https://picsum.photos/200") // 수정 후 삭제 부탁합니다.
         }
     }
 }

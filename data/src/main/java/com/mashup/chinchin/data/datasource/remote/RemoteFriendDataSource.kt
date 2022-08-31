@@ -24,7 +24,7 @@ class RemoteFriendDataSource @Inject constructor(
         return chinChinService.addFriend(addFriendRequestBody)
     }
 
-    suspend fun updateFriend(updateFriendRequestBody: UpdateFriendRequestBody): UpdateFriendResponseBody {
-        return chinChinService.updateFriend(updateFriendRequestBody)
+    suspend fun updateFriend(friendId: Long, updateFriendRequestBody: UpdateFriendRequestBody): UpdateFriendResponseBody {
+        return chinChinService.updateFriend(friendId, updateFriendRequestBody)
     }
 }

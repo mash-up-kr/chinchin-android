@@ -7,10 +7,8 @@ import com.mashup.chinchin.domain.usecase.UpdateFriendParams
 import com.mashup.chinchin.domain.usecase.UpdateFriendUseCase
 import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
-import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,18 +49,19 @@ class FriendInformationViewModel @Inject constructor(
         }
     }
 
-    fun updateFriend(friend: FriendUiModel) {
+    fun updateFriend(newFriend: FriendUiModel) {
         viewModelScope.launch {
             val param = UpdateFriendParams(
-                name = friend.name ?: throw Exception("name shouldn't be null"),
-                groupId = friend.group?.groupId ?: throw Exception("groupId shouldn't be null"),
-                dateOfBirth = friend.birthday ?: throw Exception("birthday shouldn't be null"),
-                thumbnailImageUrl = friend.profileUrl,
-                kakaoId = friend.kakaoId
+                name = newFriend.name ?: throw Exception("name shouldn't be null"),
+                groupId = newFriend.group?.groupId ?: throw Exception("groupId shouldn't be null"),
+                dateOfBirth = newFriend.birthday ?: throw Exception("birthday shouldn't be null"),
+                thumbnailImageUrl = newFriend.profileUrl,
+                kakaoId = newFriend.kakaoId
             )
-            val result = updateFriendUseCase(param)
-
-            _friendId.postValue(result)
+            friend?.id?.let {
+                val result = updateFriendUseCase(it, param)
+                _friendId.postValue(result)
+            }
         }
     }
 }

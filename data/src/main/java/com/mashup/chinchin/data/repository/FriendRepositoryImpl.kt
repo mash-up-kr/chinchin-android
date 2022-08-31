@@ -34,7 +34,7 @@ class FriendRepositoryImpl @Inject constructor(
         return remoteFriendDataSource.addFriend(param).friendId
     }
 
-    override suspend fun updateFriend(friend: UpdateFriendParams): Long {
+    override suspend fun updateFriend(friendId: Long, friend: UpdateFriendParams): Long {
         val param = with(friend) {
             UpdateFriendRequestBody(
                 name = name,
@@ -44,6 +44,6 @@ class FriendRepositoryImpl @Inject constructor(
                 kakaoId = kakaoId
             )
         }
-        return remoteFriendDataSource.updateFriend(param).friendId
+        return remoteFriendDataSource.updateFriend(friendId, param).friendId
     }
 }
