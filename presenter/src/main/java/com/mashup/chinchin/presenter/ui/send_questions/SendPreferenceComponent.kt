@@ -131,9 +131,7 @@ fun QuestionCategoryChip(
         shape = RoundedCornerShape(16.dp),
         border = ButtonDefaults.outlinedBorder.copy(brush = SolidColor(Gray_500)),
         modifier = Modifier
-            .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
-            .wrapContentWidth()
-            .height(32.dp),
+            .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp),
         elevation = ButtonDefaults.elevation(
             defaultElevation = 0.dp,
             pressedElevation = 0.dp,
