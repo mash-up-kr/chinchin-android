@@ -93,7 +93,7 @@ fun FriendDetailScreen(
     )
 
     // toolbar data
-    var toolbarHeight = 210.dp  //TODO 하위 컴포저블 사이즈 측정해서 동적으로 변하게 수정 해야함
+    val toolbarHeight = 263.dp  //TODO 임시로 263고정함 추후 하위 컴포저블 사이즈 측정해서 동적으로 변하게 수정 해야함
     val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.roundToPx().toFloat() }
     val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
     val nestedScrollConnection = remember {

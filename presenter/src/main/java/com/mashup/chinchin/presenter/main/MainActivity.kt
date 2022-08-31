@@ -169,6 +169,7 @@ fun MainScreen(
         sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
     )
     {
+        val bottomPaddingAlphaDp = 20.dp
         Scaffold(
             bottomBar = {
                 MainNavBar(screens = screens, currentDestination = currentDestination) { screen ->
@@ -184,7 +185,7 @@ fun MainScreen(
                 recommendFriends = recommendFriends,
                 showBottomSheet,
                 onSelectFriend,
-                bottomPaddingValue = paddingValues.calculateBottomPadding()
+                bottomPaddingValue = paddingValues.calculateBottomPadding() + bottomPaddingAlphaDp
             )
         }
     }

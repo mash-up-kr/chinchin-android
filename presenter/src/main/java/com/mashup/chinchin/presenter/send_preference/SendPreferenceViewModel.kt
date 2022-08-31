@@ -21,7 +21,6 @@ class SendPreferenceViewModel @Inject constructor(
     private val sendQuestionnaireUseCase: SendQuestionnaireUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    //TODO 라이브데이터 또는 Flow로 변경해야함
     private val _questions = MutableLiveData<List<QuestionUiModel>>(emptyList())
     val questions: LiveData<List<QuestionUiModel>>
         get() = _questions
@@ -51,7 +50,7 @@ class SendPreferenceViewModel @Inject constructor(
     fun changeAnswerByIndex(index: Int, answerText: String) {
         val newQuestion = _questions.value?.toMutableList()
         newQuestion?.get(index)
-            ?.let { newQuestion?.set(index, it.copy(answer = answerText)) }
+            ?.let { newQuestion.set(index, it.copy(answer = answerText)) }
         _questions.value = newQuestion
     }
 
