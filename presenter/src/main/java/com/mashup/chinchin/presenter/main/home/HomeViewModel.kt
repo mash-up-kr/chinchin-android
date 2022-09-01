@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val createNewGroupUseCase: CreateNewGroupUseCase,
-    private val GetGroupsUseCase: GetGroupsUseCase,
+    private val getGroupsUseCase: GetGroupsUseCase,
     private val isAlarmExistUseCase: IsAlarmExistUseCase,
 ) : ViewModel() {
     private val _groups = MutableLiveData<FriendGroupUiModel>()
@@ -28,13 +28,16 @@ class HomeViewModel @Inject constructor(
 
     fun createNewGroup(groupName: String) {
         viewModelScope.launch {
-            createNewGroupUseCase.invoke(groupName)
+            val isCreateSuccess = createNewGroupUseCase(groupName)
+            if (isCreateSuccess) {
+                getGroups()
+            }
         }
     }
 
     fun getGroups() {
         viewModelScope.launch {
-            _groups.value = GetGroupsUseCase().toUiModel()
+            _groups.value = getGroupsUseCase().toUiModel()
         }
     }
 

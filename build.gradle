@@ -5,6 +5,7 @@ buildscript {
         compose_version = '1.1.1'
         flipper_version = "0.145.0"
         hilt_version = '2.41'
+        coroutine_version = '1.6.2'
 
         retrofit_version = '2.9.0'
         okhttp_version = '4.9.3'
