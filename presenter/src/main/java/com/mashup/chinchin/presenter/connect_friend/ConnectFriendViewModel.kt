@@ -19,12 +19,13 @@ class ConnectFriendViewModel @Inject constructor(
     val friends: LiveData<List<FriendUiModel>>
         get() = _friends
 
-    fun getFriends() {
+    fun getFriends(searchText: String = "") {
         viewModelScope.launch {
             val result = getFriendsUseCase()
-            _friends.postValue(
-                result.map { it.toUiModel() }
-            )
+            _friends.value = result.asSequence()
+                .filter { it.name.contains(searchText) }
+                .map { it.toUiModel() }
+                .toList()
         }
     }
 }
