@@ -1,7 +1,5 @@
 package com.mashup.chinchin.data.di
 
-import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
-import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.mashup.chinchin.data.network.TokenInterceptor
 import com.mashup.chinchin.data.service.ChinChinService
 import dagger.Module
@@ -38,10 +36,9 @@ class NetworkModule {
             .Builder()
             .addInterceptor(HttpLoggingInterceptor())
             .addInterceptor(tokenInterceptor)
-            .addNetworkInterceptor(FlipperOkhttpInterceptor(networkFlipperPlugin))
             .build()
 
     companion object {
-        val networkFlipperPlugin = NetworkFlipperPlugin()
+//        val networkFlipperPlugin = NetworkFlipperPlugin()
     }
 }
