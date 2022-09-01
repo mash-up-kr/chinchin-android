@@ -2,14 +2,17 @@ package com.mashup.chinchin.presenter.connect_friend
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -56,11 +59,13 @@ fun ConnectFriendScreen(
 
     // current page state
     val friends = viewModel.friends.observeAsState().value ?: emptyList()
-    val (searchText, onSearchTextChanged) = remember { mutableStateOf("") }
+    var searchText by remember { mutableStateOf("") }
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
     val selectedFriend: MutableState<FriendUiModel?> = remember { mutableStateOf(null) }
 
-    viewModel.getFriends()
+    // searchBar 의 text 가 변경되면서 화면이 recomposition 된다. 그러면서 이 함수가 계속 호출되는데,
+    // onValueChange 에서 실행시켜야하지 않을까..? 일단은 중복 호출되어서 onValueChange 에서는 주석처리함
+    viewModel.getFriends(searchText)
 
     StatusBarColor()
     Column {
@@ -71,7 +76,10 @@ fun ConnectFriendScreen(
         }
         ConnectFriendSearchBar(
             value = searchText,
-            onValueChange = onSearchTextChanged,
+            onValueChange = {
+                searchText = it
+//                viewModel.getFriends(it)
+            },
             placeHolder = "친구 이름을 검색해보세요."
         )
         Row(
