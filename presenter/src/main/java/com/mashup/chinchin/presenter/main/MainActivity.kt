@@ -191,9 +191,9 @@ fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
     val context = LocalContext.current
     val groups = viewModel.groups.observeAsState().value ?: FriendGroupUiModel(emptyList())
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
-    val (showCongratulationDialog, setShowCongratulationDialog) = remember { mutableStateOf(true) }
+    val isShowCongratulationDialog: Boolean = viewModel.isShowCongratulation.observeAsState().value ?: false
 
-    if (showCongratulationDialog) {
+    if (isShowCongratulationDialog) {
         ImageDialog(
             drawableId = R.drawable.img_congrats,
             titleText = "안녕하세요\n친친에 오신 것을 환영해요!",
@@ -201,7 +201,7 @@ fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
             cancelText = "다음에 할래요",
             onClickConfirm = {},
             onClickCancel = {
-                setShowCongratulationDialog(false)
+                viewModel.setShowCongratulationDialog(false)
             }
         )
     }
