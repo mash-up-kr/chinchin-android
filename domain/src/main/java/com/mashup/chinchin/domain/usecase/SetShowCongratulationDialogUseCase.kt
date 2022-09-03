@@ -1,6 +1,5 @@
 package com.mashup.chinchin.domain.usecase
 
-import com.mashup.chinchin.domain.repository.CommonRepository
 import javax.inject.Inject
 
 class SetShowCongratulationDialogUseCase @Inject constructor(

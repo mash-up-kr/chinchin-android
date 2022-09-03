@@ -38,8 +38,15 @@ class LoginRepositoryImpl @Inject constructor(
         return localLoginDataSource.getKakaoFriendsPermission()
     }
 
-
     override suspend fun login(accessToken: String): String? {
         return remoteLoginDataSource.login(LoginRequestBody(accessToken)).jwt
+    }
+
+    override fun setIsFirstEnter(isFirstEnter: Boolean) {
+        localLoginDataSource.setIsFirstEnter(isFirstEnter)
+    }
+
+    override fun getIsFirstEnter(): Boolean {
+        return localLoginDataSource.getIsFirstEnter()
     }
 }
