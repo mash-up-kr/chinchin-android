@@ -36,11 +36,22 @@ class LocalLoginDataSource @Inject constructor(
         return preferences.getBoolean(KAKAO_FRIENDS_PERMISSION, false)
     }
 
+    fun getIsFirstEnter(): Boolean {
+        return preferences.getBoolean(IS_FIRST_ENTER, true)
+    }
+
+    fun setIsFirstEnter(isFirstEnter: Boolean) {
+        preferences.edit().putBoolean(IS_FIRST_ENTER, isFirstEnter).apply()
+    }
+
     companion object {
+        const val LOGIN_PREF = "LOGIN_PREF"
+
         const val JWT = "JWT"
         const val KAKAO_ACCESS_TOKEN = "KAKAO_ACCESS_TOKEN"
         const val KAKAO_REFRESH_TOKEN = "KAKAO_REFRESH_TOKEN"
         const val KAKAO_FRIENDS_PERMISSION = "KAKAO_FRIENDS_PERMISSION"
-        const val LOGIN_PREF = "LOGIN_PREF"
+
+        const val IS_FIRST_ENTER = "IS_FIRST_ENTER"
     }
 }

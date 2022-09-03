@@ -9,4 +9,6 @@ interface LoginRepository {
     fun setKakaoFriendsPermission(isAgree: Boolean)
     fun getKakaoFriendsPermission(): Boolean
     suspend fun login(accessToken: String): String?
+    fun setIsFirstEnter(isFirstEnter: Boolean)
+    fun getIsFirstEnter(): Boolean
 }

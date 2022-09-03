@@ -37,6 +37,7 @@ import com.mashup.chinchin.presenter.main.model.FriendGroupUiModel
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.main.recommend_friend.RecommendFriendsViewModel
 import com.mashup.chinchin.presenter.receive_alarm.ReceiveAlarmActivity
+import com.mashup.chinchin.presenter.ui.common.ImageDialog
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.BottomSheetContent
 import com.mashup.chinchin.presenter.ui.common.bottom_sheet.model.BottomSheetItemUiModel
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
@@ -190,6 +191,20 @@ fun HomeScreen(bottomPaddingValue: Dp = 0.dp) {
     val context = LocalContext.current
     val groups = viewModel.groups.observeAsState().value ?: FriendGroupUiModel(emptyList())
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
+    val isShowCongratulationDialog: Boolean = viewModel.isShowCongratulation.observeAsState().value ?: false
+
+    if (isShowCongratulationDialog) {
+        ImageDialog(
+            drawableId = R.drawable.img_congrats,
+            titleText = "안녕하세요\n친친에 오신 것을 환영해요!",
+            confirmText = "친구추가 하러가기",
+            cancelText = "다음에 할래요",
+            onClickConfirm = {},
+            onClickCancel = {
+                viewModel.setShowCongratulationDialog(false)
+            }
+        )
+    }
 
     Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = bottomPaddingValue)) {
         HomeHeader(

@@ -98,6 +98,9 @@ fun ImageDialogContents(
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
+            modifier = Modifier.padding(
+                bottom = if (subTitleText.isNullOrBlank()) 24.dp else 0.dp
+            )
         )
 
         subTitleText?.let {
