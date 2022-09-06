@@ -1,5 +1,8 @@
 package com.mashup.chinchin.presenter.ui.common
 
+import android.graphics.Rect
+import android.view.KeyEvent.KEYCODE_ENTER
+import android.view.ViewTreeObserver
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -7,23 +10,31 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -246,33 +257,6 @@ fun ChinChinTextFieldButton(
     }
 }
 
-@Composable
-fun ChinChinActingButton(
-    text: String,
-    fontSize: TextUnit,
-    modifier: Modifier = Modifier,
-    onButtonClick: () -> Unit = {}
-) {
-    Button(
-        onClick = { onButtonClick() },
-        shape = RoundedCornerShape(64.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Primary_1),
-        contentPadding = PaddingValues(horizontal = 30.dp, vertical = 20.dp),
-        modifier = modifier,
-        elevation = ButtonDefaults.elevation(
-            defaultElevation = 0.dp,
-            pressedElevation = 0.dp,
-        ),
-    ) {
-        Text(
-            text = text,
-            fontWeight = FontWeight.Bold,
-            fontSize = fontSize,
-            color = Gray_800,
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun ChinChinQuestionCardPreview() {
@@ -280,8 +264,44 @@ fun ChinChinQuestionCardPreview() {
 }
 
 /**
+ * 키보드 오픈 클로즈 상태
+ */
+
+enum class Keyboard {
+    Closed, Opened
+}
+
+@Composable
+fun ChinChinKeyboardAsState(): State<Keyboard> {
+    val keyboardState = remember { mutableStateOf(Keyboard.Closed) }
+    val view = LocalView.current
+    DisposableEffect(view) {
+        val onGlobalListener = ViewTreeObserver.OnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+            keyboardState.value = if (keypadHeight > screenHeight * 0.15) {
+                Keyboard.Opened
+            } else {
+                Keyboard.Closed
+            }
+        }
+        view.viewTreeObserver.addOnGlobalLayoutListener(onGlobalListener)
+
+        onDispose {
+            view.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalListener)
+        }
+    }
+
+    return keyboardState
+}
+
+/**
  * 질문 카드
  */
+
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ChinChinQuestionCard(
     modifier: Modifier = Modifier,
@@ -294,6 +314,13 @@ fun ChinChinQuestionCard(
     isChecked: Boolean = false,
     onUpdateCheckState: (Int) -> Unit = {},
 ) {
+    val isKeyboardOpen by ChinChinKeyboardAsState()
+
+    val (focusRequester) = FocusRequester.createRefs()
+    val focusManager = LocalFocusManager.current
+    if (isKeyboardOpen == Keyboard.Closed) {
+        focusManager.clearFocus()
+    }
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = 0.dp,
@@ -308,7 +335,7 @@ fun ChinChinQuestionCard(
             Row(
                 modifier = Modifier
                     .padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (cardState == ChinChinQuestionCardState.SEND_DELETE_MODE) {
                     ChinChinQuestionCardEmptyIcon(cardState = cardState, isChecked = isChecked)
@@ -328,7 +355,18 @@ fun ChinChinQuestionCard(
                             maxLines = 2,
                             modifier = Modifier
                                 .padding(start = 8.dp)
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .onKeyEvent {
+                                    if (it.nativeKeyEvent.keyCode == KEYCODE_ENTER) {
+                                        focusRequester.requestFocus()
+                                        true
+                                    }
+                                    false
+                                },
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                            keyboardActions = KeyboardActions(
+                                onNext = { focusRequester.requestFocus() }
+                            )
                         )
                     }
                     ChinChinQuestionCardState.SEND_DELETE_MODE,
@@ -367,7 +405,8 @@ fun ChinChinQuestionCard(
                             maxLines = 2,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
+                                .focusRequester(focusRequester),
                             decorationBox = { innerTextField ->
                                 if (answer.isBlank()) {
                                     Text(
@@ -378,6 +417,10 @@ fun ChinChinQuestionCard(
                                 }
                                 innerTextField()
                             },
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(
+                                onDone = { focusManager.clearFocus() },
+                            )
                         )
                     }
                     ChinChinQuestionCardState.SEND_DELETE_MODE,
@@ -397,8 +440,7 @@ fun ChinChinQuestionCard(
                 || cardState == ChinChinQuestionCardState.REPLY_INCOMPLETE
             ) {
                 ChinChinReplyCompleteCheckBox(isChecked, index, onUpdateCheckState)
-            }
-            else{
+            } else {
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
