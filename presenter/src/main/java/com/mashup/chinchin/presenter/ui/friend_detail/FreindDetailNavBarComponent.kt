@@ -44,7 +44,7 @@ fun RowScope.AddItem(
     val isCurrentDestination = (currentDestination == screen)
     BottomNavigationItem(
         icon = {
-            NavIcon(screen.title, isCurrentDestination)
+            NavBar(screen.title, isCurrentDestination)
         },
         selectedContentColor = Black,
         unselectedContentColor = Gray_400,
@@ -54,7 +54,7 @@ fun RowScope.AddItem(
 }
 
 @Composable
-fun NavIcon(iconTitle: String, isCurrentDestination: Boolean) {
+fun NavBar(iconTitle: String, isCurrentDestination: Boolean) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
