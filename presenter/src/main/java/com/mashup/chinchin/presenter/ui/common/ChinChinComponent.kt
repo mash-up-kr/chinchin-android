@@ -412,7 +412,7 @@ private fun ChinChinQuestionCardNumberIcon(number: Int, cardState: CardState) {
             drawCircle(color = getChinChinCardNumberIconBackgroundColor(cardState))
         })
         Text(
-            text = number.toString(),
+            text = number.plus(1).toString(), // 0 부터 시작
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             color = Gray_700

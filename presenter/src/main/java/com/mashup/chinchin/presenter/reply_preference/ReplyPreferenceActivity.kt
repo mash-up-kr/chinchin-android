@@ -94,7 +94,13 @@ fun ReplyPreferenceScreen(
             ReplyPreferenceQuestionList(
                 questionnaire = questionnaire ?: emptyList(),
                 modifier = Modifier.padding(top = 16.dp),
-                onUpdateCheckState = { index -> viewModel.updateCheckedState(index) }
+                onUpdateCheckState = { index -> viewModel.updateCheckedState(index) },
+                onAnswerChanged = { index, answerText ->
+                    viewModel.changeAnswerByIndex(
+                        index,
+                        answerText
+                    )
+                }
             )
         }
         if (showSendDialog) {
@@ -107,7 +113,6 @@ fun ReplyPreferenceScreen(
                 onClickConfirm = {
                     setShowSendDialog(false)
                     viewModel.sendReplyQuestionnaire(
-                        questionnaireId = 3,
                         questions = questionnaire ?: emptyList()
                     )
                 }) {

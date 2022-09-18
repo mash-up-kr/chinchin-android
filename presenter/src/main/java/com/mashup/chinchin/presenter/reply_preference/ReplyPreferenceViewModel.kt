@@ -28,6 +28,13 @@ class ReplyPreferenceViewModel @Inject constructor(
 
     val isSendSuccess = MutableLiveData(false)
 
+    fun changeAnswerByIndex(index: Int, answerText: String) {
+        val newQuestion = _questionnaire.value?.toMutableList()
+        newQuestion?.get(index)
+            ?.let { newQuestion.set(index, it.copy(answer = answerText)) }
+        _questionnaire.value = newQuestion
+    }
+
     init {
         getReplyQuestions(questionnaireId)
     }
@@ -55,15 +62,16 @@ class ReplyPreferenceViewModel @Inject constructor(
     /**
      * 답변 완료 질문지 보내기
      */
-    fun sendReplyQuestionnaire(questionnaireId: Long, questions: List<QuestionUiModel>) {
+    fun sendReplyQuestionnaire(questions: List<QuestionUiModel>) {
         val questionnaire = questions.map { it.toDomainModel() }
-
         viewModelScope.launch {
-            val result = sendReplyQuestionnaireUseCase(
-                questionnaireId = questionnaireId,
-                questionnaire = questionnaire
-            )
-            isSendSuccess.postValue(result)
+            questionnaireId?.let {
+                val result = sendReplyQuestionnaireUseCase(
+                    questionnaireId = it,
+                    questionnaire = questionnaire
+                )
+                isSendSuccess.postValue(result)
+            }
         }
     }
 
