@@ -84,5 +84,8 @@ dependencies {
     // Coil
     implementation "io.coil-kt:coil-compose:$coil_version"
 
+    //system UI Controller - Accompanist
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+
     implementation project(':domain')
 }

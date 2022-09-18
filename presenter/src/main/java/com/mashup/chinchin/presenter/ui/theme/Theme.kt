@@ -4,8 +4,16 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
+//TODO darkMode 컬러 정의해야함
 private val DarkColorPalette = darkColors(
     primary = Purple200,
     primaryVariant = Purple700,
@@ -13,9 +21,11 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Primary_1,
+    primaryVariant = White,
+    secondary = Secondary_1,
+    onPrimary = Black,
+    onSecondary = Black
 
     /* Other default colors to override
     background = Color.White,
@@ -35,10 +45,35 @@ fun ChinchinTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composab
         LightColorPalette
     }
 
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = if (darkTheme) Gray_200 else White //Todo darkmode color 정의해야함
+        )
+    }
+
     MaterialTheme(
         colors = colors,
         typography = Typography,
         shapes = Shapes,
-        content = content
+    ){
+        CompositionLocalProvider(
+            LocalRippleTheme provides ChinchinRippleTheme,
+            content = content
+        )
+    }
+}
+
+private object ChinchinRippleTheme : RippleTheme {
+
+    @Composable
+    override fun defaultColor(): Color = Gray_500
+
+    @Composable
+    override fun rippleAlpha(): RippleAlpha = RippleTheme.defaultRippleAlpha(
+        Color.Black,
+        lightTheme = !isSystemInDarkTheme()
     )
 }
+
