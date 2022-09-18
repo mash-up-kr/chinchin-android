@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.*
@@ -52,14 +53,23 @@ fun SetGroupScreen() {
     // 초기 데이터
     viewModel.getGroups()
 
+    //onBackButtonClick
+    val makeResultAndFinish: () -> Unit = {
+        val intent = Intent().apply {
+            putExtra(SetGroupActivity.EXTRA_GROUP, selectedGroup)
+        }
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
+    }
+
+    BackHandler(enabled = (selectedGroup != null)) {
+        makeResultAndFinish()
+    }
+
     StatusBarColor()
     Column {
         ChinChinToolbar(title = "그룹 지정") {
-            val intent = Intent().apply {
-                putExtra(SetGroupActivity.EXTRA_GROUP, selectedGroup)
-            }
-            activity?.setResult(Activity.RESULT_OK, intent)
-            activity?.finish()
+            makeResultAndFinish()
         }
         GroupRadioButtons(
             selectedGroup = selectedGroup,
