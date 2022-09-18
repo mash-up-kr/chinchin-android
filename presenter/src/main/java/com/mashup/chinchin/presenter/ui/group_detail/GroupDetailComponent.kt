@@ -30,6 +30,7 @@ fun GroupDetailList(
                     .height(78.dp)
                     .padding(horizontal = 24.dp),
                 friend = friend,
+                isShowArrowIcon = true,
                 onClickCard = { onClickCard(friend) }
             )
         }

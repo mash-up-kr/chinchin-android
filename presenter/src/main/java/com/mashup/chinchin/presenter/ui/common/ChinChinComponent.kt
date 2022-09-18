@@ -574,6 +574,7 @@ fun ChinChinGrayTextField(
 fun ChinChinFriendCard(
     modifier: Modifier = Modifier,
     friend: FriendUiModel?,
+    isShowArrowIcon: Boolean = false,
     onClickCard: () -> Unit = {},
 ) {
     Card(
@@ -585,7 +586,7 @@ fun ChinChinFriendCard(
         backgroundColor = Secondary_1
     ) {
         Row(
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
@@ -598,11 +599,11 @@ fun ChinChinFriendCard(
                 error = painterResource(R.drawable.profile_default_image),
                 placeholder = painterResource(R.drawable.profile_default_image),
             )
-            Box(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp),
-                contentAlignment = Alignment.CenterStart,
+                    .padding(start = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = friend?.name ?: "",
@@ -610,6 +611,13 @@ fun ChinChinFriendCard(
                     color = Black,
                     fontSize = 16.sp,
                 )
+
+                if (isShowArrowIcon) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_right_arrow),
+                        contentDescription = ""
+                    )
+                }
             }
         }
 
