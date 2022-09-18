@@ -54,7 +54,7 @@ fun SetGroupScreen() {
     viewModel.getGroups()
 
     //onBackButtonClick
-    val makeResultAndFinish: () -> Unit = {
+    fun makeResultAndFinish() {
         val intent = Intent().apply {
             putExtra(SetGroupActivity.EXTRA_GROUP, selectedGroup)
         }
