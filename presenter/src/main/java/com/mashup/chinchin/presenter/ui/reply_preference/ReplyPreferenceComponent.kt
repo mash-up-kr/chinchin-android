@@ -59,6 +59,7 @@ fun ReplyPreferenceQuestionList(
     modifier: Modifier = Modifier,
     questionnaire: List<QuestionUiModel>,
     onUpdateCheckState: (Int) -> Unit = {},
+    onAnswerChanged: (Int, String) -> Unit,
 ) {
     Column(modifier = modifier) {
         ChinChinText(
@@ -79,7 +80,8 @@ fun ReplyPreferenceQuestionList(
                         false -> ChinChinQuestionCardState.REPLY_INCOMPLETE
                     },
                     isChecked = question.isChecked,
-                    onUpdateCheckState = onUpdateCheckState
+                    onUpdateCheckState = onUpdateCheckState,
+                    onAnswerChanged = onAnswerChanged
                 )
             }
         }

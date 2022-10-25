@@ -1,9 +1,6 @@
 package com.mashup.chinchin.presenter.reply_preference
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.mashup.chinchin.domain.model.QuestionnaireAspectType
 import com.mashup.chinchin.domain.usecase.GetQuestionnareUseCase
 import com.mashup.chinchin.domain.usecase.SendReplyQuestionnaireUseCase
@@ -15,10 +12,11 @@ import javax.inject.Inject
 @HiltViewModel
 class ReplyPreferenceViewModel @Inject constructor(
     private val getQuestionnareUseCase: GetQuestionnareUseCase,
-    private val sendReplyQuestionnaireUseCase: SendReplyQuestionnaireUseCase
+    private val sendReplyQuestionnaireUseCase: SendReplyQuestionnaireUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val questionnaireId: Long = 3 // 연동할 때 getExtra해서 가져옵니다.
+    private val questionnaireId = savedStateHandle.get<Long>(QUESTIONNAIRE_ID)
 
     private val _fromFriendName = MutableLiveData<String>()
     val fromFriendName: LiveData<String>
@@ -30,6 +28,13 @@ class ReplyPreferenceViewModel @Inject constructor(
 
     val isSendSuccess = MutableLiveData(false)
 
+    fun changeAnswerByIndex(index: Int, answerText: String) {
+        val newQuestion = _questionnaire.value?.toMutableList()
+        newQuestion?.get(index)
+            ?.let { newQuestion.set(index, it.copy(answer = answerText)) }
+        _questionnaire.value = newQuestion
+    }
+
     init {
         getReplyQuestions(questionnaireId)
     }
@@ -37,33 +42,36 @@ class ReplyPreferenceViewModel @Inject constructor(
     /**
      * 답변할 질문지 조회
      */
-    private fun getReplyQuestions(questionnaireId: Long) {
+    private fun getReplyQuestions(questionnaireId: Long?) {
         viewModelScope.launch {
-            val result = getQuestionnareUseCase(
-                questionnaireId = questionnaireId,
-                aspect = QuestionnaireAspectType.Answer.value
-            )
-            _fromFriendName.postValue(result.memberName)
-            _questionnaire.postValue(
-                result.questionnaire.map {
-                    QuestionUiModel.fromDomainModel(it)
-                }
-            )
+            questionnaireId?.let {
+                val result = getQuestionnareUseCase(
+                    questionnaireId = it,
+                    aspect = QuestionnaireAspectType.Answer.value
+                )
+                _fromFriendName.postValue(result.memberName)
+                _questionnaire.postValue(
+                    result.questionnaire.map {
+                        QuestionUiModel.fromDomainModel(it)
+                    }
+                )
+            }
         }
     }
 
     /**
      * 답변 완료 질문지 보내기
      */
-    fun sendReplyQuestionnaire(questionnaireId: Long, questions: List<QuestionUiModel>) {
+    fun sendReplyQuestionnaire(questions: List<QuestionUiModel>) {
         val questionnaire = questions.map { it.toDomainModel() }
-
         viewModelScope.launch {
-            val result = sendReplyQuestionnaireUseCase(
-                questionnaireId = questionnaireId,
-                questionnaire = questionnaire
-            )
-            isSendSuccess.postValue(result)
+            questionnaireId?.let {
+                val result = sendReplyQuestionnaireUseCase(
+                    questionnaireId = it,
+                    questionnaire = questionnaire
+                )
+                isSendSuccess.postValue(result)
+            }
         }
     }
 
@@ -78,6 +86,10 @@ class ReplyPreferenceViewModel @Inject constructor(
 
     fun areCompletedReplies(): Boolean {
         return _questionnaire.value?.filter { it.isChecked }?.size == _questionnaire.value?.size
+    }
+
+    companion object {
+        const val QUESTIONNAIRE_ID = "QUESTIONNAIRE_ID"
     }
 
 }

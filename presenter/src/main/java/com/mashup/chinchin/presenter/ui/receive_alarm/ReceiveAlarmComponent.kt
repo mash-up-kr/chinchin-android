@@ -1,5 +1,6 @@
 package com.mashup.chinchin.presenter.ui.receive_alarm
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,6 +27,9 @@ import coil.compose.AsyncImage
 import com.mashup.chinchin.presenter.R
 import com.mashup.chinchin.presenter.receive_alarm.model.AlarmType
 import com.mashup.chinchin.presenter.receive_alarm.model.ReceiveAlarmUiModel
+import com.mashup.chinchin.presenter.reply_preference.ReplyPreferenceActivity
+import com.mashup.chinchin.presenter.reply_preference.ReplyPreferenceScreen
+import com.mashup.chinchin.presenter.reply_preference.ReplyPreferenceViewModel.Companion.QUESTIONNAIRE_ID
 import com.mashup.chinchin.presenter.ui.theme.*
 import com.mashup.chinchin.presenter.ui.theme.Black
 import com.mashup.chinchin.presenter.ui.theme.Primary_2
@@ -65,6 +69,9 @@ fun RequestAlarmList(receiveAlarmUiModels: List<ReceiveAlarmUiModel>, modifier: 
                 modifier = Modifier.padding(horizontal = 24.dp),
                 date = receiveAlarm.alarmDate,
                 alarmType = receiveAlarm.alarmType,
+                onClickButton = { context.startActivity(Intent(context, ReplyPreferenceActivity::class.java).apply {
+                    putExtra(QUESTIONNAIRE_ID, receiveAlarm.questionnaireId)
+                })}
             )
         }
         item {

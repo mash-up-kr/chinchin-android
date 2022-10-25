@@ -1,5 +1,6 @@
 package com.mashup.chinchin.presenter.receive_alarm
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,12 +10,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mashup.chinchin.presenter.receive_alarm.model.ReceiveAlarmUiModel
+import com.mashup.chinchin.presenter.reply_preference.ReplyPreferenceActivity
+import com.mashup.chinchin.presenter.reply_preference.ReplyPreferenceViewModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.receive_alarm.EmptyRequestAlarm
@@ -69,7 +75,10 @@ fun ReceiveAlarmScreen(
                 EmptyRequestAlarm()
             }
         } else {
-            RequestAlarmList(receiveAlarmUiModels, modifier = Modifier.padding(top = 7.dp))
+            RequestAlarmList(
+                receiveAlarmUiModels,
+                modifier = Modifier.padding(top = 7.dp)
+            )
         }
     }
 }
