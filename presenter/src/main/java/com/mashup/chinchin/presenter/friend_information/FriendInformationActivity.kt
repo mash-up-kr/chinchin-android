@@ -6,9 +6,12 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,8 +21,8 @@ import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.common.model.GroupUiModel
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.EXTRA_FRIEND_ID
+import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.IS_UPDATED_FRIEND_INFO
 import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
-import com.mashup.chinchin.presenter.main.model.GroupInfoUiModel
 import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
@@ -30,19 +33,45 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FriendInformationActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.i(TAG, "onCreate")
+        val makeResultAndFinish: (Long) -> Unit = { friendId ->
+            val intent = Intent(this, FriendDetailActivity::class.java).apply {
+                putExtra(EXTRA_FRIEND_ID, friendId)
+                putExtra(IS_UPDATED_FRIEND_INFO, true)
+            }
+            setResult(RESULT_OK, intent)
+            finish()
+        }
         setContent {
             ChinchinTheme {
                 FriendInformationScreen(
                     onActivityFinish = { finish() },
+                    makeResultAndFinish = makeResultAndFinish
                 )
             }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.i(TAG, "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i(TAG, "onPause")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "onDestroy")
+    }
+
     companion object {
+        const val TAG = "FriendInformationActivity"
         const val EXTRA_PROFILE_TYPE = "EXTRA_PROFILE_TYPE"
         const val EXTRA_FRIEND = "FRIEND"
     }
@@ -57,9 +86,9 @@ fun AddFriendPreview() {
 @Composable
 fun FriendInformationScreen(
     onActivityFinish: () -> Unit = {},
+    makeResultAndFinish: (Long) -> Unit = {},
 ) {
     // basic
-    val context = LocalContext.current
     val viewModel: FriendInformationViewModel = hiltViewModel()
 
     // compose state
@@ -126,12 +155,8 @@ fun FriendInformationScreen(
                 Spacer(modifier = Modifier.height(32.dp))
             }
 
-            if (friendId.value != null) {
-                val intent = Intent(context, FriendDetailActivity::class.java).apply {
-                    putExtra(EXTRA_FRIEND_ID, friendId.value)
-                }
-                onActivityFinish()
-                context.startActivity(intent)
+            friendId.value?.let {
+                makeResultAndFinish(it)
             }
         }
     }

@@ -1,16 +1,20 @@
 package com.mashup.chinchin.presenter.friend_detail
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Snackbar
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -27,6 +31,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mashup.chinchin.presenter.common.ChinChinAnswerCardState
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
+import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.TAG
 import com.mashup.chinchin.presenter.friend_detail.model.FriendProfileUiModel
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity
 import com.mashup.chinchin.presenter.friend_information.FriendInformationActivity.Companion.EXTRA_FRIEND
@@ -38,16 +43,20 @@ import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Comp
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.friend_detail.*
+import com.mashup.chinchin.presenter.ui.theme.Black
 import com.mashup.chinchin.presenter.ui.theme.ChinchinTheme
 import com.mashup.chinchin.presenter.ui.theme.White
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class FriendDetailActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.i(TAG, "onCreate")
         setContent {
             ChinchinTheme {
                 FriendDetailScreen {
@@ -57,8 +66,25 @@ class FriendDetailActivity : ComponentActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.i(TAG, "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i(TAG, "onPause")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "onDestroy")
+    }
+
     companion object {
+        const val TAG = "FriendDetailActivity"
         const val EXTRA_FRIEND_ID = "EXTRA_FRIEND_ID"
+        const val IS_UPDATED_FRIEND_INFO = "IS_UPDATED_FRIEND_INFO"
     }
 }
 
@@ -68,6 +94,7 @@ fun FriendDetailPreview() {
     FriendDetailScreen()
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun FriendDetailScreen(
     isSavedTempQuestions: Boolean = false,
@@ -76,6 +103,7 @@ fun FriendDetailScreen(
     // basic data
     val context = LocalContext.current
     val viewModel: FriendDetailViewModel = hiltViewModel()
+    val coroutineScope = rememberCoroutineScope()
 
     // nav data
     val naveController = rememberNavController()
@@ -91,6 +119,26 @@ fun FriendDetailScreen(
         FriendDetailNavScreen.FRIEND_ANSWER,
         FriendDetailNavScreen.MY_ANSWER,
     )
+
+    // snackBar data
+    val (snackBarVisibleState, setSnackBarState) = remember {
+        mutableStateOf(
+            false
+        )
+    }
+
+    //launcher for activity result
+    val friendInformationActivityLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == ComponentActivity.RESULT_OK) {
+            val isUpdatedFriendInfo =
+                result.data?.getBooleanExtra(FriendDetailActivity.IS_UPDATED_FRIEND_INFO, false)
+                    ?: false
+            Log.i(TAG, "friendInformationActivityLauncher: result.data.isUpdatedFriendInfo= $isUpdatedFriendInfo")
+            setSnackBarState(isUpdatedFriendInfo)
+        }
+    }
 
     // toolbar data
     val toolbarHeight = 263.dp  //TODO 임시로 263고정함 추후 하위 컴포저블 사이즈 측정해서 동적으로 변하게 수정 해야함
@@ -138,8 +186,7 @@ fun FriendDetailScreen(
                             putExtra(EXTRA_FRIEND, it.toFriendUiModel())
                         }
                     }
-                    finishActivity()
-                    context.startActivity(intent)
+                    friendInformationActivityLauncher.launch(intent)
                 },
                 onButtonClick = {
                     val intent = Intent(context, SendPreferenceActivity::class.java).apply {
@@ -164,8 +211,22 @@ fun FriendDetailScreen(
             QuestionSizeText(friendProfile?.friendAnswers?.size ?: 0)
         }
     }
-    ChinChinToolbar(title = "") {
-        finishActivity()
+
+    if (snackBarVisibleState) {
+        Snackbar(
+            shape = RoundedCornerShape(0.dp),
+            backgroundColor = Black,
+        ) {
+            Text(text = "프로필이 변경 되었습니다!")
+        }
+        coroutineScope.launch {
+            delay(2000L)
+            setSnackBarState(false)
+        }
+    } else {
+        ChinChinToolbar(title = "") {
+            finishActivity()
+        }
     }
 }
 
