@@ -2,7 +2,6 @@ package com.mashup.chinchin.data.dto.remote.responsebody
 
 import com.google.gson.annotations.SerializedName
 import com.mashup.chinchin.data.dto.remote.responsebody.common.FriendInfoResponse
-import com.mashup.chinchin.domain.model.Friend
 import com.mashup.chinchin.domain.model.GroupDetail
 
 data class GetFriendsInGroupResponseBody(

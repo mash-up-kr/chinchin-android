@@ -1,17 +1,16 @@
 package com.mashup.chinchin.presenter.send_preference
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.mashup.chinchin.domain.model.Question
+import com.mashup.chinchin.domain.usecase.InsertQuestionToDBParam
+import com.mashup.chinchin.domain.usecase.InsertQuestionsToDBUseCase
 import com.mashup.chinchin.domain.usecase.SendQuestionnaireUseCase
 import com.mashup.chinchin.presenter.common.model.CategoryUiModel
 import com.mashup.chinchin.presenter.common.model.KeywordQuestionUiModel
 import com.mashup.chinchin.presenter.common.model.QuestionUiModel
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_FRIEND_ID
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_FRIEND_NAME
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_QUESTIONS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SendPreferenceViewModel @Inject constructor(
     private val sendQuestionnaireUseCase: SendQuestionnaireUseCase,
+    private val insertQuestionsToDBUseCase: InsertQuestionsToDBUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     //TODO 라이브데이터 또는 Flow로 변경해야함
@@ -28,6 +28,12 @@ class SendPreferenceViewModel @Inject constructor(
 
     private val friendId = savedStateHandle.get<Long>(EXTRA_FRIEND_ID) ?: 2
     val friendName = savedStateHandle.get<String>(EXTRA_FRIEND_NAME) ?: ""
+    private val tempSavedQuestions =
+        savedStateHandle.get<ArrayList<QuestionUiModel>>(EXTRA_QUESTIONS) ?: emptyList()
+
+    init {
+        _questions.value = tempSavedQuestions.toList()
+    }
 
     val isSendSuccess = MutableLiveData(false)
 
@@ -39,6 +45,22 @@ class SendPreferenceViewModel @Inject constructor(
         val newQuestion = _questions.value?.toMutableList()
         newQuestion?.add(question)
         _questions.value = newQuestion
+    }
+
+    fun saveQuestionsToDB(questions: List<QuestionUiModel>) {
+        viewModelScope.launch {
+            val questionParams = questions.map {
+                with(it) {
+                    InsertQuestionToDBParam(
+                        questionId = questionId,
+                        questionnaireId = friendId,
+                        question = question,
+                        answer = answer,
+                    )
+                }
+            }
+            insertQuestionsToDBUseCase(friendId, questionParams)
+        }
     }
 
     fun changeQuestionByIndex(index: Int, questionText: String) {

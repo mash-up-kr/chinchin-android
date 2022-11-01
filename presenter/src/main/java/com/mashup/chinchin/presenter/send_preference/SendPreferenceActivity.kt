@@ -72,9 +72,10 @@ class SendPreferenceActivity : ComponentActivity() {
 fun SendPreferenceScreen(
     finish: () -> Unit,
 ) {
+    val viewModel: SendPreferenceViewModel = hiltViewModel()
+    val questions = viewModel.questions.observeAsState().value ?: emptyList()
     // basic data
     val context = LocalContext.current
-    val viewModel: SendPreferenceViewModel = hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
 
     // viewModel data
@@ -119,6 +120,10 @@ fun SendPreferenceScreen(
         sheetContent = {
             BottomSheetContent(
                 "다음 단계를 선택해주세요", listOf(
+                    BottomSheetItemUiModel("저장 하기", R.drawable.ic_save) {
+                        closeBottomSheet()
+                        setShowSaveDialog(true)
+                    },
                     BottomSheetItemUiModel("친구에게 질문 보내기", R.drawable.ic_send) {
                         closeBottomSheet()
                         setShowSendDialog(true)
@@ -162,8 +167,7 @@ fun SendPreferenceScreen(
             cancelText = "아니요",
             subTitleText = "저장한 취향질문은 다시 작성할 수 있어요",
             onClickConfirm = {
-                // TODO:  저장로직.
-                setShowSendDialog(false)
+                viewModel.saveQuestionsToDB(questions)
                 finish()
             },
             onClickCancel = {

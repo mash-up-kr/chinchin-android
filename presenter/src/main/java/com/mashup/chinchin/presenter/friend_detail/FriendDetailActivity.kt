@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -40,7 +41,9 @@ import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_FRIEND_ID
 import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_FRIEND_NAME
+import com.mashup.chinchin.presenter.send_preference.SendPreferenceActivity.Companion.EXTRA_QUESTIONS
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
+import com.mashup.chinchin.presenter.ui.common.ImageDialog
 import com.mashup.chinchin.presenter.ui.common.StatusBarColor
 import com.mashup.chinchin.presenter.ui.friend_detail.*
 import com.mashup.chinchin.presenter.ui.theme.Black
@@ -100,6 +103,7 @@ fun FriendDetailScreen(
     isSavedTempQuestions: Boolean = false,
     finishActivity: () -> Unit = {},
 ) {
+    val TAG = "FriendDetailScreen"
     // basic data
     val context = LocalContext.current
     val viewModel: FriendDetailViewModel = hiltViewModel()
@@ -114,11 +118,16 @@ fun FriendDetailScreen(
     val friendProfile: FriendProfileUiModel? =
         viewModel.friendProfile.observeAsState().value
 
+    val tempSavedQuestionnaire: List<QuestionUiModel>? =
+        viewModel.tempSavedQuestionnaire.observeAsState().value
+
     // screen data
     val screens = listOf(
         FriendDetailNavScreen.FRIEND_ANSWER,
         FriendDetailNavScreen.MY_ANSWER,
     )
+    //dialog
+    val (showSendDialog, setShowSendDialog) = remember { mutableStateOf(false) }
 
     // snackBar data
     val (snackBarVisibleState, setSnackBarState) = remember {
@@ -157,6 +166,41 @@ fun FriendDetailScreen(
     }
 
     StatusBarColor()
+
+    val isLoading = viewModel.isTempSavedQuestionnaireUpdated.observeAsState(false)
+    Log.i(TAG, "isTempSavedQuestionnaireUpdated= $isLoading")
+    LaunchedEffect(isLoading.value) {
+        if (isLoading.value) {
+            Log.i(TAG, "LaunchedEffect")
+            setShowSendDialog(true)
+        }
+    }
+
+    if (showSendDialog) {
+        ImageDialog(
+            titleText = "작성중인 질문이 있어요 \n 이어서 작성하시겠어요?",
+            confirmText = "네, 이어서 작성할래요",
+            cancelText = "아니요 새로 작성할래요",
+            onClickConfirm = {
+                val intent = Intent(context, SendPreferenceActivity::class.java).apply {
+                    friendProfile?.let {
+                        putExtra(EXTRA_FRIEND_ID, it.profile.id)
+                        putExtra(EXTRA_FRIEND_NAME, it.profile.name)
+                        putParcelableArrayListExtra(
+                            EXTRA_QUESTIONS,
+                            ArrayList(tempSavedQuestionnaire)
+                        )
+                    }
+                }
+                setShowSendDialog(false)
+                context.startActivity(intent)
+            },
+            onClickCancel = {
+                setShowSendDialog(false)
+            }
+        )
+    }
+
     Box(
         Modifier
             .fillMaxSize()
