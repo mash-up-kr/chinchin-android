@@ -1,12 +1,9 @@
 package com.mashup.chinchin.presenter.friend_information
 
 import androidx.lifecycle.*
-import com.mashup.chinchin.domain.usecase.AddFriendParams
-import com.mashup.chinchin.domain.usecase.AddFriendUseCase
-import com.mashup.chinchin.domain.usecase.UpdateFriendParams
-import com.mashup.chinchin.domain.usecase.UpdateFriendUseCase
-import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
+import com.mashup.chinchin.domain.usecase.*
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,6 +12,7 @@ import javax.inject.Inject
 class FriendInformationViewModel @Inject constructor(
     private val addFriendUseCase: AddFriendUseCase,
     private val updateFriendUseCase: UpdateFriendUseCase,
+    private val insertFriendToDBUseCase: InsertFriendToDBUseCase,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
     /**
@@ -43,9 +41,18 @@ class FriendInformationViewModel @Inject constructor(
                 thumbnailImageUrl = friend.profileUrl,
                 kakaoId = friend.kakaoId
             )
-            val result = addFriendUseCase(param)
 
-            _friendId.postValue(result)
+            val friendId = addFriendUseCase(param)
+            _friendId.postValue(friendId)
+            val paramToDB = InsertFriendToDBParams(
+                friendId = friendId,
+                name = friend.name,
+                groupId = friend.group.groupId,
+                dateOfBirth = friend.birthday,
+                thumbnailImageUrl = friend.profileUrl,
+                kakaoId = friend.kakaoId
+            )
+            insertFriendToDBUseCase(paramToDB)
         }
     }
 
