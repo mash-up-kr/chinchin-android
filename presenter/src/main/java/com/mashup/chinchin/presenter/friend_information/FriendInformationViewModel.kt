@@ -5,8 +5,8 @@ import com.mashup.chinchin.domain.usecase.AddFriendParams
 import com.mashup.chinchin.domain.usecase.AddFriendUseCase
 import com.mashup.chinchin.domain.usecase.UpdateFriendParams
 import com.mashup.chinchin.domain.usecase.UpdateFriendUseCase
-import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
 import com.mashup.chinchin.presenter.common.model.FriendUiModel
+import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
