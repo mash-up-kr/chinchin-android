@@ -84,7 +84,6 @@ class FriendDetailActivity : ComponentActivity() {
     companion object {
         const val TAG = "FriendDetailActivity"
         const val EXTRA_FRIEND_ID = "EXTRA_FRIEND_ID"
-        const val IS_UPDATED_FRIEND_INFO = "IS_UPDATED_FRIEND_INFO"
     }
 }
 
@@ -132,11 +131,15 @@ fun FriendDetailScreen(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == ComponentActivity.RESULT_OK) {
-            val isUpdatedFriendInfo =
-                result.data?.getBooleanExtra(FriendDetailActivity.IS_UPDATED_FRIEND_INFO, false)
-                    ?: false
-            Log.i(TAG, "friendInformationActivityLauncher: result.data.isUpdatedFriendInfo= $isUpdatedFriendInfo")
-            setSnackBarState(isUpdatedFriendInfo)
+            val friendId =
+                result.data?.getLongExtra(FriendDetailActivity.EXTRA_FRIEND_ID, -1L) ?: -1L
+            Log.i(TAG, "friendInformationActivityLauncher: result.data.friendId= $friendId")
+            if (friendId != -1L) {
+                viewModel.getFriendProfile(friendId)
+                setSnackBarState(true)
+            } else {
+                Log.i(TAG, "friend id not find from passed result.data")
+            }
         }
     }
 

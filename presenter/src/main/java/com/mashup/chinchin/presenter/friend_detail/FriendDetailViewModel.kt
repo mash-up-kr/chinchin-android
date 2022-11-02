@@ -22,10 +22,9 @@ class FriendDetailViewModel @Inject constructor(
         getFriendProfile(friendId)
     }
 
-    private fun getFriendProfile(friendId: Long) {
+    fun getFriendProfile(friendId: Long) {
         viewModelScope.launch {
             val result = getFriendProfileUseCase(friendId = friendId)
-
             _friendProfile.postValue(
                 FriendProfileUiModel.fromDomainModel(result)
             )

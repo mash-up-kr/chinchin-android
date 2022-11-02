@@ -13,7 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,7 +20,6 @@ import com.mashup.chinchin.presenter.common.model.FriendUiModel
 import com.mashup.chinchin.presenter.common.model.GroupUiModel
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity
 import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.EXTRA_FRIEND_ID
-import com.mashup.chinchin.presenter.friend_detail.FriendDetailActivity.Companion.IS_UPDATED_FRIEND_INFO
 import com.mashup.chinchin.presenter.friend_information.model.FriendProfileType
 import com.mashup.chinchin.presenter.ui.common.ChinChinConfirmButton
 import com.mashup.chinchin.presenter.ui.common.ChinChinToolbar
@@ -40,7 +38,6 @@ class FriendInformationActivity : ComponentActivity() {
         val makeResultAndFinish: (Long) -> Unit = { friendId ->
             val intent = Intent(this, FriendDetailActivity::class.java).apply {
                 putExtra(EXTRA_FRIEND_ID, friendId)
-                putExtra(IS_UPDATED_FRIEND_INFO, true)
             }
             setResult(RESULT_OK, intent)
             finish()
@@ -88,6 +85,7 @@ fun FriendInformationScreen(
     onActivityFinish: () -> Unit = {},
     makeResultAndFinish: (Long) -> Unit = {},
 ) {
+    val TAG = "FriendInformationScreen"
     // basic
     val viewModel: FriendInformationViewModel = hiltViewModel()
 
@@ -148,14 +146,21 @@ fun FriendInformationScreen(
                         ),
                     )
                     when (viewModel.profileType) {
-                        FriendProfileType.ADD -> viewModel.addFriend(friend)
-                        FriendProfileType.UPDATE -> viewModel.updateFriend(friend)
+                        FriendProfileType.ADD -> {
+                            Log.i(TAG, "Add new friend= $friend")
+                            viewModel.addFriend(friend)
+                        }
+                        FriendProfileType.UPDATE -> {
+                            Log.i(TAG, "Updated friend= $friend")
+                            viewModel.updateFriend(friend)
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.height(32.dp))
             }
 
             friendId.value?.let {
+                Log.i(TAG, "updated friendId=$friendId")
                 makeResultAndFinish(it)
             }
         }
